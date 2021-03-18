@@ -4,5 +4,5 @@
     <b>- Order </b> </br>
     <b>- Live Chat ( Customer Service ) </b> </br>
     <b>- Send Mail To Accept Bill </b> </br>
-    <b>- Service Paypal  </b> </br>
+    <b>- Paypal Payment  </b> </br>
     <b>- Delivery ( Calculate the price depends on the length of the road and show the delivery and receipt points using google map )  </b> </br>
