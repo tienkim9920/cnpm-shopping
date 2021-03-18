@@ -1,8 +1,8 @@
-<h2>Xây dựng web bán quần áo sử dụng công nghệ ReactJS & NodeJS ( API,Socket )</h2>
-<h3>Gồm có các chức năng chính: </h4>
-    <b>- Thêm, Xóa, Tìm Kiếm, Phân Trang, Phân Loại Sản Phẩm </b> </br>
-    <b>- Đặt Hàng </b> </br>
-    <b>- Live Chat ( Tư vấn khách hàng ) </b> </br>
-    <b>- Gửi Email Xác Nhận Đơn Hàng </b> </br>
-    <b>- Thanh Toán Paypal  </b> </br>
-    <b>- Giao Hàng ( Tính giá tiền phụ thuộc vào độ dài quảng đường và hiển thị điểm giao hàng và điểm nhận bằng google map )  </b> </br>
+<h2>Build Online Clothes Website Using ReactJS & NodeJS ( API,Socket )</h2>
+<h3>Include Main Function: </h4>
+    <b>- Insert, Delete, Search, Pagination, Category Product </b> </br>
+    <b>- Order </b> </br>
+    <b>- Live Chat ( Customer Service ) </b> </br>
+    <b>- Send Mail To Accept Bill </b> </br>
+    <b>- Service Paypal  </b> </br>
+    <b>- Delivery ( Calculate the price depends on the length of the road and show the delivery and receipt points using google map )  </b> </br>
