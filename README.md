@@ -1,4 +1,4 @@
-<h2>Xây dụng Website bán quần áo sử dụng công nghệ ReactJS & NodeJS ( API,Socket )</h2>
+<h2>Xây dựng Website bán quần áo sử dụng công nghệ ReactJS & NodeJS ( API,Socket )</h2>
 <h3> Công nghệ: </h3>
 <b>- Framework ReactJS của ngôn ngữ Javascipt xử lý bên phía Client </b>
 </br>
