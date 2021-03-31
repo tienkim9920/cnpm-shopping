@@ -21,6 +21,8 @@ import About from './About/About';
 import Contact from './Contact/Contact';
 import SignIn from './Auth/SignIn';
 import SignUp from './Auth/SignUp';
+import OrderSuccess from './Order/OrderSuccess';
+import OrderFail from './Order/OrderFail';
 
 function App() {
   return (
@@ -42,6 +44,8 @@ function App() {
           <Route path="/contact" component={Contact} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
+          <Route path="/success" component={OrderSuccess} />
+          <Route path="/fail" component={OrderFail} />
 
         </Switch>
 

@@ -54,12 +54,7 @@ function Shop(props) {
                             </div>
                         </div>
                         <div class="col-lg-9 order-1 order-lg-2">
-                            <div class="single-banner shop-page-banner">
-                                <a href="#">
-                                    <img src="images/bg-banner/2.jpg" alt="Li's Static Banner" />
-                                </a>
-                            </div>
-                            <div class="shop-top-bar mt-30">
+                            <div class="shop-top-bar">
                                 <div class="product-select-box">
                                     <div class="product-short">
                                         <p>Sort By:</p>
@@ -80,7 +75,7 @@ function Shop(props) {
                                                     <div class="single-product-wrap">
                                                         <div class="product-image">
                                                             <a href="single-product.html">
-                                                                <img src="images/product/large-size/1.jpg" alt="Li's Product Image" />
+                                                                <img src="https://bizweb.dktcdn.net/100/369/010/products/bob-t-shirts-tan-3-w.jpg?v=1608103670347" alt="Li's Product Image" />
                                                             </a>
                                                             <span class="sticker">New</span>
                                                         </div>

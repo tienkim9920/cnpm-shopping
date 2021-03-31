@@ -1,50 +1,115 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import queryString from 'query-string'
+import User from '../API/User';
+import { useDispatch } from 'react-redux';
+import { addSession } from '../Redux/Action/ActionSession';
 
 SignIn.propTypes = {
     
 };
 
 function SignIn(props) {
+
+    const dispatch = useDispatch()
+
+    const [username, set_username] = useState('')
+    const [password, set_password] = useState('')
+
+    const [error_username, set_error_username] = useState(false)
+    const [error_password, set_error_password] = useState(false)
+
+    const [redirect, set_redirect] = useState(false)
+
+    const handler_signin = (e) => {
+
+        e.preventDefault()
+
+        const fetchData = async () => {
+
+            const params = {
+                username,
+                password
+            }
+
+            const query = '?' + queryString.stringify(params)
+
+            const response = await User.Get_Detail_User(query)
+
+            if (response === "Khong Tìm Thấy User"){
+                set_error_username(true)
+            }else{
+                if (response === "Sai Mat Khau"){
+                    set_error_username(false)
+                    set_error_password(true)
+                }else{
+
+                   console.log(response)
+
+                    const action = addSession(response._id)
+                    dispatch(action)
+
+                    sessionStorage.setItem('id_user', response._id)
+
+                    set_redirect(true)
+
+                }
+            }
+
+        }
+
+        fetchData()
+
+    }
+
     return (
         <div>
-            <div class="breadcrumb-area">
-                <div class="container">
-                    <div class="breadcrumb-content">
+            <div className="breadcrumb-area">
+                <div className="container">
+                    <div className="breadcrumb-content">
                         <ul>
-                            <li><a href="index.html">Home</a></li>
-                            <li class="active">Login</li>
+                            <li><Link to="/">Home</Link></li>
+                            <li className="active">Login</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="page-section mb-60">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30 mr_signin">
+            <div className="page-section mb-60">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30 mr_signin">
                             <form action="#" >
-                                <div class="login-form">
-                                    <h4 class="login-title">Login</h4>
-                                    <div class="row">
-                                        <div class="col-md-12 col-12 mb-20">
-                                            <label>Email Address*</label>
-                                            <input class="mb-0" type="email" placeholder="Email Address" />
+                                <div className="login-form">
+                                    <h4 className="login-title">Login</h4>
+                                    <div className="row">
+                                        <div className="col-md-12 col-12 mb-20">
+                                            <label>Username *</label>
+                                            <input className="mb-0" type="text" placeholder="Username" value={username} onChange={(e) => set_username(e.target.value)} />
+                                            {
+                                                error_username && <span style={{ color: 'red' }}>* Wrong Username!</span>
+                                            }
                                         </div>
-                                        <div class="col-12 mb-20">
+                                        <div className="col-12 mb-20">
                                             <label>Password</label>
-                                            <input class="mb-0" type="password" placeholder="Password" />
+                                            <input className="mb-0" type="password" placeholder="Password" value={password} onChange={(e) => set_password(e.target.value)} />
+                                            {
+                                                error_password && <span style={{ color: 'red' }}>* Wrong Password!</span>
+                                            }
                                         </div>
-                                        <div class="col-md-8">
-                                            <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
+                                        <div className="col-md-8">
+                                            <div className="check-box d-inline-block ml-0 ml-md-2 mt-10">
                                                 <Link to="/signup">Do You Account?</Link>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
+                                        <div className="col-md-4 mt-10 mb-20 text-left text-md-right">
                                             <a href="#"> Forgotten pasward?</a>
                                         </div>
-                                        <div class="col-md-12">
-                                            <button class="register-button mt-0" style={{ cursor: 'pointer'}}>Login</button>
+                                        <div className="col-md-12">
+                                            {
+                                                redirect && <Redirect to="/" />
+                                            }
+                                            <button className="register-button mt-0" style={{ cursor: 'pointer'}} onClick={handler_signin}>Login</button>
                                         </div>
                                     </div>
                                 </div>

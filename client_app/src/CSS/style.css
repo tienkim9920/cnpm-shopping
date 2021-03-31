@@ -451,7 +451,6 @@ textarea:focus {
 /*Home One | Slider Background Image*/
 .bg-1, .bg-2, .bg-3 {
 	background-repeat: no-repeat;
-	background-position: center center;
 	background-size: cover;
 	min-height: 447px;
 	width: 100%;
@@ -1706,6 +1705,7 @@ textarea:focus {
 .header-bottom {
 		background: #fed700;
 		margin-bottom: 20px;
+		z-index: 99999 !important;
 }
 .hb-menu > nav > ul {
 		position: relative;
@@ -1984,6 +1984,7 @@ textarea:focus {
 .slider-content {
 	position: absolute;
 	padding-left: 58px;
+	color: #fff;
 }
 .slider-content > h5 {
 	font-weight: 400;
@@ -5394,7 +5395,7 @@ span.required {
 	width: 9rem;
 	z-index: 999;
 	top: 0;
-	left: -170%;
+	left: -35%;
 }
 
 .li_setting{
@@ -5453,6 +5454,32 @@ span.required {
 	margin-top: 3rem !important;
 }
 
+.fix_product_category{
+	display: flex;
+}
+
+.modal_success{
+	position: fixed;
+	left: 37%;
+	z-index: 9999;
+	background-color: rgb(76, 76, 76, .8);
+	width: 25rem;
+}
+
+.fix_icon_bell{
+	background-color: #00BFA5;
+	padding: 1rem 1rem;
+	border-radius: 50%;
+}
+
+.content-wraper{
+	margin-top: 2rem;
+}
+
+.fix_order{
+	padding: 7rem 5rem;
+}
+
 @media only screen and (max-width: 479px) {
 	.shop-bar-inner {
 		margin-bottom: 10px;
@@ -5495,6 +5522,10 @@ span.required {
 
 	.megamenu > li{
 		padding: 0;
+	}
+
+	.fix_product_category{
+		display: block;
 	}
 
 }

@@ -8,50 +8,50 @@ Footer.propTypes = {
 
 function Footer(props) {
     return (
-        <div class="footer">
-            <div class="footer-static-top">
-                <div class="container">
-                    <div class="footer-shipping pt-60 pb-55 pb-xs-25">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 col-sm-6 pb-sm-55 pb-xs-55">
-                                <div class="li-shipping-inner-box">
-                                    <div class="shipping-icon">
+        <div className="footer">
+            <div className="footer-static-top">
+                <div className="container">
+                    <div className="footer-shipping pt-60 pb-55 pb-xs-25">
+                        <div className="row">
+                            <div className="col-lg-3 col-md-6 col-sm-6 pb-sm-55 pb-xs-55">
+                                <div className="li-shipping-inner-box">
+                                    <div className="shipping-icon">
                                         <img src={Global.Footer1} alt="Shipping Icon" />
                                     </div>
-                                    <div class="shipping-text">
+                                    <div className="shipping-text">
                                         <h2>Free Delivery</h2>
                                         <p>And free returns. See checkout for delivery dates.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6 pb-sm-55 pb-xs-55">
-                                <div class="li-shipping-inner-box">
-                                    <div class="shipping-icon">
+                            <div className="col-lg-3 col-md-6 col-sm-6 pb-sm-55 pb-xs-55">
+                                <div className="li-shipping-inner-box">
+                                    <div className="shipping-icon">
                                         <img src={Global.Footer2} alt="Shipping Icon" />
                                     </div>
-                                    <div class="shipping-text">
+                                    <div className="shipping-text">
                                         <h2>Safe Payment</h2>
                                         <p>Pay with the world's most popular and secure payment methods.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6 pb-xs-30">
-                                <div class="li-shipping-inner-box">
-                                    <div class="shipping-icon">
+                            <div className="col-lg-3 col-md-6 col-sm-6 pb-xs-30">
+                                <div className="li-shipping-inner-box">
+                                    <div className="shipping-icon">
                                         <img src={Global.Footer3} alt="Shipping Icon" />
                                     </div>
-                                    <div class="shipping-text">
+                                    <div className="shipping-text">
                                         <h2>Shop with Confidence</h2>
                                         <p>Our Buyer Protection covers your purchasefrom click to delivery.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6 pb-xs-30">
-                                <div class="li-shipping-inner-box">
-                                    <div class="shipping-icon">
+                            <div className="col-lg-3 col-md-6 col-sm-6 pb-xs-30">
+                                <div className="li-shipping-inner-box">
+                                    <div className="shipping-icon">
                                         <img src={Global.Footer4} alt="Shipping Icon" />
                                     </div>
-                                    <div class="shipping-text">
+                                    <div className="shipping-text">
                                         <h2>24/7 Help Center</h2>
                                         <p>Have a question? Call a Specialist or chat online.</p>
                                     </div>
@@ -61,18 +61,18 @@ function Footer(props) {
                     </div>
                 </div>
             </div>
-            <div class="footer-static-middle">
-                <div class="container">
-                    <div class="footer-logo-wrap pt-50 pb-35">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-6">
-                                <div class="footer-logo">
-                                    <img src={Global.Logo} alt="Footer Logo" />
-                                    <p class="info">
+            <div className="footer-static-middle">
+                <div className="container">
+                    <div className="footer-logo-wrap pt-50 pb-35">
+                        <div className="row">
+                            <div className="col-lg-4 col-md-6">
+                                <div className="footer-logo">
+                                    <img src={Global.Logo} style={{ width: '20rem'}} alt="Footer Logo" />
+                                    <p className="info">
                                         We are a team of designers and developers that create high quality HTML Template & Woocommerce, Shopify Theme.
                                 </p>
                                 </div>
-                                <ul class="des">
+                                <ul className="des">
                                     <li>
                                         <span>Address: </span>
                                     6688Princess Road, London, Greater London BAS 23JK, UK
@@ -87,9 +87,9 @@ function Footer(props) {
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-lg-2 col-md-3 col-sm-6">
-                                <div class="footer-block">
-                                    <h3 class="footer-block-title">Product</h3>
+                            <div className="col-lg-2 col-md-3 col-sm-6">
+                                <div className="footer-block">
+                                    <h3 className="footer-block-title">Product</h3>
                                     <ul>
                                         <li><a href="#">Prices drop</a></li>
                                         <li><a href="#">New products</a></li>
@@ -98,9 +98,9 @@ function Footer(props) {
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-3 col-sm-6">
-                                <div class="footer-block">
-                                    <h3 class="footer-block-title">Our company</h3>
+                            <div className="col-lg-2 col-md-3 col-sm-6">
+                                <div className="footer-block">
+                                    <h3 className="footer-block-title">Our company</h3>
                                     <ul>
                                         <li><a href="#">Delivery</a></li>
                                         <li><a href="#">Legal Notice</a></li>
@@ -109,14 +109,14 @@ function Footer(props) {
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-lg-4">  
-                                <div class="footer-newsletter">
+                            <div className="col-lg-4">  
+                                <div className="footer-newsletter">
                                     <h4>Sign up to newsletter</h4>
-                                    <form action="#" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="footer-subscribe-form validate" target="_blank">
+                                    <form action="#" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" className="footer-subscribe-form validate" target="_blank">
                                         <div id="mc_embed_signup_scroll">
-                                            <div id="mc-form" class="mc-form subscribe-form form-group" >
-                                                <input id="mc-email" type="email" autocomplete="off" placeholder="Enter your email" />
-                                                <button class="btn" id="mc-submit">Subscribe</button>
+                                            <div id="mc-form" className="mc-form subscribe-form form-group" >
+                                                <input id="mc-email" type="email" autoComplete="off" placeholder="Enter your email" />
+                                                <button className="btn" id="mc-submit">Subscribe</button>
                                             </div>
                                         </div>
                                     </form>
