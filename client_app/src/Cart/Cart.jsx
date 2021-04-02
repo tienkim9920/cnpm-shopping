@@ -258,7 +258,9 @@ function Cart(props) {
                                             {
                                                 list_carts && list_carts.map((value, index) => (
                                                 <tr key={index}>
-                                                    <td className="li-product-remove" onClick={() => handler_delete_carts(value._id)}><a style={{ cursor: 'pointer' }}><i className="fa fa-times"></i></a></td>
+                                                    <td className="li-product-remove" onClick={sessionStorage.getItem('id_user') ? () => handler_delete_carts(value._id) : () => handler_delete_carts(value.id_cart)}>
+                                                        <a style={{ cursor: 'pointer' }}><i className="fa fa-times"></i></a>
+                                                    </td>
                                                     <td className="li-product-thumbnail"><Link to={`/detail/${value.id_product}`}><img src={value.image} style={{ width: '5rem'}} alt="Li's Product Image" /></Link></td>
                                                     <td className="li-product-name"><a href="#">{value.name_product}</a></td>
                                                     <td className="li-product-price"><span className="amount">${value.price_product}</span></td>

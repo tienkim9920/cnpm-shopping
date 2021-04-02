@@ -9,7 +9,7 @@ Footer.propTypes = {
 function Footer(props) {
     return (
         <div className="footer">
-            <div className="footer-static-top">
+            {/* <div className="footer-static-top">
                 <div className="container">
                     <div className="footer-shipping pt-60 pb-55 pb-xs-25">
                         <div className="row">
@@ -60,7 +60,7 @@ function Footer(props) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className="footer-static-middle">
                 <div className="container">
                     <div className="footer-logo-wrap pt-50 pb-35">
@@ -75,38 +75,38 @@ function Footer(props) {
                                 <ul className="des">
                                     <li>
                                         <span>Address: </span>
-                                    6688Princess Road, London, Greater London BAS 23JK, UK
+                                    828 Sư Vạn Hạnh, Quận 10, TP.HCM
                                 </li>
                                     <li>
                                         <span>Phone: </span>
-                                        <a href="#">(+123) 123 321 345</a>
+                                        <a href="#">0763557366</a>
                                     </li>
                                     <li>
                                         <span>Email: </span>
-                                        <a href="mailto://info@yourdomain.com">info@yourdomain.com</a>
+                                        <a href="mailto://tienkim9920@gmail.com">tienkim9920@gmail.com</a>
                                     </li>
                                 </ul>
                             </div>
-                            <div className="col-lg-2 col-md-3 col-sm-6">
-                                <div className="footer-block">
-                                    <h3 className="footer-block-title">Product</h3>
-                                    <ul>
-                                        <li><a href="#">Prices drop</a></li>
-                                        <li><a href="#">New products</a></li>
-                                        <li><a href="#">Best sales</a></li>
-                                        <li><a href="#">Contact us</a></li>
-                                    </ul>
+<div class="col-lg-2 col-md-3 col-sm-6">
+                                    <div class="footer-block">
+                                        <h3 class="footer-block-title">Product</h3>
+                                        <ul>
+                                            <li><a href="#">Prices drop</a></li>
+                                            <li><a href="#">New products</a></li>
+                                            <li><a href="#">Best sales</a></li>
+                                            <li><a href="#">Contact us</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
                             <div className="col-lg-2 col-md-3 col-sm-6">
                                 <div className="footer-block">
-                                    <h3 className="footer-block-title">Our company</h3>
-                                    <ul>
-                                        <li><a href="#">Delivery</a></li>
-                                        <li><a href="#">Legal Notice</a></li>
-                                        <li><a href="#">About us</a></li>
-                                        <li><a href="#">Contact us</a></li>
-                                    </ul>
+                                    <h3 class="footer-block-title">Our company</h3>
+                                        <ul>
+                                            <li><a href="#">Delivery</a></li>
+                                            <li><a href="#">Legal Notice</a></li>
+                                            <li><a href="#">About us</a></li>
+                                            <li><a href="#">Contact us</a></li>
+                                      </ul>
                                 </div>
                             </div>
                             <div className="col-lg-4">  

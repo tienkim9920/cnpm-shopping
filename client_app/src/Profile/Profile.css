@@ -1,0 +1,133 @@
+.image_profile{
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+}
+
+.group_profile{
+    width: 90%;
+    margin: auto !important;
+}
+
+.profile{
+    display: grid;
+    grid-template-columns: .8fr 1.2fr;
+}
+
+.a_edit_profile{
+    padding: .3rem 6rem;
+    border: 1px solid rgb(211, 211, 211);
+    border-radius: .2rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    color: #323232;
+}
+
+.a_edit_profile:hover{
+    background-color: rgb(247, 247, 247);
+    text-decoration: none;
+    color: #323232;
+}
+
+.image_personal_all{
+    width: 100%;
+    height: 300px;
+}
+
+.group_grid_image_personal{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.group_setting{
+    display: grid;
+    grid-template-columns: .5fr 1.5fr;
+    border: 1px solid #d3d3d3;
+    background-color: #fff;
+}
+
+.a_setting_active{
+    font-weight: 600;
+}
+
+.setting_left{
+    border-right: 1px solid rgb(211, 211, 211);
+}
+
+.setting_right{
+
+}
+
+.setting_item{
+    padding: .6rem 2rem;
+    cursor: pointer;
+}
+
+.setting_item:hover{
+    background-color: #fafafa;
+}
+
+.setting_item_active{
+    border-left: 2px solid black;
+}
+
+.image_header_setting_edit{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.modal{
+    padding-top: 5rem !important;
+}
+
+.txt_setting_edit{
+    display: grid;
+    grid-template-columns: .6fr 1.4fr;
+}
+
+.txt_input_edit{
+    width: 65%;
+    border: 1px solid rgb(211, 211, 211);
+    border-radius: .2rem;
+    padding: .2rem .6rem;
+}
+
+.btn_follow_profile{
+    background-color: rgb(0, 110, 255);
+    color: #fff !important;
+    border: none;
+}
+
+.btn_follow_profile:hover{
+    background-color: blue;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .group_profile{
+        margin-top: 4.5rem !important;
+    }
+
+    .profile{
+        grid-template-columns: auto !important;
+    }
+
+    .group_setting{
+        grid-template-columns: auto !important;
+    }
+
+    .txt_setting_edit{
+        grid-template-columns: auto !important;
+    }
+
+    .txt_setting_edit div{
+        justify-content: start !important;
+        margin-left: 3rem;
+    }
+
+    .txt_input_edit{
+        width: 80%;
+    }
+}

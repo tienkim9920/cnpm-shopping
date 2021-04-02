@@ -15,7 +15,17 @@ const Product = {
     Get_Detail_Product: (id) => {
         const url = `/api/Product/${id}`
         return axiosClient.get(url)
-    }
+    },
+
+    Get_Category_Gender: (query) => {
+        const url = `/api/Product/category/gender${query}`
+        return axiosClient.get(url)
+    },
+
+    Get_Pagination: (query) => {
+        const url = `/api/Product/category/pagination${query}`
+        return axiosClient.get(url)
+    },
 
 }
 

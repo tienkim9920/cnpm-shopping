@@ -4894,7 +4894,6 @@ span.required {
 	height: 30px;
 	line-height: 30px;
 	width: 320px;
-	z-index: 999;
 }
 @media only screen and (max-width: 767px) {
 	.product-short .nice-select {
@@ -5478,6 +5477,25 @@ span.required {
 
 .fix_order{
 	padding: 7rem 5rem;
+}
+
+.slick-prev, .slick-next{
+	font-size: 30px !important;
+	width: 40px !important;
+	height: 40px !important;
+}
+
+.slick-prev:before, .slick-next:before{
+	font-size: 30px !important;
+	color: gray !important;
+}
+
+.slick-prev{
+	left: -50px !important;
+}
+
+.slick-next {
+    right: -50px !important;
 }
 
 @media only screen and (max-width: 479px) {

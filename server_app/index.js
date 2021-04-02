@@ -14,6 +14,7 @@ const ProductAPI = require('./API/Router/product.router')
 const UserAPI = require('./API/Router/user.router')
 const CartAPI = require('./API/Router/cart.router')
 const OrderAPI = require('./API/Router/order.router')
+const HistoryAPI = require('./API/Router/history.router')
 
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/Clothes", {
@@ -43,6 +44,7 @@ app.use('/api/Product', ProductAPI)
 app.use('/api/User', UserAPI)
 app.use('/api/Cart', CartAPI)
 app.use('/api/Payment', OrderAPI)
+app.use('/api/History', HistoryAPI)
 
 
 http.listen(port, () => {

@@ -80,10 +80,14 @@ const ReducerCart = (state = initalState, action) => {
             //Lấy dữ diệu có sẵn trong state
             const delete_cart = state.listCart
 
+            console.log(action.data)
+
             //Tìm kiểm vị trí mà cần xóa
             const indexDelete = delete_cart.findIndex(value => {
                 return value.id_cart === action.data
             })
+
+           
 
             //Xóa theo vị trí
             delete_cart.splice(indexDelete, 1)

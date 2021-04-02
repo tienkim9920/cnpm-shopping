@@ -61,7 +61,8 @@ function Detail_Product(props) {
             price_product: product.price_product,
             count: count,
             image: product.image,
-            size: size
+            size: size,
+            id_cart: Math.random().toString()
         }
 
         if (sessionStorage.getItem('id_user')){ // User đã đăng nhập

@@ -1,11 +1,152 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import queryString from 'query-string'
+import Product from '../API/Product';
+import { Link, useParams } from 'react-router-dom';
+import Products from './Component/Products';
+import Pagination from './Component/Pagination';
 
 Shop.propTypes = {
 
 };
 
 function Shop(props) {
+
+    const { id } = useParams()
+
+    const [products, setProducts] = useState([])
+
+    //Tổng số trang
+    const [totalPage, setTotalPage] = useState()
+
+    //Từng trang hiện tại
+    const [pagination, setPagination] = useState({
+        page: '1',
+        count: '9',
+        search: '',
+        category: id
+    })
+
+
+    //Hàm này dùng để thay đổi state pagination.page
+    //Nó sẽ truyền xuống Component con và nhận dữ liệu từ Component con truyền lên
+    const handlerChangePage = (value) => {
+        console.log("Value: ", value)
+
+        //Sau đó set lại cái pagination để gọi chạy làm useEffect gọi lại API pagination
+        setPagination({
+            page: value,
+            count: pagination.count,
+            search: pagination.search,
+            category: pagination.category
+        })
+    }
+
+    //Gọi hàm để load ra sản phẩm theo pagination dữ vào id params 
+    useEffect(() => {
+
+        const fetchData = async () => {
+
+            const params = {
+                page: pagination.page,
+                count: pagination.count,
+                search: pagination.search,
+                category: id
+            }
+
+            const query = '?' + queryString.stringify(params)
+
+            const response = await Product.Get_Pagination(query)
+            console.log(response)
+
+            setProducts(response)
+
+
+            // Gọi API để tính tổng số trang cho từng loại sản phẩm
+            const params_total_page = {
+                id_category: id
+            }
+
+            const query_total_page = '?' + queryString.stringify(params_total_page)
+
+            const response_total_page = await Product.Get_Category_Product(query_total_page)
+
+            //Tính tổng số trang = tổng số sản phẩm / số lượng sản phẩm 1 trang
+            const totalPage = Math.ceil(parseInt(response_total_page.length) / parseInt(pagination.count))
+            console.log(totalPage)
+
+            setTotalPage(totalPage)
+
+        }
+
+        fetchData()
+
+    }, [id])
+
+    //Gọi hàm để load ra sản phẩm theo pagination dữ vào id params 
+    useEffect(() => {
+
+        const fetchData = async () => {
+
+            const params = {
+                page: pagination.page,
+                count: pagination.count,
+                search: pagination.search,
+                category: id
+            }
+
+            const query = '?' + queryString.stringify(params)
+
+            const response = await Product.Get_Pagination(query)
+            console.log(response)
+
+            setProducts(response)
+
+        }
+
+        fetchData()
+
+    }, [pagination])
+
+
+    const [male, set_male] = useState([])
+    const [female, set_female] = useState([])
+
+    // Gọi API theo phương thức GET để load category
+    useEffect(() => {
+
+        const fetchData = async () => {
+
+            // gender = male
+            const params_male = {
+                gender: 'male'
+            }
+
+            const query_male = '?' + queryString.stringify(params_male)
+
+            const response_male = await Product.Get_Category_Gender(query_male)
+
+            set_male(response_male)
+
+            // gender = female
+            const params_female = {
+                gender: 'female'
+            }
+
+            const query_female = '?' + queryString.stringify(params_female)
+
+            const response_female = await Product.Get_Category_Gender(query_female)
+
+            set_female(response_female)
+
+        }
+
+        fetchData()
+
+    }, [])
+
+
+
     return (
         <div>
             <div class="breadcrumb-area">
@@ -34,21 +175,33 @@ function Shop(props) {
                                     </div>
                                 </div>
                                 <div class="li-blog-sidebar pt-25">
+                                    <h4 class="li-blog-sidebar-title">All Product</h4>
+                                    <ul class="li-blog-archive">
+                                        <li><Link to="/shop/all" style={id === 'all' ? { cursor: 'pointer', color: '#fed700' } : { cursor: 'pointer' }}>All</Link></li>
+                                    </ul>
+                                </div>
+                                <div class="li-blog-sidebar pt-25">
                                     <h4 class="li-blog-sidebar-title">Male</h4>
                                     <ul class="li-blog-archive">
-                                        <li><a href="#">T-Shirts</a></li>
-                                        <li><a href="#">Pants</a></li>
-                                        <li><a href="#">Watchs</a></li>
-                                        <li><a href="#">Sneakers</a></li>
+                                        {
+                                            male && male.map(value => (
+                                                <li key={value._id}>
+                                                    <Link to={`/shop/${value._id}`} style={id === value._id ? { cursor: 'pointer', color: '#fed700' } : { cursor: 'pointer' }}>{value.category}</Link>
+                                                </li>
+                                            ))
+                                        }
                                     </ul>
                                 </div>
                                 <div class="li-blog-sidebar">
                                     <h4 class="li-blog-sidebar-title">Female</h4>
                                     <ul class="li-blog-archive">
-                                        <li><a href="#">T-Shirts</a></li>
-                                        <li><a href="#">Pants</a></li>
-                                        <li><a href="#">Dress</a></li>
-                                        <li><a href="#">Sneakers</a></li>
+                                        {
+                                            female && female.map(value => (
+                                                <li key={value._id}>
+                                                    <Link to={`/shop/${value._id}`} style={id === value._id ? { cursor: 'pointer', color: '#fed700' } : { cursor: 'pointer' }}>{value.category}</Link>
+                                                </li>
+                                            ))
+                                        }
                                     </ul>
                                 </div>
                             </div>
@@ -70,66 +223,15 @@ function Shop(props) {
                                 <div class="tab-content">
                                     <div id="grid-view" class="tab-pane active" role="tabpanel">
                                         <div class="product-area shop-product-area">
-                                            <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-6 mt-40">
-                                                    <div class="single-product-wrap">
-                                                        <div class="product-image">
-                                                            <a href="single-product.html">
-                                                                <img src="https://bizweb.dktcdn.net/100/369/010/products/bob-t-shirts-tan-3-w.jpg?v=1608103670347" alt="Li's Product Image" />
-                                                            </a>
-                                                            <span class="sticker">New</span>
-                                                        </div>
-                                                        <div class="product_desc">
-                                                            <div class="product_desc_info">
-                                                                <div class="product-review">
-                                                                    <h5 class="manufacturer">
-                                                                        <a href="product-details.html">Graphic Corner</a>
-                                                                    </h5>
-                                                                    <div class="rating-box">
-                                                                        <ul class="rating">
-                                                                            <li><i class="fa fa-star-o"></i></li>
-                                                                            <li><i class="fa fa-star-o"></i></li>
-                                                                            <li><i class="fa fa-star-o"></i></li>
-                                                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                                <h4><a class="product_name" href="single-product.html">Accusantium dolorem1</a></h4>
-                                                                <div class="price-box">
-                                                                    <span class="new-price">$46.80</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="add-actions">
-                                                                <ul class="add-actions-link">
-                                                                    <li class="add-cart active"><a href="shopping-cart.html">Add to cart</a></li>
-                                                                    <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
-                                                                    <li><a class="links-details" href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <Products products={products} />
                                         </div>
                                     </div>
                                     <div class="paginatoin-area">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6">
-                                                <p>Showing 1-12 of 13 item(s)</p>
+                                                <p>Showing 1-9 of 9 item(s)</p>
                                             </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <ul class="pagination-box">
-                                                    <li><a href="#" class="Previous"><i class="fa fa-chevron-left"></i> Previous</a>
-                                                    </li>
-                                                    <li class="active"><a href="#">1</a></li>
-                                                    <li><a href="#">2</a></li>
-                                                    <li><a href="#">3</a></li>
-                                                    <li>
-                                                        <a href="#" class="Next"> Next <i class="fa fa-chevron-right"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            <Pagination pagination={pagination} handlerChangePage={handlerChangePage} totalPage={totalPage} />
                                         </div>
                                     </div>
                                 </div>

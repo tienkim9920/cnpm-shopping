@@ -27,7 +27,9 @@ function Contact(props) {
                         <div class="col-lg-5 offset-lg-1 col-md-12 order-1 order-lg-2">
                             <div class="contact-page-side-content">
                                 <h3 class="contact-page-title">Contact Us</h3>
-                                <p class="contact-page-message mb-25">Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram anteposuerit litterarum formas human.</p>
+                                <p class="contact-page-message mb-25">
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem sapiente ab cum accusantium, incidunt nihil fugit similique? Reiciendis ex dignissimos libero iusto quos, consequuntur nobis tenetur a minima! Voluptatum, ab?
+                                </p>
                                 <div class="single-contact-block">
                                     <h4><i class="fa fa-fax"></i> Address</h4>
                                     <p>155 Sư Vạn Hạnh, Phường 12, Quận 10, Thành phố Hồ Chí Minh</p>

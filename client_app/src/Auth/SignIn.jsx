@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import queryString from 'query-string'
 import User from '../API/User';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addSession } from '../Redux/Action/ActionSession';
+import Cart from '../API/CartAPI';
+import { changeCount } from '../Redux/Action/ActionCount';
 
 SignIn.propTypes = {
     
@@ -21,6 +23,12 @@ function SignIn(props) {
     const [error_password, set_error_password] = useState(false)
 
     const [redirect, set_redirect] = useState(false)
+
+    // Get carts từ redux khi user chưa đăng nhập
+    const carts = useSelector(state => state.Cart.listCart)
+
+    // Get isLoad từ redux để load lại phần header
+    const count_change = useSelector(state => state.Count.isLoad)
 
     const handler_signin = (e) => {
 
@@ -51,6 +59,19 @@ function SignIn(props) {
                     dispatch(action)
 
                     sessionStorage.setItem('id_user', response._id)
+
+                    for (let i = 0; i < carts.length; i++){
+
+                        carts[i].id_user = sessionStorage.getItem('id_user')
+
+                        const response = await Cart.Post_Cart(carts[i])
+
+                        console.log(response)
+
+                    }
+                    
+                    const action_count_change = changeCount(count_change)
+                    dispatch(action_count_change)
 
                     set_redirect(true)
 

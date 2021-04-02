@@ -1,0 +1,90 @@
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
+
+Pagination.propTypes = {
+    pagination: PropTypes.object,
+    handlerChangePage: PropTypes.func,
+    totalPage: PropTypes.number
+};
+
+Pagination.defaultProps = {
+    pagination: {},
+    handlerChangePage: null,
+    totalPage: null
+}
+
+function Pagination(props) {
+
+    const { pagination, handlerChangePage, totalPage } = props
+
+    const { page } = pagination
+
+    let indexPage = []
+
+    //Tạo ra số nút bấm cho từng trang
+    for (var i = 1; i <= totalPage; i++) {
+        indexPage.push(i)
+    }
+
+    const onDownPage = (value) => {
+
+        if (!handlerChangePage) {
+            return
+        }
+
+        const newPage = parseInt(value) - 1
+        handlerChangePage(newPage)
+
+    }
+
+    const onUpPage = (value) => {
+
+        if (!handlerChangePage) {
+            return
+        }
+
+        const newPage = parseInt(value) + 1
+        handlerChangePage(newPage)
+    }
+
+    const onChangeIndex = (value) => {
+        if (!handlerChangePage) {
+            return
+        }
+
+        handlerChangePage(value)
+    }
+
+    return (
+        <div class="col-lg-6 col-md-6">
+            <ul class="pagination-box">
+                <li>
+                    <button class="btn btn-secondary Previous" style={{ cursor: 'pointer' }}
+                        onClick={() => onDownPage(page)}
+                        disabled={page <= 1}
+                    >
+                        <i class="fa fa-chevron-left"></i>
+                    </button>
+                </li>
+                {
+                    indexPage && indexPage.map(value => (
+                        <li class={value === parseInt(page) ? "active" : ''}>
+                            <a style={{ cursor: 'pointer' }} onClick={() => onChangeIndex(value)}>{value}</a>
+                        </li>
+                    ))
+                }
+                <li>
+                    <button class="btn btn-secondary Next" style={{ cursor: 'pointer' }}
+                        onClick={() => onUpPage(page)}
+                        disabled={page >= totalPage}
+                    >
+                        <i class="fa fa-chevron-right"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    );
+}
+
+export default Pagination;

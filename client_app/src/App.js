@@ -23,6 +23,9 @@ import SignIn from './Auth/SignIn';
 import SignUp from './Auth/SignUp';
 import OrderSuccess from './Order/OrderSuccess';
 import OrderFail from './Order/OrderFail';
+import History from './History/History';
+import DetailHistory from './History/Component/DetailHistory';
+import Profile from './Profile/Profile';
 
 function App() {
   return (
@@ -35,7 +38,7 @@ function App() {
         <Switch>
 
           <Route exact path="/" component={Home} />
-          <Route path="/shop" component={Shop} />
+          <Route path="/shop/:id" component={Shop} />
           <Route path="/detail/:id" component={Detail_Product} />
           <Route path="/cart" component={Cart} />
           <Route path="/checkout" component={Checkout} />
@@ -46,6 +49,8 @@ function App() {
           <Route path="/signup" component={SignUp} />
           <Route path="/success" component={OrderSuccess} />
           <Route path="/fail" component={OrderFail} />
+          <Route path="/history" component={History} />
+          <Route path="/profile/:id" component={Profile} />
 
         </Switch>
 
