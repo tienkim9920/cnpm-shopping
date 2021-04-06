@@ -2291,7 +2291,6 @@ textarea:focus {
     position: relative;
 }
 .add-actions-link {
-	display: inline-block;
 	margin-top: 24px;
 	padding-top: 20px;
 	-webkit-transition: all 300ms ease-in 0s;
@@ -2300,22 +2299,31 @@ textarea:focus {
 }
 .add-actions-link li {
 	line-height: 1;
-	margin: 0 0 0 3px;
+	margin: 3px 0 0 3px;
 	background: #eef0f1;
-	display: inline-block;
 	border-radius: 4px;
-	float: left;
 	height: 35px;
 	line-height: 35px;
 	width: 35px;
 }
+
+.col_product:hover .add_actions{
+	opacity: 1;
+}
+
+.add_actions{
+	opacity: 0;
+	transition: all .5s ease-in-out;
+}
+
 .add-actions-link li.add-cart {
-	float: left;
-	margin: 0;
+	margin: 0 0 0 3px;
 	background: #eef0f1;
 	border: 1px solid #e1e1e1;
 	transition: all 0.3s ease-in-out;
-	width: 120px;
+	height: 35px;
+	line-height: 35px;
+	width: 35px;
 }
 .add-actions-link li:hover {
 	background: #fed700;
@@ -5496,6 +5504,16 @@ span.required {
 
 .slick-next {
     right: -50px !important;
+}
+
+.modal-content{
+	border: none;
+}
+
+.add_actions{
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 @media only screen and (max-width: 479px) {

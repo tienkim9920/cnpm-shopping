@@ -22,6 +22,8 @@ function SignUp(props) {
     const [errorConfirm, setConfirmError] = useState(false)
     const [errorCheckPass, setCheckPass] = useState(false)
 
+    const [username_exist, set_username_exist] = useState(false)
+
     const handler_signup = (e) => {
 
         e.preventDefault()
@@ -98,8 +100,12 @@ function SignUp(props) {
 
                                 console.log(response)
 
-                                set_show_success(true)
+                                if (response === 'User Da Ton Tai'){
+                                    set_username_exist(true)
+                                }else{
+                                    set_show_success(true)
 
+                                }  
                             }
 
                             fetchData()
@@ -171,6 +177,9 @@ function SignUp(props) {
                                             <input className="mb-0" type="text" placeholder="Username" value={username} onChange={(e) => set_username(e.target.value)} />
                                             {
                                                 errorUsername && <span style={{ color: 'red' }}>* Username is required!</span>
+                                            }
+                                            {
+                                                username_exist && <span style={{ color: 'red' }}>* Username is Existed!</span>
                                             }
                                         </div>
                                         <div className="col-md-6 mb-20">

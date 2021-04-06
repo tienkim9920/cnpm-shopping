@@ -57,29 +57,29 @@ function Pagination(props) {
     }
 
     return (
-        <div class="col-lg-6 col-md-6">
-            <ul class="pagination-box">
+        <div className="col-lg-6 col-md-6">
+            <ul className="pagination-box">
                 <li>
-                    <button class="btn btn-secondary Previous" style={{ cursor: 'pointer' }}
+                    <button className="btn btn-secondary Previous" style={{ cursor: 'pointer' }}
                         onClick={() => onDownPage(page)}
                         disabled={page <= 1}
                     >
-                        <i class="fa fa-chevron-left"></i>
+                        <i className="fa fa-chevron-left"></i>
                     </button>
                 </li>
                 {
                     indexPage && indexPage.map(value => (
-                        <li class={value === parseInt(page) ? "active" : ''}>
+                        <li className={value === parseInt(page) ? "active" : ''}>
                             <a style={{ cursor: 'pointer' }} onClick={() => onChangeIndex(value)}>{value}</a>
                         </li>
                     ))
                 }
                 <li>
-                    <button class="btn btn-secondary Next" style={{ cursor: 'pointer' }}
+                    <button className="btn btn-secondary Next" style={{ cursor: 'pointer' }}
                         onClick={() => onUpPage(page)}
                         disabled={page >= totalPage}
                     >
-                        <i class="fa fa-chevron-right"></i>
+                        <i className="fa fa-chevron-right"></i>
                     </button>
                 </li>
             </ul>

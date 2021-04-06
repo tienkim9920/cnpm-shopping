@@ -8,18 +8,26 @@ import { useDispatch, useSelector } from 'react-redux';
 Paypal.propTypes = {
     information: PropTypes.object,
     total: PropTypes.number,
-    Change_Load_Order: PropTypes.func
+    Change_Load_Order: PropTypes.func,
+    from: PropTypes.string,
+    distance: PropTypes.string,
+    duration: PropTypes.string,
+    price: PropTypes.string,
 };
 
 Paypal.defaultProps = {
     information: {},
     total: 0,
-    Change_Load_Order: null
+    Change_Load_Order: null,
+    from: '',
+    distance: '',
+    duration: '',
+    price: '',
 }
 
 function Paypal(props) {
 
-    const { information, total, Change_Load_Order } = props
+    const { information, total, Change_Load_Order, from, distance, duration, price } = props
 
     const paypal = useRef()
 
@@ -61,7 +69,13 @@ function Paypal(props) {
                     total: total,
                     status: true, // Thanh Toán
                     delivery: false,
-                    id_payment: '60635313a1ba573dc01656b5' //Paypal
+                    id_payment: '60635313a1ba573dc01656b5', //Paypal
+                    //Delivery
+                    from: from,
+                    to: information.address,
+                    distance: distance,
+                    duration: duration,
+                    price: price
                 }
         
                 // Gọi API Đặt Hàng theo phương thức POST

@@ -96,7 +96,7 @@ function Home_Product(props) {
                         <Slider {...settings}>
                             {
                                 products && products.map(value => (
-                                    <div className="col-lg-12" key={value._id}>
+                                    <div className="col-lg-12 col_product" style={{ zIndex: '999', height: '30rem', position: 'relative' }} key={value._id}>
                                         <div className="single-product-wrap">
                                             <div className="product-image">
                                                 <Link to={`/detail/${value._id}`}>
@@ -124,13 +124,12 @@ function Home_Product(props) {
                                                         <span className="new-price">${value.price_product}</span>
                                                     </div>
                                                 </div>
-                                                <div className="add-actions">
+                                                <div className="add_actions">
                                                     <ul className="add-actions-link">
-                                                        <li className="add-cart active"><a href="#">Add to cart</a></li>
-                                                        <li><a className="links-details" href="wishlist.html"><i className="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#"
-                                                            title="quick view"
-                                                            className="quick-view-btn"
+                                                        <li><a className="links-details" href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                                        <li><a className="links-details" href="#"><i className="fa fa-heart-o"></i></a></li>
+                                                        <li><a href="#" title="quick view"
+                                                            className="links-details"
                                                             data-toggle="modal"
                                                             data-target={`#${value._id}`}
                                                             onClick={() => GET_id_modal(`${value._id}`)}><i className="fa fa-eye"></i></a></li>

@@ -5,6 +5,7 @@ import Product from '../API/Product';
 import { Link, useParams } from 'react-router-dom';
 import Products from './Component/Products';
 import Pagination from './Component/Pagination';
+import Search from './Component/Search';
 
 Shop.propTypes = {
 
@@ -146,43 +147,53 @@ function Shop(props) {
     }, [])
 
 
+    const handler_Search = (value) => {
+        console.log("Search: ", value)
+        
+        setPagination({
+            page: pagination.page,
+            count: pagination.count,
+            search: value,
+            category: pagination.category
+        })
+
+    }
+
+
 
     return (
         <div>
-            <div class="breadcrumb-area">
-                <div class="container">
-                    <div class="breadcrumb-content">
+            <div className="breadcrumb-area">
+                <div className="container">
+                    <div className="breadcrumb-content">
                         <ul>
                             <li><a href="index.html">Home</a></li>
-                            <li class="active">Shop</li>
+                            <li className="active">Shop</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
 
-            <div class="li-main-blog-page li-main-blog-details-page pt-60 pb-60 pb-sm-45 pb-xs-45">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3 order-lg-1 order-2">
-                            <div class="li-blog-sidebar-wrapper">
-                                <div class="li-blog-sidebar">
-                                    <div class="li-sidebar-search-form">
-                                        <form action="#">
-                                            <input type="text" class="li-search-field" placeholder="search here" />
-                                            <button type="submit" class="li-search-btn"><i class="fa fa-search"></i></button>
-                                        </form>
+            <div className="li-main-blog-page li-main-blog-details-page pt-60 pb-60 pb-sm-45 pb-xs-45">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-3 order-lg-1 order-2">
+                            <div className="li-blog-sidebar-wrapper">
+                                <div className="li-blog-sidebar">
+                                    <div className="li-sidebar-search-form">
+                                        <Search handler_Search={handler_Search} />
                                     </div>
                                 </div>
-                                <div class="li-blog-sidebar pt-25">
-                                    <h4 class="li-blog-sidebar-title">All Product</h4>
-                                    <ul class="li-blog-archive">
+                                <div className="li-blog-sidebar pt-25">
+                                    <h4 className="li-blog-sidebar-title">All Product</h4>
+                                    <ul className="li-blog-archive">
                                         <li><Link to="/shop/all" style={id === 'all' ? { cursor: 'pointer', color: '#fed700' } : { cursor: 'pointer' }}>All</Link></li>
                                     </ul>
                                 </div>
-                                <div class="li-blog-sidebar pt-25">
-                                    <h4 class="li-blog-sidebar-title">Male</h4>
-                                    <ul class="li-blog-archive">
+                                <div className="li-blog-sidebar pt-25">
+                                    <h4 className="li-blog-sidebar-title">Male</h4>
+                                    <ul className="li-blog-archive">
                                         {
                                             male && male.map(value => (
                                                 <li key={value._id}>
@@ -192,9 +203,9 @@ function Shop(props) {
                                         }
                                     </ul>
                                 </div>
-                                <div class="li-blog-sidebar">
-                                    <h4 class="li-blog-sidebar-title">Female</h4>
-                                    <ul class="li-blog-archive">
+                                <div className="li-blog-sidebar">
+                                    <h4 className="li-blog-sidebar-title">Female</h4>
+                                    <ul className="li-blog-archive">
                                         {
                                             female && female.map(value => (
                                                 <li key={value._id}>
@@ -206,12 +217,12 @@ function Shop(props) {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-9 order-1 order-lg-2">
-                            <div class="shop-top-bar">
-                                <div class="product-select-box">
-                                    <div class="product-short">
+                        <div className="col-lg-9 order-1 order-lg-2">
+                            <div className="shop-top-bar">
+                                <div className="product-select-box">
+                                    <div className="product-short">
                                         <p>Sort By:</p>
-                                        <select class="nice-select">
+                                        <select className="nice-select">
                                             <option value="trending">Relevance</option>
                                             <option value="rating">Price (Low &gt; High)</option>
                                             <option value="rating">Price (High &gt; Low)</option>
@@ -219,16 +230,16 @@ function Shop(props) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="shop-products-wrapper">
-                                <div class="tab-content">
-                                    <div id="grid-view" class="tab-pane active" role="tabpanel">
-                                        <div class="product-area shop-product-area">
+                            <div className="shop-products-wrapper">
+                                <div className="tab-content">
+                                    <div id="grid-view" className="tab-pane active" role="tabpanel">
+                                        <div className="product-area shop-product-area">
                                             <Products products={products} />
                                         </div>
                                     </div>
-                                    <div class="paginatoin-area">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6">
+                                    <div className="paginatoin-area">
+                                        <div className="row">
+                                            <div className="col-lg-6 col-md-6">
                                                 <p>Showing 1-9 of 9 item(s)</p>
                                             </div>
                                             <Pagination pagination={pagination} handlerChangePage={handlerChangePage} totalPage={totalPage} />

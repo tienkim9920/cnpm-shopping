@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { Modal } from "react-bootstrap";
 import { useParams } from 'react-router';
 import Product from '../API/Product';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import { addCart } from '../Redux/Action/ActionCart';
 import { changeCount } from '../Redux/Action/ActionCount';
 import { Link } from 'react-router-dom';
 import Cart from '../API/CartAPI';
+import CommentAPI from '../API/CommentAPI';
 
 Detail_Product.propTypes = {
 
@@ -65,7 +66,7 @@ function Detail_Product(props) {
             id_cart: Math.random().toString()
         }
 
-        if (sessionStorage.getItem('id_user')){ // User đã đăng nhập
+        if (sessionStorage.getItem('id_user')) { // User đã đăng nhập
             // Khi đăng nhập thành công thì nó sẽ gọi API phương thức POST
             const postData = async () => {
 
@@ -81,7 +82,7 @@ function Detail_Product(props) {
 
             set_show_success(true)
 
-        }else{ // User chưa đăng nhập
+        } else { // User chưa đăng nhập
 
             const action = addCart(data)
             dispatch(action)
@@ -101,7 +102,7 @@ function Detail_Product(props) {
 
     // Hàm này dùng để giảm số lượng
     const downCount = () => {
-        if (count === 1){
+        if (count === 1) {
             return
         }
 
@@ -113,20 +114,115 @@ function Detail_Product(props) {
     }
 
 
+    // State dùng để mở modal
+    const [modal, set_modal] = useState(false)
+
+    // State thông báo lỗi comment
+    const [error_comment, set_error_comment] = useState(false)
+
+    const [star, set_star] = useState(1)
+
+    const [comment, set_comment] = useState('')
+
+    const [validation_comment, set_validation_comment] = useState(false)
+
+    // state load comment
+    const [load_comment, set_load_comment] = useState(true)
+
+    // State list_comment
+    const [list_comment, set_list_comment] = useState([])
+
+    // Hàm này dùng để gọi API post comment sản phẩm của user
+    const handler_Comment = () => {
+
+        if (!sessionStorage.getItem('id_user')) { // Khi khách hàng chưa đăng nhập
+
+            set_error_comment(true)
+
+        } else { // Khi khách hàng đã đăng nhập
+
+            if (!comment){
+                set_validation_comment(true)
+                return
+            }
+
+            const data = {
+                id_user: sessionStorage.getItem('id_user'),
+                content: comment,
+                star: star
+            }
+
+            const post_data = async () => {
+
+                const response = await CommentAPI.post_comment(data, id)
+
+                console.log(response)
+
+            }
+
+            post_data()
+
+            set_load_comment(true)
+
+            set_comment('')
+
+            set_modal(false)
+            
+        }
+
+        setTimeout(() => {
+            set_error_comment(false)
+        }, 1500)
+
+    }
+
+
+    // Hàm này dùng để GET API load ra những comment của sản phẩm
+    useEffect(() => {
+
+        if (load_comment) {
+            const fetchData = async () => {
+
+                const response = await CommentAPI.get_comment(id)
+
+                set_list_comment(response)
+
+            }
+
+            fetchData()
+
+            set_load_comment(false)
+        }
+
+    }, [load_comment])
+
+
     return (
         <div>
 
             {
-                show_success && 
-                    <div className="modal_success">
-                        <div className="group_model_success pt-3">
-                            <div className="text-center p-2">
-                                <i className="fa fa-bell fix_icon_bell" style={{ fontSize: '40px', color: '#fff' }}></i>
-                            </div>
-                            <h4 className="text-center p-3" style={{ color: '#fff' }}>Bạn Đã Thêm Hàng Thành Công!</h4>
+                show_success &&
+                <div className="modal_success">
+                    <div className="group_model_success pt-3">
+                        <div className="text-center p-2">
+                            <i className="fa fa-bell fix_icon_bell" style={{ fontSize: '40px', color: '#fff' }}></i>
                         </div>
+                        <h4 className="text-center p-3" style={{ color: '#fff' }}>Bạn Đã Thêm Hàng Thành Công!</h4>
                     </div>
+                </div>
             }
+            {
+                error_comment &&
+                <div className="modal_success">
+                    <div className="group_model_success pt-3">
+                        <div className="text-center p-2">
+                            <i className="fa fa-bell fix_icon_bell" style={{ fontSize: '40px', color: '#fff', backgroundColor: '#f84545' }}></i>
+                        </div>
+                        <h4 className="text-center p-3" style={{ color: '#fff' }}>Vui Lòng Kiểm Tra Lại Đăng Nhập!</h4>
+                    </div>
+                </div>
+            }
+
 
             <div className="breadcrumb-area">
                 <div className="container">
@@ -146,9 +242,7 @@ function Detail_Product(props) {
                             <div className="product-details-left">
                                 <div className="product-details-images slider-navigation-1">
                                     <div className="lg-image">
-                                        <a className="popup-img venobox vbox-item" href="images/product/large-size/1.jpg" data-gall="myGallery">
-                                            <img src={product.image} alt="product image" />
-                                        </a>
+                                        <img src={product.image} alt="product image" />
                                     </div>
                                 </div>
                             </div>
@@ -167,10 +261,10 @@ function Detail_Product(props) {
                                             </span>
                                         </p>
                                     </div>
-                                    <div class="product-variants">
-                                        <div class="produt-variants-size">
+                                    <div className="product-variants">
+                                        <div className="produt-variants-size">
                                             <label>Size</label>
-                                            <select class="nice-select" onChange={(e) => set_size(e.target.value)}>
+                                            <select className="nice-select" onChange={(e) => set_size(e.target.value)}>
                                                 <option value="S">S</option>
                                                 <option value="M">M</option>
                                                 <option value="L">L</option>
@@ -218,25 +312,29 @@ function Detail_Product(props) {
                         <div id="reviews" className="tab-pane" role="tabpanel">
                             <div className="product-reviews">
                                 <div className="product-details-comment-block">
-                                    <div className="comment-author-infos pt-25">
-                                        <span>HTML 5</span>
-                                        <em>01-12-18</em>
-                                        <ul className="rating">
-                                            <li><i className="fa fa-star"></i></li>
-                                            <li><i className="fa fa-star"></i></li>
-                                            <li><i className="fa fa-star"></i></li>
-                                            <li className="no-star"><i className="fa fa-star-o"></i></li>
-                                            <li className="no-star"><i className="fa fa-star-o"></i></li>
-                                        </ul>
+                                    <div style={{ overflow: 'auto', height: '10rem' }}>
+                                        {
+                                            list_comment && list_comment.map(value => (
+
+                                                <div className="comment-author-infos pt-25">
+                                                    <span>{value.fullname} <div style={{ fontWeight: '400' }}>{value.content}</div></span>
+                                                    <ul className="rating">
+                                                        <li><i className={value.star1}></i></li>
+                                                        <li><i className={value.star2}></i></li>
+                                                        <li><i className={value.star3}></i></li>
+                                                        <li><i className={value.star4}></i></li>
+                                                        <li><i className={value.star5}></i></li>
+                                                    </ul>
+                                                </div>
+
+                                            ))
+                                        }
                                     </div>
-                                    <div className="comment-details">
-                                        <h4 className="title-block">Demo</h4>
-                                        <p>Plaza</p>
+
+                                    <div className="review-btn" style={{ marginTop: '2rem' }}>
+                                        <a className="review-links" style={{ cursor: 'pointer', color: '#fff' }} onClick={() => set_modal(true)}>Write Your Review!</a>
                                     </div>
-                                    <div className="review-btn">
-                                        <a className="review-links" href="#" data-toggle="modal" data-target="#mymodal">Write Your Review!</a>
-                                    </div>
-                                    <div className="modal fade modal-wrapper" id="mymodal" >
+                                    <Modal onHide={() => set_modal(false)} show={modal} className="modal fade modal-wrapper">
                                         <div className="modal-dialog modal-dialog-centered" role="document">
                                             <div className="modal-content">
                                                 <div className="modal-body">
@@ -244,7 +342,7 @@ function Detail_Product(props) {
                                                     <div className="modal-inner-area row">
                                                         <div className="col-lg-6">
                                                             <div className="li-review-product">
-                                                                <img src="images/product/large-size/3.jpg" alt="Li's Product" />
+                                                                <img src={product.image} alt="Li's Product" style={{ width: '20rem' }} />
                                                                 <div className="li-review-product-desc">
                                                                     <p className="li-product-name">Today is a good day Framed poster</p>
                                                                     <p>
@@ -262,7 +360,7 @@ function Detail_Product(props) {
                                                                             <p className="your-opinion">
                                                                                 <label>Your Rating</label>
                                                                                 <span>
-                                                                                    <select className="star-rating">
+                                                                                    <select className="star-rating" onChange={(e) => set_star(e.target.value)}>
                                                                                         <option value="1">1</option>
                                                                                         <option value="2">2</option>
                                                                                         <option value="3">3</option>
@@ -273,23 +371,15 @@ function Detail_Product(props) {
                                                                             </p>
                                                                             <p className="feedback-form">
                                                                                 <label htmlFor="feedback">Your Review</label>
-                                                                                <textarea id="feedback" name="comment" cols="45" rows="8" aria-required="true"></textarea>
+                                                                                <textarea id="feedback" name="comment" cols="45" rows="8" aria-required="true" onChange={(e) => set_comment(e.target.value)}></textarea>
+                                                                                {
+                                                                                    validation_comment && <span style={{ color: 'red' }}>* This is required!</span>
+                                                                                }
                                                                             </p>
                                                                             <div className="feedback-input">
-                                                                                <p className="feedback-form-author">
-                                                                                    <label htmlFor="author">Name<span className="required">*</span>
-                                                                                    </label>
-                                                                                    <input id="author" name="author" size="30" aria-required="true" type="text" />
-                                                                                </p>
-                                                                                <p className="feedback-form-author feedback-form-email">
-                                                                                    <label htmlFor="email">Email<span className="required">*</span>
-                                                                                    </label>
-                                                                                    <input id="email" name="email" size="30" aria-required="true" type="text" />
-                                                                                    <span className="required"><sub>*</sub> Required fields</span>
-                                                                                </p>
                                                                                 <div className="feedback-btn pb-15">
-                                                                                    <a href="#" className="close" data-dismiss="modal" aria-label="Close">Close</a>
-                                                                                    <a href="#">Submit</a>
+                                                                                    <a className="close" onClick={() => set_modal(false)}>Close</a>
+                                                                                    <a style={{ cursor: 'pointer' }} onClick={handler_Comment}>Submit</a>
                                                                                 </div>
                                                                             </div>
                                                                         </form>
@@ -301,7 +391,7 @@ function Detail_Product(props) {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </Modal>
                                 </div>
                             </div>
                         </div>

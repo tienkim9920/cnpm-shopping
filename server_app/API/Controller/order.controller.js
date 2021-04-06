@@ -5,12 +5,8 @@ const mailer = require('../../mailer')
 const History = require('../../Models/history')
 const Detail_History = require('../../Models/detail_history')
 const Carts = require('../../Models/cart')
+const Delivery = require('../../Models/delivery')
 
-// module.exports.post_paypal = async (req, res) => {
-
-
-
-// }
 
 // Đặt hàng theo phương thức thanh toán trực tiếp
 module.exports.post_order = async (req, res) => {
@@ -39,7 +35,7 @@ module.exports.post_order = async (req, res) => {
     }    
 
     const htmlResult = '<h1>Xin Chào ' + req.body.fullname + '</h1>' + '<h3>Phone: ' + req.body.phone + '</h3>' + '<h3>Address:' + req.body.address + '</h3>' +
-        htmlHead + htmlContent + '<h1>Tổng Thanh Toán: ' + req.body.total + '$</br>' + '<p>Cảm ơn bạn!</p>'
+        htmlHead + htmlContent + '<h1>Phí Vận Chuyển: ' + req.body.price + '$</h1></br>' + '<h1>Tổng Thanh Toán: ' + req.body.total + '$</h1></br>' + '<p>Cảm ơn bạn!</p>'
 
     // Thực hiện gửi email (to, subject, htmlContent)
     await mailer.sendMail(req.body.email, 'Hóa Đơn Đặt Hàng', htmlResult)
@@ -65,6 +61,18 @@ module.exports.post_order = async (req, res) => {
         carts[i].delete()
 
     }
+
+    //B6: Tiến hành thực hiện push data vào Delivery
+    const data_delivery = {
+        id_history: history._id,
+        from: req.body.from,
+        to: req.body.to,
+        distance: req.body.distance,
+        duration: req.body.duration,
+        price: req.body.price
+    }
+
+    await Delivery.create(data_delivery)
 
     res.send("Thanh Cong")
     

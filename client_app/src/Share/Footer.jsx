@@ -87,9 +87,9 @@ function Footer(props) {
                                     </li>
                                 </ul>
                             </div>
-<div class="col-lg-2 col-md-3 col-sm-6">
-                                    <div class="footer-block">
-                                        <h3 class="footer-block-title">Product</h3>
+                                <div className="col-lg-2 col-md-3 col-sm-6">
+                                    <div className="footer-block">
+                                        <h3 className="footer-block-title">Product</h3>
                                         <ul>
                                             <li><a href="#">Prices drop</a></li>
                                             <li><a href="#">New products</a></li>
@@ -100,7 +100,7 @@ function Footer(props) {
                                 </div>
                             <div className="col-lg-2 col-md-3 col-sm-6">
                                 <div className="footer-block">
-                                    <h3 class="footer-block-title">Our company</h3>
+                                    <h3 className="footer-block-title">Our company</h3>
                                         <ul>
                                             <li><a href="#">Delivery</a></li>
                                             <li><a href="#">Legal Notice</a></li>

@@ -27,43 +27,43 @@ function Products(props) {
     }
 
     return (
-        <div class="row">
+        <div className="row">
             {
                 products && products.map(value => (
-                    <div class="col-lg-4 col-md-4 col-sm-6 mt-40 animate__animated animate__zoomIn" key={value._id}>
-                        <div class="single-product-wrap">
-                            <div class="product-image">
+                    <div className="col-lg-4 col-md-4 col-sm-6 mt-40 animate__animated animate__zoomIn" key={value._id}>
+                        <div className="single-product-wrap">
+                            <div className="product-image">
                                 <a href="single-product.html">
                                     <img src={value.image} alt="Li's Product Image" />
                                 </a>
-                                <span class="sticker">New</span>
+                                <span className="sticker">New</span>
                             </div>
-                            <div class="product_desc">
-                                <div class="product_desc_info">
-                                    <div class="product-review">
-                                        <h5 class="manufacturer">
+                            <div className="product_desc">
+                                <div className="product_desc_info">
+                                    <div className="product-review">
+                                        <h5 className="manufacturer">
                                             <a href="product-details.html">{value.name_product}</a>
                                         </h5>
-                                        <div class="rating-box">
-                                            <ul class="rating">
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li><i class="fa fa-star-o"></i></li>
-                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                        <div className="rating-box">
+                                            <ul className="rating">
+                                                <li><i className="fa fa-star-o"></i></li>
+                                                <li><i className="fa fa-star-o"></i></li>
+                                                <li><i className="fa fa-star-o"></i></li>
+                                                <li className="no-star"><i className="fa fa-star-o"></i></li>
+                                                <li className="no-star"><i className="fa fa-star-o"></i></li>
                                             </ul>
                                         </div>
                                     </div>
-                                    <h4><a class="product_name" href="single-product.html">Accusantium dolorem1</a></h4>
-                                    <div class="price-box">
-                                        <span class="new-price">${value.price_product}</span>
+                                    <h4><a className="product_name" href="single-product.html">Accusantium dolorem1</a></h4>
+                                    <div className="price-box">
+                                        <span className="new-price">${value.price_product}</span>
                                     </div>
                                 </div>
-                                <div class="add-actions">
-                                    <ul class="add-actions-link">
-                                        <li class="add-cart active"><a href="shopping-cart.html">Add to cart</a></li>
-                                        <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
-                                        <li><a class="links-details" href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
+                                <div className="add-actions">
+                                    <ul className="add-actions-link">
+                                        <li className="add-cart active"><a href="shopping-cart.html">Add to cart</a></li>
+                                        <li><a href="#" title="quick view" className="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i className="fa fa-eye"></i></a></li>
+                                        <li><a className="links-details" href="wishlist.html"><i className="fa fa-heart-o"></i></a></li>
                                     </ul>
                                 </div>
                             </div>

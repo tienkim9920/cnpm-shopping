@@ -13,40 +13,56 @@ Checkout.propTypes = {
 
 };
 
+
 function Checkout(props) {
 
     const [carts, set_carts] = useState([])
 
     const [total_price, set_total_price] = useState(0)
 
+    // state load_map
+    const [load_map, set_load_map] = useState(true)
+
+    // state load_order
+    const [load_order_status, set_load_order_status] = useState(false)
+
+    const [check_action, set_check_action] = useState(false)
+
     useEffect(() => {
 
-        const fetchData = async () => {
+        if (check_action){
+            const fetchData = async () => {
 
-            const params = {
-                id_user: sessionStorage.getItem('id_user')
+                const params = {
+                    id_user: sessionStorage.getItem('id_user')
+                }
+    
+                const query = '?' + queryString.stringify(params)
+    
+                const response = await CartAPI.Get_Cart(query)
+                set_carts(response)
+    
+                Sum_Price(response, 0)
+    
             }
+    
+            fetchData()
 
-            const query = '?' + queryString.stringify(params)
-
-            const response = await CartAPI.Get_Cart(query)
-            set_carts(response)
-
-            Sum_Price(response, 0)
-
+            set_check_action(false)
         }
+        
 
-        fetchData()
-
-    }, [])
+    }, [check_action])
 
     // Hàm này dùng để tính tổng tiền
-    function Sum_Price(carts, sum_price){
+    function Sum_Price(carts, sum_price) {
         carts.map(value => {
             return sum_price += parseInt(value.count) * parseInt(value.price_product)
         })
 
-        set_total_price(sum_price)
+        const total = sum_price + parseInt(price)
+
+        set_total_price(total)
     }
 
     const [show_error, set_show_error] = useState(false)
@@ -101,20 +117,16 @@ function Checkout(props) {
 
     // Kiểm tra Paypal
     function checkValidation() {
-        if (information.fullname === ''){
+        if (information.fullname === '') {
             set_show_error(true)
-        }else{
-            if (information.phone === ''){
+        } else {
+            if (information.phone === '') {
                 set_show_error(true)
-            }else{
-                if (information.address === ''){
+            } else {
+                if (information.email === '') {
                     set_show_error(true)
-                }else{
-                    if (information.email === ''){
-                        set_show_error(true)
-                    }else{
-                        set_show_error(false)
-                    }
+                } else {
+                    set_show_error(false)
                 }
             }
         }
@@ -142,12 +154,18 @@ function Checkout(props) {
             id_find: Math.random().toString(),
             fullname: data.fullname,
             phone: data.phone,
-            address: data.address,
+            address: information.address,
             email: data.email,
             total: total_price,
             status: false,
             delivery: false,
-            id_payment: '60635313a1ba573dc01656b6'
+            id_payment: '60635313a1ba573dc01656b6',
+            //Delivery
+            from: from,
+            to: information.address,
+            distance: distance,
+            duration: duration,
+            price: price
         }
 
         const post_data = async () => {
@@ -174,6 +192,62 @@ function Checkout(props) {
 
     }
 
+
+    //--------------- Xử lý Google API ------------------//
+
+    const [error_address, set_error_address] = useState(false)
+
+    const [from, set_from] = useState('155 Sư Vạn Hạnh, Phường 13, District 10, Ho Chi Minh City, Vietnam')
+
+    // Khoảng cách
+    const [distance, set_distance] = useState('')
+
+    // Thời gian đi trong bn phút
+    const [duration, set_duration] = useState('')
+
+    // Giá tiền
+    const [price, set_price] = useState('')
+
+
+    // Kiểm tra xem khách hàng đã nhập chỉ nhận hàng hay chưa
+    const handler_Next = () => {
+
+        if (!information.address) {
+            set_error_address(true)
+            return
+        }
+
+        // Sau khi mà đổ dữ liệu ở bên Jquery xong
+        // thì qua bên này mình sẽ lấy những giá trị vừa xử lý
+
+        const kilo = document.getElementById('in_kilo').innerHTML
+        const duration_text = document.getElementById('duration_text').innerHTML
+        const price_shipping = document.getElementById('price_shipping').innerHTML
+        const to_places = document.getElementById('to_places').value
+
+        console.log(kilo)
+        console.log(duration_text)
+        console.log(price_shipping)
+        console.log(to_places)
+
+        set_distance(kilo)
+        set_duration(duration_text)
+        set_price(price_shipping)
+
+        set_information({
+            fullname: information.fullname,
+            phone: information.phone,
+            address: to_places,
+            email: information.email
+        })
+
+        set_load_map(false)
+        set_load_order_status(true) // Hiển thị phần checkout
+        set_check_action(true)
+
+    }
+
+
     return (
         <div>
 
@@ -196,115 +270,210 @@ function Checkout(props) {
                 </div>
             </div>
 
-            <div className="container" style={{ paddingTop: '3rem', paddingBottom: '3rem'}}>
-                <div className="row">
-                    <div className="col-lg-6 col-12 pb-5">
-                        <form onSubmit={handleSubmit(handler_Checkout)}>
-                            <div className="checkbox-form">
-                                <h3>Billing Details</h3>
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <div className="checkout-form-list">
-                                            <label>Full Name <span className="required">*</span></label>
-                                            <input placeholder="Enter Fullname" type="text" name="fullname" 
-                                                ref={register({ required: true })}
-                                                value={information.fullname} 
-                                                onChange={onChangeFullname}/>
-                                            {errors.fullname && errors.fullname.type === "required" && <span style={{ color: 'red' }}>* Fullname is required</span>}
+            <div className="container" style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
+                {
+                    load_map && (
+                        <div className="row">
+                            <div className="col-lg-6 col-12 pb-5">
+                                <div className="checkbox-form">
+                                    <h3>Check Distance</h3>
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="checkout-form-list">
+                                                <label>From <span className="required">*</span></label>
+                                                <input type="text" name="from"
+                                                    id="from_places"
+                                                    disabled="true"
+                                                    value={from} />
+                                                <input id="origin" name="origin" required="" type="hidden"
+                                                    value={from} />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="col-md-12">
-                                        <div className="checkout-form-list">
-                                            <label>Phone Number <span className="required">*</span></label>
-                                            <input placeholder="Enter Phone Number" type="text" name="phone"
-                                                ref={register({ required: true })}
-                                                value={information.phone} 
-                                                onChange={onChangePhone} />
-                                            {errors.phone && errors.phone.type === "required" && <span style={{ color: 'red' }}>* Phone Number is required</span>}                                                
+                                        <div className="col-md-12">
+                                            <div className="checkout-form-list">
+                                                <label>To <span className="required">*</span></label>
+                                                <input type="text"
+                                                    id="to_places"
+                                                    placeholder="Enter A Location"
+                                                    value={information.address}
+                                                    onChange={onChangeAddress} />
+                                                {error_address && <span style={{ color: 'red' }}>* Address is required</span>}
+                                                <input id="destination" type="text" name="destination" required="" type="hidden" />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="col-md-12">
-                                        <div className="checkout-form-list">
-                                            <label>Address <span className="required">*</span></label>
-                                            <input placeholder="Street address" type="text" name="address"
-                                                ref={register({ required: true })}
-                                                value={information.address} 
-                                                onChange={onChangeAddress} />
-                                            {errors.address && errors.address.type === "required" && <span style={{ color: 'red' }}>* Address is required</span>}                                               
+                                        <div className="col-md-12">
+                                            <div className="checkout-form-list">
+                                                <div className="form-group">
+                                                    <label>
+                                                        Travel Mode
+                                                        </label>
+                                                    <select id="travel_mode" name="travel_mode">
+                                                        <option value="DRIVING">
+                                                            DRIVING
+                                                            </option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="col-md-12">
-                                        <div className="checkout-form-list">
-                                            <label>Email <span className="required">*</span></label>
-                                            <input placeholder="Enter Email" type="email" name="email"
-                                                ref={register({ required: true })}
-                                                value={information.email} 
-                                                onChange={onChangeEmail} />
-                                            {errors.email && errors.email.type === "required" && <span style={{ color: 'red' }}>* Email is required</span>}                                               
+                                        <div className="col-md-12">
+                                            <div id="result" className="hide">
+                                                <div>
+                                                    <label htmlFor="Kilometers">Kilometers: </label>&nbsp;
+                                                        <label id="in_kilo"></label>
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="Duration">Duration: </label>&nbsp;
+                                                        <label id="duration_text"></label>
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="Price">Shipping Cost: </label>&nbsp;
+                                                        <label id="price_shipping"></label>
+                                                    <label>$</label>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="col-md-12">
-                                        <div className="order-button-payment">
-                                            {
-                                                redirect && <Redirect to="/success" />
-                                            }
-                                            <input value="Place order" type="submit" />
+                                        <div className="col-md-12">
+                                            <div className="order-button-payment">
+                                                <input value="CHECKING" type="submit" id="distance_form" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-12">
+                                            <div className="d-flex justify-content-end">
+                                                <div className="order-button-payment">
+                                                    <input value="Next" onClick={handler_Next} type="submit" style={{ padding: '.4rem 1.6rem' }} />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div className="col-lg-6 col-12">
-                        <div className="your-order">
-                            <h3>Your order</h3>
-                            <div className="your-order-table table-responsive">
-                                <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <th className="cart-product-name">Product</th>
-                                            <th className="cart-product-total">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            carts && carts.map(value => (
-                                                <tr className="cart_item" key={value._id}>
-                                                    <td className="cart-product-name">{value.name_product}<strong className="product-quantity"> × {value.count}</strong></td>
-                                                    <td className="cart-product-total"><span className="amount">${parseInt(value.price_product) * parseInt(value.count)}</span></td>
-                                                </tr>
-                                            ))
-                                        }      
-                                    </tbody>
-                                    <tfoot>
-                                        <tr className="cart-subtotal">
-                                            <th>Cart Subtotal</th>
-                                            <td><span className="amount">${total_price}</span></td>
-                                        </tr>
-                                        <tr className="order-total">
-                                            <th>Order Total</th>
-                                            <td><strong><span className="amount">${total_price}</span></strong></td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                            <div className="col-lg-6 col-12">
+                                <div id="map" style={{ height: '400px', width: '500px' }}></div>
                             </div>
-                            <div className="payment-method">
-                                <div className="payment-accordion">
-                                    <div id="accordion">
-                                        <div className="card">
-                                            <div className="card-header" id="#payment-3">
-                                                <h5 className="panel-title">
-                                                    <a className="collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                        PayPal
-                                                </a>
-                                                </h5>
+                        </div>
+                    )
+                }
+                {
+                    load_order_status && (
+                        <div className="row">
+                            <div className="col-lg-6 col-12 pb-5">
+                                <form onSubmit={handleSubmit(handler_Checkout)}>
+                                    <div className="checkbox-form">
+                                        <h3>Billing Details</h3>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="checkout-form-list">
+                                                    <label>Full Name <span className="required">*</span></label>
+                                                    <input placeholder="Enter Fullname" type="text" name="fullname"
+                                                        ref={register({ required: true })}
+                                                        value={information.fullname}
+                                                        onChange={onChangeFullname} />
+                                                    {errors.fullname && errors.fullname.type === "required" && <span style={{ color: 'red' }}>* Fullname is required</span>}
+                                                </div>
                                             </div>
-                                            <div id="collapseThree" className="collapse">
-                                                <div className="card-body">
+                                            <div className="col-md-12">
+                                                <div className="checkout-form-list">
+                                                    <label>Phone Number <span className="required">*</span></label>
+                                                    <input placeholder="Enter Phone Number" type="text" name="phone"
+                                                        ref={register({ required: true })}
+                                                        value={information.phone}
+                                                        onChange={onChangePhone} />
+                                                    {errors.phone && errors.phone.type === "required" && <span style={{ color: 'red' }}>* Phone Number is required</span>}
+                                                </div>
+                                            </div>
+                                            <div className="col-md-12">
+                                                <div className="checkout-form-list">
+                                                    <label>Address <span className="required">*</span></label>
+                                                    <input placeholder="Street address" type="text" name="address"
+                                                        ref={register({ required: true })}
+                                                        value={information.address}
+                                                        onChange={onChangeAddress}
+                                                        disabled="true" />
+                                                    {errors.address && errors.address.type === "required" && <span style={{ color: 'red' }}>* Address is required</span>}
+                                                </div>
+                                            </div>
+                                            <div className="col-md-12">
+                                                <div className="checkout-form-list">
+                                                    <label>Email <span className="required">*</span></label>
+                                                    <input placeholder="Enter Email" type="email" name="email"
+                                                        ref={register({ required: true })}
+                                                        value={information.email}
+                                                        onChange={onChangeEmail} />
+                                                    {errors.email && errors.email.type === "required" && <span style={{ color: 'red' }}>* Email is required</span>}
+                                                </div>
+                                            </div>
+                                            <div className="col-md-12">
+                                                <div className="order-button-payment">
                                                     {
-                                                        show_error ? 'Vui Lòng Kiểm Tra Lại Thông Tin' :
-                                                        <Paypal information={information} total={total_price} Change_Load_Order={Change_Load_Order} />
+                                                        redirect && <Redirect to="/success" />
                                                     }
+                                                    <input value="Place order" type="submit" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div className="col-lg-6 col-12">
+                                <div className="your-order">
+                                    <h3>Your order</h3>
+                                    <div className="your-order-table table-responsive">
+                                        <table className="table">
+                                            <thead>
+                                                <tr>
+                                                    <th className="cart-product-name">Product</th>
+                                                    <th className="cart-product-total">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    carts && carts.map(value => (
+                                                        <tr className="cart_item" key={value._id}>
+                                                            <td className="cart-product-name">{value.name_product}<strong className="product-quantity"> × {value.count}</strong></td>
+                                                            <td className="cart-product-total"><span className="amount">${parseInt(value.price_product) * parseInt(value.count)}</span></td>
+                                                        </tr>
+                                                    ))
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr className="cart-subtotal">
+                                                    <th>Shipping Cost</th>
+                                                    <td><span className="amount">${price}</span></td>
+                                                </tr>
+                                                <tr className="order-total">
+                                                    <th>Order Total</th>
+                                                    <td><strong><span className="amount">${total_price}</span></strong></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div className="payment-method">
+                                        <div className="payment-accordion">
+                                            <div id="accordion">
+                                                <div className="card">
+                                                    <div className="card-header" id="#payment-3">
+                                                        <h5 className="panel-title">
+                                                            <a className="collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                                PayPal
+                                                </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapseThree" className="collapse">
+                                                        <div className="card-body">
+                                                            {
+                                                                show_error ? 'Vui Lòng Kiểm Tra Lại Thông Tin' :
+                                                                    <Paypal 
+                                                                        information={information} 
+                                                                        total={total_price} 
+                                                                        Change_Load_Order={Change_Load_Order}
+                                                                        from={from}
+                                                                        distance={distance}
+                                                                        duration={duration}
+                                                                        price={price}
+                                                                    />
+                                                            }
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -312,8 +481,8 @@ function Checkout(props) {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    )
+                }
             </div>
         </div>
 

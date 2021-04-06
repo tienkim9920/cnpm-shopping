@@ -173,8 +173,6 @@ function Cart(props) {
 
 
     // Hàm này này dùng để kiểm tra đăng nhập checkout
-    const [redirect, set_redirect] = useState(false)
-
     const [show_error, set_show_error] = useState(false)
 
     const [show_null_cart, set_show_null_cart] = useState(false)
@@ -185,7 +183,7 @@ function Cart(props) {
             if (list_carts.length < 1){
                 set_show_null_cart(true)
             }else{
-                set_redirect(true)
+                window.location.replace('/checkout')
             }
         }else{
 
@@ -298,9 +296,6 @@ function Cart(props) {
                                                 <li>Subtotal <span>${total_price}</span></li>
                                                 <li>Total <span>${total_price}</span></li>
                                             </ul>
-                                            {
-                                                redirect && <Redirect to="/checkout" />
-                                            }
                                             <a style={{ color: '#fff', cursor: 'pointer', fontWeight: '600' }} onClick={handler_checkout}>Proceed to checkout</a>
                                         </div>
                                     </div>
