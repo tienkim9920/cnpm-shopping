@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import Cart from '../API/CartAPI';
@@ -9,6 +9,7 @@ import { changeCount } from '../Redux/Action/ActionCount';
 import { addSession, deleteSession } from '../Redux/Action/ActionSession';
 import queryString from 'query-string'
 import Product from '../API/Product';
+import { addSearch } from '../Redux/Action/ActionSearch';
 
 function Header(props) {
 
@@ -17,9 +18,9 @@ function Header(props) {
 
     window.addEventListener('scroll', () => {
 
-        if (window.pageYOffset < 200){
+        if (window.pageYOffset < 200) {
             set_header_navbar('header-bottom header-sticky')
-        }else{
+        } else {
             set_header_navbar('header-bottom header-sticky offset_navigation animate__animated animate__fadeInUp')
         }
 
@@ -29,10 +30,10 @@ function Header(props) {
 
     //Sau khi F5 nó sẽ kiểm tra nếu phiên làm việc của Session vẫn còn thì nó sẽ tiếp tục
     // đưa dữ liệu vào Redux
-    if (sessionStorage.getItem('id_user')){
+    if (sessionStorage.getItem('id_user')) {
         const action = addSession(sessionStorage.getItem('id_user'))
         dispatch(action)
-    }else{
+    } else {
         //Đưa idTemp vào Redux temp để tạm lưu trữ
         sessionStorage.setItem('id_temp', 'abc999')
         const action = addUser(sessionStorage.getItem('id_temp'))
@@ -52,11 +53,11 @@ function Header(props) {
     // Hàm này dùng để hiện thị
     useEffect(() => {
 
-        if (!id_user){ // user chưa đăng nhâp
+        if (!id_user) { // user chưa đăng nhâp
 
             set_active_user(false)
 
-        }else{ // user đã đăng nhâp
+        } else { // user đã đăng nhâp
 
             set_active_user(true)
 
@@ -69,11 +70,11 @@ function Header(props) {
                 const params = {
                     id_user: sessionStorage.getItem('id_user')
                 }
-    
+
                 const query = '?' + queryString.stringify(params)
-    
+
                 const response_carts = await Cart.Get_Cart(query)
-    
+
                 showData(response_carts, 0, 0)
 
             }
@@ -83,7 +84,7 @@ function Header(props) {
 
     }, [id_user])
 
-    
+
     // Hàm này dùng để xử lý phần log out
     const handler_logout = () => {
 
@@ -109,27 +110,27 @@ function Header(props) {
     // Phụ thuộc vào thằng redux count
     useEffect(() => {
 
-        if (count){
+        if (count) {
 
-            if (sessionStorage.getItem('id_user')){ // khách hàng đã đăng nhập thì lại tiếp tục gọi API GET data
+            if (sessionStorage.getItem('id_user')) { // khách hàng đã đăng nhập thì lại tiếp tục gọi API GET data
 
                 const fetchData = async () => {
                     const params = {
                         id_user: sessionStorage.getItem('id_user')
                     }
-        
+
                     const query = '?' + queryString.stringify(params)
-        
+
                     const response_carts = await Cart.Get_Cart(query)
-        
+
                     showData(response_carts, 0, 0)
 
                 }
 
                 fetchData()
 
-            }else{ // khách hàng chưa đăng nhập
-                
+            } else { // khách hàng chưa đăng nhập
+
                 showData(carts, 0, 0)
 
             }
@@ -141,7 +142,7 @@ function Header(props) {
     }, [count])
 
     // Hàm này là hàm con chia ra để xử lý
-    function showData(carts, sum, price){
+    function showData(carts, sum, price) {
 
         carts.map(value => {
             sum += value.count
@@ -156,11 +157,11 @@ function Header(props) {
 
     }
 
-    
+
     // Hàm này dùng để xóa carts_mini
     const handler_delete_mini = (id_cart) => {
 
-        if (sessionStorage.getItem('id_user')){ // Khi khách hàng đã đăng nhập thì gọi API với phương thức DELETE
+        if (sessionStorage.getItem('id_user')) { // Khi khách hàng đã đăng nhập thì gọi API với phương thức DELETE
 
             const deleteData = async () => {
 
@@ -174,8 +175,8 @@ function Header(props) {
 
             const action_change_count = changeCount(count)
             dispatch(action_change_count)
-            
-        }else{
+
+        } else {
 
             const action = deleteCart(id_cart)
             dispatch(action)
@@ -225,6 +226,53 @@ function Header(props) {
     }, [])
 
 
+    // state keyword search
+    const [keyword_search, set_keyword_search] = useState('')
+
+    const [products, set_products] = useState([])
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+
+            const response = await Product.Get_All_Product()
+
+            set_products(response)
+
+        }
+
+        fetchData()
+
+    }, [])
+
+    // Hàm này trả ra list product mà khách hàng tìm kiếm
+    // sử dụng useMemo để performance hơn vì nếu mà dữ liệu mới giống với dữ liệu cũ thì nó sẽ lấy cái
+    // Không cần gọi API để tạo mới data
+    const search_header = useMemo(() => {
+
+        const new_data = products.filter(value => {
+            return value.name_product.toUpperCase().indexOf(keyword_search.toUpperCase()) !== -1
+        })
+
+        return new_data
+
+    }, [keyword_search])
+
+    const handler_search = (e) => {
+
+        e.preventDefault()
+
+        // Đưa vào redux để qua bên trang search lấy query tìm kiếm
+        const action = addSearch(keyword_search)
+        dispatch(action)
+
+        // set cho nó cái session
+        sessionStorage.setItem('search', keyword_search)
+
+        window.location.replace('/search')
+
+    }
+
     return (
         <header>
             <div className="header-top">
@@ -239,21 +287,21 @@ function Header(props) {
                                     <div className="ht-setting-trigger">
                                         {
                                             active_user ? (
-                                            <span
-                                                data-toggle="collapse"
-                                                data-target="#collapseExample"
-                                                aria-expanded="false"
-                                                aria-controls="collapseExample">{user.fullname}</span>) : (
-                                            <span
-                                                data-toggle="collapse"
-                                                data-target="#collapseExample"
-                                                aria-expanded="false"
-                                                aria-controls="collapseExample">Setting</span>
+                                                <span
+                                                    data-toggle="collapse"
+                                                    data-target="#collapseExample"
+                                                    aria-expanded="false"
+                                                    aria-controls="collapseExample">{user.fullname}</span>) : (
+                                                <span
+                                                    data-toggle="collapse"
+                                                    data-target="#collapseExample"
+                                                    aria-expanded="false"
+                                                    aria-controls="collapseExample">Setting</span>
                                             )
                                         }
                                     </div>
                                     <div className="ul_setting">
-                                        { active_user ? (
+                                        {active_user ? (
                                             <ul className="setting_ul collapse" id="collapseExample">
                                                 <li className="li_setting"><Link to="/profile/123">Profile</Link></li>
                                                 <li className="li_setting"><Link to="/history">History</Link></li>
@@ -264,7 +312,7 @@ function Header(props) {
                                                 <li className="li_setting"><Link to="/signin">Sign In</Link></li>
                                             </ul>
                                         )}
-                                        
+
                                     </div>
                                 </li>
                             </ul>
@@ -278,14 +326,32 @@ function Header(props) {
                         <div className="col-lg-3">
                             <div className="logo pb-sm-30 pb-xs-30">
                                 <Link to="/">
-                                    <img src={logo} style={{ width: '13rem'}} />
+                                    <img src={logo} style={{ width: '13rem' }} />
                                 </Link>
                             </div>
                         </div>
                         <div className="col-lg-9 pl-0 ml-sm-15 ml-xs-15 d-flex justify-content-between">
-                            <form action="#" className="hm-searchbox">
-                                <input type="text" placeholder="Enter your search key ..." />
+                            <form action="/search" className="hm-searchbox" onSubmit={handler_search}>
+                                <input type="text" placeholder="Enter your search key ..." value={keyword_search} onChange={(e) => set_keyword_search(e.target.value)} />
                                 <button className="li-btn" type="submit"><i className="fa fa-search"></i></button>
+                                {
+                                    keyword_search && <div className="show_search_product">
+                                    {
+                                        search_header && search_header.map(value => (
+                                            <div className="hover_box_search d-flex" key={value._id}>
+                                                <div style={{ padding: '.8rem'}}>
+                                                    <img className="img_list_search" src={value.image} alt="" />
+                                                </div>
+
+                                                <div className="group_title_search" style={{ marginTop: '2.7rem'}}>
+                                                    <h6 className="title_product_search">{value.name_product}</h6>
+                                                    <span className="price_product_search">{value.price_product}$</span>
+                                                </div>
+                                            </div>
+                                        ))
+                                    }
+                                    </div>
+                                }
                             </form>
                             <div className="header-middle-right">
                                 <ul className="hm-menu">
@@ -302,7 +368,7 @@ function Header(props) {
                                                 aria-controls="collapse_carts">
                                                 <span className="item-icon"></span>
                                                 <span className="item-text">${total_price}
-                                                <span className="cart-item-count">{count_cart}</span>
+                                                    <span className="cart-item-count">{count_cart}</span>
                                                 </span>
                                             </div>
                                             <span></span>

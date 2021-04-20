@@ -27,6 +27,11 @@ const Product = {
         return axiosClient.get(url)
     },
 
+    get_search_list: (query) => {
+        const url = `/api/Product/scoll/page${query}`
+        return axiosClient.get(url)
+    }
+
 }
 
 export default Product

@@ -2323,7 +2323,7 @@ textarea:focus {
 	transition: all 0.3s ease-in-out;
 	height: 35px;
 	line-height: 35px;
-	width: 35px;
+	width: 150px;
 }
 .add-actions-link li:hover {
 	background: #fed700;
@@ -5514,6 +5514,38 @@ span.required {
 	position: absolute;
 	top: 0;
 	left: 0;
+}
+
+.img_list_search{
+	width: 100px;
+	height: 100px;
+}
+
+.show_search_product{
+	position: absolute;
+	top: 3rem;
+	background-color: #fff;
+	width: 100%;
+	height: 400px;
+	z-index: 9999;
+	box-shadow: 2px 2px 2px #dadada,-2px -2px 2px #dadada;
+	overflow: auto;
+}
+
+.title_product_search{
+	color: #0363cd;
+}
+
+.price_product_search{
+	color: #e80f0f;
+}
+
+.hover_box_search{
+	cursor: pointer;
+}
+
+.hover_box_search:hover{
+	background-color: #f1f1f1;
 }
 
 @media only screen and (max-width: 479px) {

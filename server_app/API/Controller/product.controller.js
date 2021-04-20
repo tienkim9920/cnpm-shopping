@@ -5,7 +5,7 @@ module.exports.index = async (req, res) => {
 
     const products = await Products.find()
 
-    res.send(products)
+    res.json(products)
 }
 
 // Hàm này dùng để phân loại sản phẩm
@@ -88,5 +88,30 @@ module.exports.pagination = async (req, res) => {
     }
 
     res.send("Thanh Cong")
+
+}
+
+// Hàm này dùng để hiện những sản phẩm search theo scoll ở component tìm kiếm bên client
+module.exports.scoll = async (req, res) => {
+
+    const page = req.query.page
+    
+    const count = req.query.count
+
+    const search = req.query.search
+
+    //Lấy sản phẩm đầu và sẩn phẩm cuối
+    const start = (page - 1) * count
+    const end = page * count   
+
+    const products = await Products.find()
+
+    const newData = products.filter(value => {
+        return value.name_product.toUpperCase().indexOf(search.toUpperCase()) !== -1
+    })
+
+    const paginationProducts = newData.slice(start, end)
+
+    res.json(paginationProducts)
 
 }

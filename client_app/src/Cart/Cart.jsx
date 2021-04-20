@@ -267,8 +267,8 @@ function Cart(props) {
                                                         <label>Quantity</label>
                                                         <div className="cart-plus-minus">
                                                             <input className="cart-plus-minus-box" value={value.count} type="text" />
-                                                            <div className="dec qtybutton" onClick={() => downCount(value.count, value._id)}><i className="fa fa-angle-down"></i></div>
-                                                            <div className="inc qtybutton" onClick={() => upCount(value.count, value._id)}><i className="fa fa-angle-up"></i></div>
+                                                            <div className="dec qtybutton" onClick={sessionStorage.getItem('id_user') ? () => downCount(value.count, value._id) : () => downCount(value.count, value.id_cart)}><i className="fa fa-angle-down"></i></div>
+                                                            <div className="inc qtybutton" onClick={sessionStorage.getItem('id_user') ? () => upCount(value.count, value._id) : () => upCount(value.count, value.id_cart)}><i className="fa fa-angle-up"></i></div>
                                                         </div>
                                                     </td>
                                                     <td className="product-subtotal"><span className="amount">${parseInt(value.price_product) * parseInt(value.count)}</span></td>

@@ -1,0 +1,18 @@
+
+.bg_status_delivery{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ebebeb;
+}
+
+.bg_status_delivery_active{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #FED700;
+}
+
+.a_status_delivery{
+    font-size: 1.1rem;
+}

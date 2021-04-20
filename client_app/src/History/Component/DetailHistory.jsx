@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useParams } from 'react-router-dom';
 import HistoryAPI from '../../API/HistoryAPI';
+import './History.css'
 
-DetailHistory.propTypes = {
-
-};
 
 function DetailHistory(props) {
 
@@ -42,6 +40,37 @@ function DetailHistory(props) {
                     <li style={{ fontSize: '1.1rem' }}>Email: <span>{history.email}</span></li>
                     <li style={{ fontSize: '1.1rem' }}>Total: <span>{history.total}$</span></li>
                 </ul>
+                <div>
+                    <div className="group_status_delivery d-flex">
+                        <div className="detail_status_delivery">
+                            <div className="w-100 d-flex justify-content-center">
+                                <div className="bg_status_delivery_active"></div>
+                            </div> 
+                            <a className="a_status_delivery">Đang xử lý</a>
+                        </div>
+
+                        <div className="detail_status_delivery">
+                            <div className="w-100 d-flex justify-content-center">
+                                <div className="bg_status_delivery_active"></div>
+                            </div> 
+                            <a className="a_status_delivery">Đã tiếp nhận</a>
+                        </div> 
+
+                        <div className="detail_status_delivery">
+                            <div className="w-100 d-flex justify-content-center">
+                                <div className="bg_status_delivery"></div>
+                            </div> 
+                            <a className="a_status_delivery">Đang vận chuyển</a>
+                        </div> 
+
+                        <div className="detail_status_delivery">
+                            <div className="w-100 d-flex justify-content-center">
+                                <div className="bg_status_delivery"></div>
+                            </div> 
+                            <a className="a_status_delivery">Hoàn thành</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div className="Shopping-cart-area pt-60 pb-60">

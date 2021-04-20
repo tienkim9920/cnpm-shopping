@@ -84,6 +84,7 @@ function Home_Product(props) {
 
 
     return (
+        // col-lg-3 col-md-4 col-sm-6 mt-40 col_product
         <section className="product-area li-laptop-product pt-60 pb-45">
             <div className="container">
                 <div className="row">
