@@ -1,5 +1,7 @@
+
 const Products = require('../../Models/product')
 const Category = require('../../Models/category')
+
 
 module.exports.index = async (req, res) => {
 
@@ -8,7 +10,18 @@ module.exports.index = async (req, res) => {
     res.json(products)
 }
 
-// Hàm này dùng để phân loại sản phẩm
+
+module.exports.gender = async (req, res) => {
+
+    const gender = req.query.gender
+
+    const category = await Category.find({ gender: gender })
+
+    res.json(category)
+
+}
+
+//TH: Hàm này dùng để phân loại sản phẩm
 module.exports.category = async (req, res) => {
 
     const id_category = req.query.id_category
@@ -24,6 +37,7 @@ module.exports.category = async (req, res) => {
     res.json(products_category)
 }
 
+//TH: Chi Tiết Sản Phẩm
 module.exports.detail = async (req, res) => {
 
     const id = req.params.id
@@ -34,16 +48,8 @@ module.exports.detail = async (req, res) => {
 
 }
 
-module.exports.gender = async (req, res) => {
 
-    const gender = req.query.gender
-
-    const category = await Category.find({ gender: gender })
-
-    res.json(category)
-
-}
-
+// QT: Tìm kiếm phân loại và phân trang sản phẩm
 module.exports.pagination = async (req, res) => {
 
     //Lấy page từ query

@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema(
     { 
-        id_history: String,
+        id_delivery: String,
         from: String,
         to: String,
         distance: String,

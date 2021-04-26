@@ -59,16 +59,6 @@ function SignIn(props) {
                     dispatch(action)
 
                     sessionStorage.setItem('id_user', response._id)
-
-                    for (let i = 0; i < carts.length; i++){
-
-                        carts[i].id_user = sessionStorage.getItem('id_user')
-
-                        const response = await Cart.Post_Cart(carts[i])
-
-                        console.log(response)
-
-                    }
                     
                     const action_count_change = changeCount(count_change)
                     dispatch(action_count_change)

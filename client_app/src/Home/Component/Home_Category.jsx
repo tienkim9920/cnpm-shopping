@@ -55,7 +55,6 @@ function Home_Category(props) {
     // Lấy func từ component cha chuyển xuống
     const { GET_id_modal } = props
 
-    // state product gà giòn vui vẻ
     const [product_category, set_product_category] = useState([])
 
     const [load_category, set_load_category] = useState('60615da34c9cac0448b4b9a5')

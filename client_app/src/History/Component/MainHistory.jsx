@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import HistoryAPI from '../../API/HistoryAPI';
 import queryString from 'query-string'
+import OrderAPI from '../../API/OrderAPI';
 
 MainHistory.propTypes = {
 
@@ -16,13 +16,7 @@ function MainHistory(props) {
 
         const fetchData = async () => {
 
-            const params = {
-                id_user: sessionStorage.getItem('id_user')
-            }
-
-            const query = '?' + queryString.stringify(params)
-
-            const response = await HistoryAPI.get_history(query)
+            const response = await OrderAPI.get_order(sessionStorage.getItem('id_user'))
 
             console.log(response)
 
@@ -62,22 +56,29 @@ function MainHistory(props) {
                                                 <th className="li-product-price">Address</th>
                                                 <th className="li-product-price">Email</th>
                                                 <th className="li-product-quantity">Total</th>
+                                                <th className="li-product-subtotal">Payment</th>
                                                 <th className="li-product-subtotal">Status</th>
-                                                <th className="li-product-subtotal">Delivery</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {
                                                 history && history.map(value => (
-                                                    <tr>
+                                                    <tr key={value._id}>
                                                         <td className="li-product-price"><span className="amount"><Link to={`/history/${value._id}`}>View</Link></span></td>
-                                                        <td className="li-product-price"><span className="amount">{value.fullname}</span></td>
+                                                        <td className="li-product-price"><span className="amount">{value.id_user.fullname}</span></td>
                                                         <td className="li-product-price"><span className="amount">{value.phone}</span></td>
-                                                        <td className="li-product-price"><span className="amount">{value.address}</span></td>
+                                                        <td className="li-product-price"><span className="amount">{value.id_delivery.to}</span></td>
                                                         <td className="li-product-price"><span className="amount">{value.email}</span></td>
                                                         <td className="li-product-price"><span className="amount">{value.total}</span></td>
-                                                        <td className="li-product-price"><span className="amount" style={value.status ? { color: 'green'} : { color: 'red'}}>{value.status ? 'Đã Thanh Toán' : 'Chưa Thanh Toán'}</span></td>
-                                                        <td className="li-product-price"><span className="amount">{value.delivery ? 'Đã Giao Hàng' : 'Đang Xử Lý'}</span></td>
+                                                        <td className="li-product-price"><span className="amount" style={value.status ? { color: 'green'} : { color: 'red'}}>{value.status ? 'Paid' : 'Unpaid'}</span></td>
+                                                        <td className="li-product-price"><span className="amount">
+                                                            {
+                                                            value.delivery === 0 ? 'X' : 
+                                                            (value.delivery === 1 ? 'Confirmed' : 
+                                                            (value.delivery === 2 ? 'Shipping' : 
+                                                            (value.delivery === 3 ? 'Finished' : 'Undifine'))) }
+                                                            </span>
+                                                        </td>
                                                     </tr>
                                                 ))
                                             }

@@ -10,8 +10,28 @@ import { addSession, deleteSession } from '../Redux/Action/ActionSession';
 import queryString from 'query-string'
 import Product from '../API/Product';
 import { addSearch } from '../Redux/Action/ActionSearch';
+import CartsLocal from './CartsLocal';
 
 function Header(props) {
+
+    // State count of cart
+    const [count_cart, set_count_cart] = useState(0)
+
+    const [total_price, set_total_price] = useState(0)
+    
+    const [carts_mini, set_carts_mini] = useState([])
+
+    // Hàm này để khởi tạo localStorage dùng để lưu trữ giỏ hàng
+    // Và nó sẽ chạy lần đầu
+    useEffect(() => {
+
+        if (localStorage.getItem('carts') !== null) {
+            set_carts_mini(JSON.parse(localStorage.getItem('carts')));
+        } else {
+            localStorage.setItem('carts', JSON.stringify([]))
+        }
+
+    }, [])
 
     // Xử lý thanh navigation
     const [header_navbar, set_header_navbar] = useState('header-bottom header-sticky')
@@ -33,18 +53,13 @@ function Header(props) {
     if (sessionStorage.getItem('id_user')) {
         const action = addSession(sessionStorage.getItem('id_user'))
         dispatch(action)
-    } else {
-        //Đưa idTemp vào Redux temp để tạm lưu trữ
-        sessionStorage.setItem('id_temp', 'abc999')
-        const action = addUser(sessionStorage.getItem('id_temp'))
-        dispatch(action)
     }
 
     //Get IdUser từ redux khi user đã đăng nhập
     var id_user = useSelector(state => state.Session.idUser)
 
     // Get carts từ redux khi user chưa đăng nhập
-    const carts = useSelector(state => state.Cart.listCart)
+    // const carts = useSelector(state => state.Cart.listCart)
 
     const [active_user, set_active_user] = useState(false)
 
@@ -59,27 +74,17 @@ function Header(props) {
 
         } else { // user đã đăng nhâp
 
-            set_active_user(true)
-
             const fetchData = async () => {
 
                 const response = await User.Get_User(sessionStorage.getItem('id_user'))
-
                 set_user(response)
-
-                const params = {
-                    id_user: sessionStorage.getItem('id_user')
-                }
-
-                const query = '?' + queryString.stringify(params)
-
-                const response_carts = await Cart.Get_Cart(query)
-
-                showData(response_carts, 0, 0)
 
             }
 
             fetchData()
+
+            set_active_user(true)
+
         }
 
     }, [id_user])
@@ -96,13 +101,6 @@ function Header(props) {
     }
 
 
-    // State count of cart
-    const [count_cart, set_count_cart] = useState(0)
-
-    const [total_price, set_total_price] = useState(0)
-
-    const [carts_mini, set_carts_mini] = useState([])
-
     // Get trạng thái từ redux khi user chưa đăng nhập
     const count = useSelector(state => state.Count.isLoad)
 
@@ -112,28 +110,7 @@ function Header(props) {
 
         if (count) {
 
-            if (sessionStorage.getItem('id_user')) { // khách hàng đã đăng nhập thì lại tiếp tục gọi API GET data
-
-                const fetchData = async () => {
-                    const params = {
-                        id_user: sessionStorage.getItem('id_user')
-                    }
-
-                    const query = '?' + queryString.stringify(params)
-
-                    const response_carts = await Cart.Get_Cart(query)
-
-                    showData(response_carts, 0, 0)
-
-                }
-
-                fetchData()
-
-            } else { // khách hàng chưa đăng nhập
-
-                showData(carts, 0, 0)
-
-            }
+            showData(JSON.parse(localStorage.getItem('carts')), 0, 0)
 
             const action = changeCount(count)
             dispatch(action)
@@ -161,34 +138,14 @@ function Header(props) {
     // Hàm này dùng để xóa carts_mini
     const handler_delete_mini = (id_cart) => {
 
-        if (sessionStorage.getItem('id_user')) { // Khi khách hàng đã đăng nhập thì gọi API với phương thức DELETE
+        CartsLocal.deleteProduct(id_cart)
 
-            const deleteData = async () => {
-
-                const response = await Cart.Delete_Cart(id_cart)
-
-                console.log("Xoa " + response)
-
-            }
-
-            deleteData()
-
-            const action_change_count = changeCount(count)
-            dispatch(action_change_count)
-
-        } else {
-
-            const action = deleteCart(id_cart)
-            dispatch(action)
-
-            const action_change_count = changeCount(count)
-            dispatch(action_change_count)
-
-        }
+        const action_change_count = changeCount(count)
+        dispatch(action_change_count)
 
     }
 
-
+    
     const [male, set_male] = useState([])
     const [female, set_female] = useState([])
 
@@ -304,7 +261,7 @@ function Header(props) {
                                         {active_user ? (
                                             <ul className="setting_ul collapse" id="collapseExample">
                                                 <li className="li_setting"><Link to="/profile/123">Profile</Link></li>
-                                                <li className="li_setting"><Link to="/history">History</Link></li>
+                                                <li className="li_setting"><Link to="/history">Order Status</Link></li>
                                                 <li className="li_setting"><a onClick={handler_logout} href="#">Log Out</a></li>
                                             </ul>
                                         ) : (
@@ -336,20 +293,20 @@ function Header(props) {
                                 <button className="li-btn" type="submit"><i className="fa fa-search"></i></button>
                                 {
                                     keyword_search && <div className="show_search_product">
-                                    {
-                                        search_header && search_header.map(value => (
-                                            <div className="hover_box_search d-flex" key={value._id}>
-                                                <div style={{ padding: '.8rem'}}>
-                                                    <img className="img_list_search" src={value.image} alt="" />
-                                                </div>
+                                        {
+                                            search_header && search_header.map(value => (
+                                                <div className="hover_box_search d-flex" key={value._id}>
+                                                    <div style={{ padding: '.8rem' }}>
+                                                        <img className="img_list_search" src={value.image} alt="" />
+                                                    </div>
 
-                                                <div className="group_title_search" style={{ marginTop: '2.7rem'}}>
-                                                    <h6 className="title_product_search">{value.name_product}</h6>
-                                                    <span className="price_product_search">{value.price_product}$</span>
+                                                    <div className="group_title_search" style={{ marginTop: '2.7rem' }}>
+                                                        <h6 className="title_product_search">{value.name_product}</h6>
+                                                        <span className="price_product_search">{value.price_product}$</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))
-                                    }
+                                            ))
+                                        }
                                     </div>
                                 }
                             </form>
@@ -384,7 +341,7 @@ function Header(props) {
                                                                     <h6><a>{value.name_product}</a></h6>
                                                                     <span>${value.price_product} x {value.count}, {value.size}</span>
                                                                 </div>
-                                                                <a className="close" onClick={() => handler_delete_mini(value._id)}>
+                                                                <a className="close" onClick={() => handler_delete_mini(value.id_cart)}>
                                                                     <i className="fa fa-close"></i>
                                                                 </a>
                                                             </li>

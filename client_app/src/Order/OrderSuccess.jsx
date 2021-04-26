@@ -8,8 +8,8 @@ OrderSuccess.propTypes = {
 function OrderSuccess(props) {
     return (
         <div className="container fix_order">
-            <h1>Bạn Đã Đặt Hàng Thành Công</h1>
-            <span style={{ fontSize: '1.2rem' }}>Vui lòng kiểm tra lại Email</span>
+            <h1>You Have Ordered Successfully</h1>
+            <span style={{ fontSize: '1.2rem' }}>Please Checking Email!</span>
         </div>
     );
 }

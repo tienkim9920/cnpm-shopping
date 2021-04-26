@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { Redirect } from 'react-router-dom';
 import { changeCount } from '../Redux/Action/ActionCount';
 import { useDispatch, useSelector } from 'react-redux';
+import DeliveryAPI from '../API/DeliveryAPI';
+import Detail_OrderAPI from '../API/Detail_OrderAPI';
 
 Checkout.propTypes = {
 
@@ -31,26 +33,13 @@ function Checkout(props) {
     useEffect(() => {
 
         if (check_action){
-            const fetchData = async () => {
 
-                const params = {
-                    id_user: sessionStorage.getItem('id_user')
-                }
+            set_carts(JSON.parse(localStorage.getItem('carts')))
     
-                const query = '?' + queryString.stringify(params)
-    
-                const response = await CartAPI.Get_Cart(query)
-                set_carts(response)
-    
-                Sum_Price(response, 0)
-    
-            }
-    
-            fetchData()
+            Sum_Price(JSON.parse(localStorage.getItem('carts')), 0)
 
             set_check_action(false)
         }
-        
 
     }, [check_action])
 
@@ -145,22 +134,13 @@ function Checkout(props) {
     const dispatch = useDispatch()
 
     // Hàm này dùng để thanh toán offline
-    const handler_Checkout = (data) => {
+    const handler_Checkout = async (data) => {
 
         set_load_order(true)
 
-        const body = {
-            id_user: sessionStorage.getItem('id_user'),
-            id_find: Math.random().toString(),
-            fullname: data.fullname,
-            phone: data.phone,
-            address: information.address,
-            email: data.email,
-            total: total_price,
-            status: false,
-            delivery: false,
-            id_payment: '60635313a1ba573dc01656b6',
-            //Delivery
+        // data Delivery
+        const data_delivery = {
+            // id_delivery:  Math.random.toString(),
             from: from,
             to: information.address,
             distance: distance,
@@ -168,21 +148,64 @@ function Checkout(props) {
             price: price
         }
 
-        const post_data = async () => {
+        // Xứ lý API Delivery
+        const response_delivery = await DeliveryAPI.post_delivery(data_delivery)
 
-            const response = await OrderAPI.post_order(body)
+        // data Order
+        const data_order = {
+            id_user: sessionStorage.getItem('id_user'),
+            email: information.email,
+            phone: information.phone,
+            total: total_price,
+            status: false,
+            delivery: false,
+            id_payment: '60635313a1ba573dc01656b6',
+            id_delivery: response_delivery._id
+        }
 
-            console.log(response)
+        // Xứ lý API Order
+        const response_order = await OrderAPI.post_order(data_order)
 
-            set_redirect(true)
+        // data carts
+        const data_carts = JSON.parse(localStorage.getItem('carts'))
 
-            // Hàm này dùng để load lại phần header bằng Redux
-            const action_count_change = changeCount(count_change)
-            dispatch(action_count_change)
+        // Xử lý API Detail_Order
+        for (let i = 0; i < data_carts.length; i++){
+
+            const data_detail_order = {
+                id_order: response_order._id,
+                id_product: data_carts[i].id_product,
+                count: data_carts[i].count,
+                size: data_carts[i].size
+            }
+
+            await Detail_OrderAPI.post_detail_order(data_detail_order)
 
         }
 
-        post_data()
+        // data email
+        const data_email = {
+            id_order: response_order._id,
+            total: total_price,
+            fullname: information.fullname,
+            phone: information.phone,
+            price: price,
+            address: information.address,
+            email: information.email
+        }
+
+        // Xử lý API Send Mail
+        
+        const send_mail = await OrderAPI.post_email(data_email)
+        console.log(send_mail)
+
+        localStorage.setItem('carts', JSON.stringify([]))
+
+        set_redirect(true)
+
+        // Hàm này dùng để load lại phần header bằng Redux
+        const action_count_change = changeCount(count_change)
+        dispatch(action_count_change)
 
     }
 
@@ -461,7 +484,7 @@ function Checkout(props) {
                                                     <div id="collapseThree" className="collapse">
                                                         <div className="card-body">
                                                             {
-                                                                show_error ? 'Vui Lòng Kiểm Tra Lại Thông Tin' :
+                                                                show_error ? 'Please Checking Information!' :
                                                                     <Paypal 
                                                                         information={information} 
                                                                         total={total_price} 

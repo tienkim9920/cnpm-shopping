@@ -2,6 +2,8 @@
 const History = require('../../Models/history')
 const Detail_History = require('../../Models/detail_history')
 
+// Hiển thị danh sách hóa đơn
+// Phương thức GET
 module.exports.index = async (req, res) => {
 
     const id_user = req.query.id_user
@@ -12,6 +14,8 @@ module.exports.index = async (req, res) => {
 
 }
 
+// Hiển thị chi tiết hóa đơn
+// Phương thức GET
 module.exports.detail = async (req, res) => {
 
     const id_history = req.params.id
@@ -22,6 +26,8 @@ module.exports.detail = async (req, res) => {
 
 }
 
+// Hiển thị thông tin hóa đơn
+// Phương thức GET
 module.exports.view = async (req, res) => {
 
     const id = req.params.id

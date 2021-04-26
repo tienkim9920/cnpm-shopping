@@ -1,15 +1,15 @@
-var express = require('express')
+// var express = require('express')
 
-var router = express.Router()
+// var router = express.Router()
 
-const Carts = require('../Controller/cart.controller')
+// const Carts = require('../Controller/cart.controller')
 
-router.get('/', Carts.index)
+// router.get('/', Carts.index)
 
-router.post('/', Carts.post_cart)
+// router.post('/', Carts.post_cart)
 
-router.put('/', Carts.update)
+// router.put('/', Carts.update)
 
-router.delete('/:id', Carts.delete)
+// router.delete('/:id', Carts.delete)
 
-module.exports = router
+// module.exports = router

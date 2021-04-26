@@ -9,6 +9,7 @@ import { changeCount } from '../Redux/Action/ActionCount';
 import { Link } from 'react-router-dom';
 import Cart from '../API/CartAPI';
 import CommentAPI from '../API/CommentAPI';
+import CartsLocal from '../Share/CartsLocal';
 
 Detail_Product.propTypes = {
 
@@ -56,49 +57,29 @@ function Detail_Product(props) {
         e.preventDefault()
 
         const data = {
-            id_user: sessionStorage.getItem('id_user') ? sessionStorage.getItem('id_user') : id_user,
+            id_cart: Math.random().toString(),
             id_product: id,
             name_product: product.name_product,
             price_product: product.price_product,
             count: count,
             image: product.image,
             size: size,
-            id_cart: Math.random().toString()
         }
 
-        if (sessionStorage.getItem('id_user')) { // User đã đăng nhập
-            // Khi đăng nhập thành công thì nó sẽ gọi API phương thức POST
-            const postData = async () => {
+        CartsLocal.addProduct(data)
 
-                const response = await Cart.Post_Cart(data)
-                console.log(response)
+        const action_count_change = changeCount(count_change)
+        dispatch(action_count_change)
 
-            }
-
-            postData()
-
-            const action_count_change = changeCount(count_change)
-            dispatch(action_count_change)
-
-            set_show_success(true)
-
-        } else { // User chưa đăng nhập
-
-            const action = addCart(data)
-            dispatch(action)
-
-            const action_count_change = changeCount(count_change)
-            dispatch(action_count_change)
-
-            set_show_success(true)
-
-        }
+        set_show_success(true)
 
         setTimeout(() => {
             set_show_success(false)
         }, 1000)
 
     }
+
+
 
     // Hàm này dùng để giảm số lượng
     const downCount = () => {
@@ -141,7 +122,7 @@ function Detail_Product(props) {
 
         } else { // Khi khách hàng đã đăng nhập
 
-            if (!comment){
+            if (!comment) {
                 set_validation_comment(true)
                 return
             }
@@ -167,7 +148,7 @@ function Detail_Product(props) {
             set_comment('')
 
             set_modal(false)
-            
+
         }
 
         setTimeout(() => {
@@ -317,7 +298,7 @@ function Detail_Product(props) {
                                             list_comment && list_comment.map(value => (
 
                                                 <div className="comment-author-infos pt-25">
-                                                    <span>{value.fullname} <div style={{ fontWeight: '400' }}>{value.content}</div></span>
+                                                    <span>{value.id_user.fullname} <div style={{ fontWeight: '400' }}>{value.content}</div></span>
                                                     <ul className="rating">
                                                         <li><i className={value.star1}></i></li>
                                                         <li><i className={value.star2}></i></li>

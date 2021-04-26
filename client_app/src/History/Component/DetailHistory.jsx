@@ -1,27 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useParams } from 'react-router-dom';
-import HistoryAPI from '../../API/HistoryAPI';
+// import HistoryAPI from '../../API/HistoryAPI';
 import './History.css'
+import OrderAPI from '../../API/OrderAPI';
+import Detail_OrderAPI from '../../API/Detail_OrderAPI';
 
 
 function DetailHistory(props) {
 
     const { id } = useParams()
 
-    const [history, set_history] = useState({})
+    const [order, set_order] = useState({})
 
-    const [detail_history, set_detail_history] = useState([])
+    const [detail_order, set_detail_order] = useState([])
 
     useEffect(() => {
 
         const fetchData = async () => {
 
-            const response = await HistoryAPI.get_history_view(id)
-            set_history(response)
+            const response = await OrderAPI.get_detail(id)
 
-            const response_detail = await HistoryAPI.get_detail_history(id)
-            set_detail_history(response_detail)
+            console.log(response)
+
+            set_order(response)
+
+            const response_detail_order = await Detail_OrderAPI.get_detail_order(id)
+
+            set_detail_order(response_detail_order)
+
         }
 
         fetchData()
@@ -33,42 +40,45 @@ function DetailHistory(props) {
             <div className="container" style={{ paddingTop: '3rem' }}>
                 <h1>Thông Tin Chi Tiết Đơn Hàng</h1>
                 <ul>
-                    <li style={{ fontSize: '1.1rem' }}>ID Invoice: <span>{history._id}</span></li>
-                    <li style={{ fontSize: '1.1rem' }}>Full Name: <span>{history.fullname}</span></li>
-                    <li style={{ fontSize: '1.1rem' }}>Phone: <span>{history.phone}</span></li>
-                    <li style={{ fontSize: '1.1rem' }}>Address: <span>{history.address}</span></li>
-                    <li style={{ fontSize: '1.1rem' }}>Email: <span>{history.email}</span></li>
-                    <li style={{ fontSize: '1.1rem' }}>Total: <span>{history.total}$</span></li>
+                    <li style={{ fontSize: '1.1rem' }}>ID Invoice: <span>{order._id}</span></li>
+                    <li style={{ fontSize: '1.1rem' }}>Phone: <span>{order.phone}</span></li>
+                    <li style={{ fontSize: '1.1rem' }}>Email: <span>{order.email}</span></li>
+                    <li style={{ fontSize: '1.1rem' }}>Total: <span>{order.total}$</span></li>
                 </ul>
-                <div>
-                    <div className="group_status_delivery d-flex">
-                        <div className="detail_status_delivery">
-                            <div className="w-100 d-flex justify-content-center">
-                                <div className="bg_status_delivery_active"></div>
+                <div className="group_box_status" style={{ marginTop: '3rem'}}>
+                    <div className="d-flex justify-content-center">
+                        <div className="group_status_delivery d-flex justify-content-around">
+                            <div className="detail_status_delivery">
+                                <div className="w-100 d-flex justify-content-center">
+                                    <div className={order.delivery < 1 && 'bg_status_delivery_active'}></div>
+                                </div> 
+                                <a className="a_status_delivery">Processing</a>
+                            </div>
+
+                            <div className="detail_status_delivery">
+                                <div className="w-100 d-flex justify-content-center">
+                                    <div className={order.delivery > 0 ? 'bg_status_delivery_active' : 'bg_status_delivery'}></div>
+                                </div> 
+                                <a className="a_status_delivery">Confirmed</a>
                             </div> 
-                            <a className="a_status_delivery">Đang xử lý</a>
+
+                            <div className="detail_status_delivery">
+                                <div className="w-100 d-flex justify-content-center">
+                                    <div className={order.delivery > 1 ? 'bg_status_delivery_active' : 'bg_status_delivery'}></div>
+                                </div> 
+                                <a className="a_status_delivery">Shipping</a>
+                            </div> 
+
+                            <div className="detail_status_delivery">
+                                <div className="w-100 d-flex justify-content-center">
+                                    <div className={order.delivery > 2 ? 'bg_status_delivery_active' : 'bg_status_delivery'}></div>
+                                </div> 
+                                <a className="a_status_delivery">Finished</a>
+                            </div>
                         </div>
-
-                        <div className="detail_status_delivery">
-                            <div className="w-100 d-flex justify-content-center">
-                                <div className="bg_status_delivery_active"></div>
-                            </div> 
-                            <a className="a_status_delivery">Đã tiếp nhận</a>
-                        </div> 
-
-                        <div className="detail_status_delivery">
-                            <div className="w-100 d-flex justify-content-center">
-                                <div className="bg_status_delivery"></div>
-                            </div> 
-                            <a className="a_status_delivery">Đang vận chuyển</a>
-                        </div> 
-
-                        <div className="detail_status_delivery">
-                            <div className="w-100 d-flex justify-content-center">
-                                <div className="bg_status_delivery"></div>
-                            </div> 
-                            <a className="a_status_delivery">Hoàn thành</a>
-                        </div>
+                    </div>    
+                    <div className="test_status d-flex justify-content-center">   
+                        <div className="hr_status_delivery"></div>   
                     </div>
                 </div>
             </div>
@@ -91,11 +101,11 @@ function DetailHistory(props) {
                                         </thead>
                                         <tbody>
                                             {
-                                                detail_history && detail_history.map(value => (
+                                                detail_order && detail_order.map(value => (
                                                     <tr key={value._id}>
-                                                        <td className="li-product-thumbnail"><img src={value.image} style={{ width: '5rem'}} alt="Li's Product Image" /></td>
-                                                        <td className="li-product-name"><a href="#">{value.name_product}</a></td>
-                                                        <td className="li-product-price"><span className="amount">${value.price_product}</span></td>
+                                                        <td className="li-product-thumbnail"><img src={value.id_product.image} style={{ width: '5rem'}} alt="Li's Product Image" /></td>
+                                                        <td className="li-product-name"><a href="#">{value.id_product.name_product}</a></td>
+                                                        <td className="li-product-price"><span className="amount">${value.id_product.price_product}</span></td>
                                                         <td className="li-product-price"><span className="amount">{value.count}</span></td>
                                                         <td className="li-product-price"><span className="amount">{value.size}</span></td>
                                                     </tr>
