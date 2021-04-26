@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const app = express()
 const http = require('http').Server(app);
@@ -7,7 +8,6 @@ const PORT = process.env.PORT || 8000
 
 const ProductAPI = require('./API/Router/product.router')
 const UserAPI = require('./API/Router/user.router')
-const CartAPI = require('./API/Router/cart.router')
 const OrderAPI = require('./API/Router/order.router')
 const Detail_OrderAPI = require('./API/Router/detail_order.router')
 const CommentAPI = require('./API/Router/comment.router')
@@ -30,7 +30,6 @@ app.use(cors());
 
 app.use('/api/Product', ProductAPI)
 app.use('/api/User', UserAPI)
-app.use('/api/Cart', CartAPI)
 app.use('/api/Payment', OrderAPI) // order
 app.use('/api/DetailOrder', Detail_OrderAPI) // detail_order
 app.use('/api/Comment', CommentAPI)
