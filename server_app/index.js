@@ -5,13 +5,13 @@ const http = require('http').Server(app);
 const cors = require("cors");
 const PORT = process.env.PORT || 8000
 
-const ProductAPI = require('./API/Router/product.router')
-const UserAPI = require('./API/Router/user.router')
-const CartAPI = require('./API/Router/cart.router')
-const OrderAPI = require('./API/Router/order.router')
+const ProductAPI = require('./api/Router/product.router')
+const UserAPI = require('./api/Router/user.router')
+const CartAPI = require('./api/Router/cart.router')
+const OrderAPI = require('./api/Router/order.router')
 const Detail_OrderAPI = require('./api/Router/detail_order.router')
-const CommentAPI = require('./API/Router/comment.router')
-const DeliveryAPI = require('./API/Router/delivery.router')
+const CommentAPI = require('./api/Router/comment.router')
+const DeliveryAPI = require('./api/Router/delivery.router')
 
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/CNPM", {
