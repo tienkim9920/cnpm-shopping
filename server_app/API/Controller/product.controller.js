@@ -93,8 +93,6 @@ module.exports.pagination = async (req, res) => {
         res.json(newData)
     }
 
-    res.send("Thanh Cong")
-
 }
 
 // Hàm này dùng để hiện những sản phẩm search theo scoll ở component tìm kiếm bên client

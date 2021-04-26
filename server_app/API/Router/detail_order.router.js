@@ -2,7 +2,7 @@ var express = require('express')
 
 var router = express.Router()
 
-const Detail_Order = require('../controller/detail_order.controller')
+const Detail_Order = require('../Controller/detail_order.controller')
 
 // Hiển thị danh sách detail
 router.get('/:id', Detail_Order.detail)
