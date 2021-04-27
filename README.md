@@ -15,8 +15,7 @@
  
 ## 🚀 Fear of God Server 
 
-[![](https://img.shields.io/badge/Facebook-CodingwithVudang-blue)](https://www.facebook.com/codingwithvudang)
-[![](https://img.shields.io/badge/Gmail-codingwithvudang@gmail.com-red)](mailto:codingwithvudang@gmail@gmail.com)
+[![](https://thegioidohieu.com/images/feature_variant/17/fear-of-god-logo.jpg)
 
 <div >
 <img width="400px" height="400px" src="https://res.cloudinary.com/codingwithvudang/image/upload/v1618561426/SplashScreen_2x_s5hpib.png" >
