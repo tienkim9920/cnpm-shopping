@@ -10,10 +10,10 @@
     <b>- Giao Hàng ( Hiển thị và tính giá tiền của đơn hàng phụ thuộc vào quảng đường từ cửa hàng đến địa điểm nhận hàng của khách hàng và hiển thị bằng Google Map API )  </b> </br>
 
 
-
+---------------------------------------------------------------
 
  
-## 🚀 PookBook Server 
+## 🚀 Fear of God Server 
 
 [![](https://img.shields.io/badge/Facebook-CodingwithVudang-blue)](https://www.facebook.com/codingwithvudang)
 [![](https://img.shields.io/badge/Gmail-codingwithvudang@gmail.com-red)](mailto:codingwithvudang@gmail@gmail.com)
@@ -28,7 +28,7 @@
 - Vudang
 
 ## 🚀 ERD
-<img src="https://res.cloudinary.com/codingwithvudang/image/upload/v1618992281/image_l345jz.png" />
+<img src="https://firebasestorage.googleapis.com/v0/b/erd-img.appspot.com/o/ERD-CNPMNC.PNG?alt=media&token=05204f3c-2152-4fab-9373-5f4ca1b48207" />
 
 ## 🚀 API DOCS
 ROOT API ENDPOINT : http://codingwithvudang-bookserver.herokuapp.com ( havent upgraded yet )
