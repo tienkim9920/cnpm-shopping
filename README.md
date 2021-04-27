@@ -25,7 +25,7 @@
 
 
 ## 🚀 Contributors
-- Vudang
+- TienKim
 
 ## 🚀 ERD
 <img src="https://firebasestorage.googleapis.com/v0/b/erd-img.appspot.com/o/ERD-CNPMNC.PNG?alt=media&token=05204f3c-2152-4fab-9373-5f4ca1b48207" />
