@@ -13,77 +13,88 @@
 ---------------------------------------------------------------
 
  
-## 🚀 Fear of God Server 
+## Fear of God
 
-[![](https://thegioidohieu.com/images/feature_variant/17/fear-of-god-logo.jpg)]
-
-<div >
-<img width="400px" height="400px" src="https://res.cloudinary.com/codingwithvudang/image/upload/v1618561426/SplashScreen_2x_s5hpib.png" >
-<img width="400px" height="400px" src="https://scontent.fsgn2-1.fna.fbcdn.net/v/t1.6435-9/151284066_207254161142817_5812038792384707893_n.png?_nc_cat=105&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=KAVSahpcm04AX_lEqGb&_nc_ht=scontent.fsgn2-1.fna&oh=f8f95fca5dcb99c3592f41127391cf3c&oe=609E2BB1" >
-</div>
+![](https://thegioidohieu.com/images/feature_variant/17/fear-of-god-logo.jpg)
 
 
-## 🚀 Contributors
+## Contributors
 - TienKim
+- QuocToan
+- MinhHieu
 
-## 🚀 ERD
+## ERD
 <img src="https://firebasestorage.googleapis.com/v0/b/erd-img.appspot.com/o/ERD-CNPMNC.PNG?alt=media&token=05204f3c-2152-4fab-9373-5f4ca1b48207" />
 
-## 🚀 API DOCS
-ROOT API ENDPOINT : http://codingwithvudang-bookserver.herokuapp.com ( havent upgraded yet )
+## API DOCS
+ROOT API ENDPOINT : http://tienkim9920.herokuapp.com
 
 ```bash
 
-- api/v1/products : PRODUCT API ENDPOINT
-  - ROUTER.get('/',PRODUCT_CONTROLLER.GET_LIST_PRODUCTS)
-  - ROUTER.post(
-     '/',upload.single('imageUrl'),
-     resize,
-     PRODUCT_CONTROLLER.CREATE_PRODUCT);
-  - ROUTER.patch(
-     '/:id',
-     upload.single('imageUrl'),
-     resize,
-     PRODUCT_CONTROLLER.UPDATE_PRODUCT);
-   - ROUTER.delete('/:id',PRODUCT_CONTROLLER.DELETE_PRODUCT)
+- api/product : PRODUCT API ENDPOINT
+
+    - router.get('/', Products.index)
+
+    - router.get('/category', Products.category)
+
+    - router.get('/:id', Products.detail)
+
+    - router.get('/category/gender', Products.gender)
+
+    - router.get('/category/pagination', Products.pagination)
+
+    - router.get('/scoll/page', Products.scoll)
+
+    - module.exports = router
   
-- api/v1/users : USER API ENDPOINT
-   - router.post("/register", USER_REGISTER);
-   - router.post("/login", USER_LOGIN);
-   - router.patch("/:id", verifyToken, USER_EDIT);
-   - router.post("/reset_password", USER_RESET_PASSWORD);
-   - router.post("/receive_new_password/:userId/:token", USER_RECEIVE_NEW_PASSWORD);
-   - router.patch(
-     "/photo/:id",
-     verifyToken,
-     upload.single("profile"),
-     USER_UPLOAD_PHOTO
-   );
+- api/user : USER API ENDPOINT
+
+    - router.get('/', Users.index)
+
+    - router.get('/:id', Users.user)
+
+    - router.get('/detail/login', Users.detail)
+
+    - router.post('/', Users.post_user)
+
+    - module.exports = router;
    
-- api/v1/favorites : FAVORITE API ENDPOINT
-    - router.get('/', verifyToken, GET_FAVORITES);
-    - router.post('/', verifyToken, POST_FAVORITE);
-    - router.patch('/:userId', verifyToken, DELETE_FAVORITE_ITEM);
+- api/detail_order : DETAIL ORDER API ENDPOINT
 
-- api/v1/orders : ORDER API ENDPOINT
-    - router.get('/',verifyToken,GET_ORDERS);
-    - router.post('/', verifyToken, CREATE_ORDER);
-    - router.patch('/:id', verifyToken, UPDATE_ORDER);
+    - router.get('/:id', Detail_Order.detail)
 
-- api/v1/products : CART API ENDPOINT
-    - router.get('/', verifyToken, GET_CART);
-    - router.post('/', verifyToken,CREATE_CART);
-    - router.put('/:id', verifyToken, UPDATE_CART);
-    - router.delete('/cartitem/:id', verifyToken, DELETE_CART_ITEM);
-    - router.delete('/:id', verifyToken, DELETE_CART);
+    - router.post('/', Detail_Order.post_detail_order)
+
+    - module.exports = router
+
+- api/order : ORDER API ENDPOINT
+
+    - router.get('/order/:id', Order.get_order)
+
+    - router.get('/order/detail/:id', Order.get_detail)
+
+    - router.post('/order', Order.post_order)
+
+    - router.post('/email', Order.send_mail)
+
+    - module.exports = router
+
+- api/delivery : DELIVERY API ENDPOINT
+
+    - router.post('/', Delivery.post_delivery)
+
+    - router.get('/:id', Delivery.get_delivery)
+
+    - module.exports = router
+
+- api/comment : COMMENT API ENDPOINT
+
+    - router.get('/:id', Comment.index)
+
+    - router.post('/:id', Comment.post_comment)
+
+    - module.exports = router
     
-- api/v1/warehouse : WAREHOUSE API ENDPOINT
-- api/v1/categories : CATEGORIES API ENDPOINT
-- api/v1/authors : AUTHORS API ENDPOINT
-- api/v1/publishers : PUBLISHER API ENDPOINT
-- api/v1/providers : PROVIDERS API ENDPOINT
-- api/v1/status : STATUS API ENDPOINT
-- api/v1/payment-method : PAYMENT METHOD API ENDPOINT
 
 
 ```
