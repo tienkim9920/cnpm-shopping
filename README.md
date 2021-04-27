@@ -111,7 +111,7 @@ npm install
 npm start
 ```
 
-## Server Features
+## Features
 - Login, Register, Forgot Password, ResetPassword .
 - CRUD Products, Users, Carts, Favorite, Order...
 - Axios Products, Carts, Orders...
