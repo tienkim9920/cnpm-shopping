@@ -44,8 +44,6 @@ ROOT API ENDPOINT : http://tienkim9920.herokuapp.com
     - router.get('/category/pagination', Products.pagination)
 
     - router.get('/scoll/page', Products.scoll)
-
-    - module.exports = router
   
 - api/user : USER API ENDPOINT
 
@@ -56,16 +54,12 @@ ROOT API ENDPOINT : http://tienkim9920.herokuapp.com
     - router.get('/detail/login', Users.detail)
 
     - router.post('/', Users.post_user)
-
-    - module.exports = router;
    
 - api/detail_order : DETAIL ORDER API ENDPOINT
 
     - router.get('/:id', Detail_Order.detail)
 
     - router.post('/', Detail_Order.post_detail_order)
-
-    - module.exports = router
 
 - api/order : ORDER API ENDPOINT
 
@@ -77,23 +71,17 @@ ROOT API ENDPOINT : http://tienkim9920.herokuapp.com
 
     - router.post('/email', Order.send_mail)
 
-    - module.exports = router
-
 - api/delivery : DELIVERY API ENDPOINT
 
     - router.post('/', Delivery.post_delivery)
 
     - router.get('/:id', Delivery.get_delivery)
 
-    - module.exports = router
-
 - api/comment : COMMENT API ENDPOINT
 
     - router.get('/:id', Comment.index)
 
     - router.post('/:id', Comment.post_comment)
-
-    - module.exports = router
     
 
 
