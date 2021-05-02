@@ -1,8 +1,11 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema(
-    { 
-        id_history: String,
+    {
+        id_history: {
+            type: String,
+            ref: 'History'
+        },
         name_product: String,
         price_product: String,
         count: Number,

@@ -30,27 +30,27 @@ function Checkout(props) {
 
     useEffect(() => {
 
-        if (check_action){
+        if (check_action) {
             const fetchData = async () => {
 
                 const params = {
                     id_user: sessionStorage.getItem('id_user')
                 }
-    
+
                 const query = '?' + queryString.stringify(params)
-    
+
                 const response = await CartAPI.Get_Cart(query)
                 set_carts(response)
-    
+
                 Sum_Price(response, 0)
-    
+
             }
-    
+
             fetchData()
 
             set_check_action(false)
         }
-        
+
 
     }, [check_action])
 
@@ -157,7 +157,7 @@ function Checkout(props) {
             address: information.address,
             email: data.email,
             total: total_price,
-            status: false,
+            status: "1",
             delivery: false,
             id_payment: '60635313a1ba573dc01656b6',
             //Delivery
@@ -462,9 +462,9 @@ function Checkout(props) {
                                                         <div className="card-body">
                                                             {
                                                                 show_error ? 'Vui Lòng Kiểm Tra Lại Thông Tin' :
-                                                                    <Paypal 
-                                                                        information={information} 
-                                                                        total={total_price} 
+                                                                    <Paypal
+                                                                        information={information}
+                                                                        total={total_price}
                                                                         Change_Load_Order={Change_Load_Order}
                                                                         from={from}
                                                                         distance={distance}

@@ -5,7 +5,7 @@ module.exports.index = async (req, res) => {
 
     const products = await Products.find()
 
-    res.send(products)
+    res.json(products)
 }
 
 // Hàm này dùng để phân loại sản phẩm
@@ -15,12 +15,12 @@ module.exports.category = async (req, res) => {
 
     let products_category
 
-    if (id_category === 'all'){
+    if (id_category === 'all') {
         products_category = await Products.find()
-    }else{
+    } else {
         products_category = await Products.find({ id_category: id_category })
     }
-    
+
     res.json(products_category)
 }
 
@@ -65,23 +65,23 @@ module.exports.pagination = async (req, res) => {
     var products
 
     //Phân loại điều kiện category từ client gửi lên
-    if (category === 'all'){
+    if (category === 'all') {
         products = await Products.find()
-    }else{
+    } else {
         products = await Products.find({ id_category: category })
     }
 
     var paginationProducts = products.slice(start, end)
 
 
-    if (!keyWordSearch){
-        
+    if (!keyWordSearch) {
+
         res.json(paginationProducts)
 
-    }else{
+    } else {
         var newData = paginationProducts.filter(value => {
             return value.name_product.toUpperCase().indexOf(keyWordSearch.toUpperCase()) !== -1 ||
-            value.price_product.toUpperCase().indexOf(keyWordSearch.toUpperCase()) !== -1
+                value.price_product.toUpperCase().indexOf(keyWordSearch.toUpperCase()) !== -1
         })
 
         res.json(newData)
