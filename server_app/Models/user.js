@@ -1,10 +1,18 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema(
-    { 
+    {
+        id_permission: {
+            type: String,
+            ref: 'Permission'
+        },
         username: String,
         password: String,
-        fullname: String
+        fullname: String,
+        gender: String,
+        email: String,
+        phone: String
+
     }
 );
 

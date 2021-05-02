@@ -32,10 +32,10 @@ function Checkout(props) {
 
     useEffect(() => {
 
-        if (check_action){
+        if (check_action) {
 
             set_carts(JSON.parse(localStorage.getItem('carts')))
-    
+
             Sum_Price(JSON.parse(localStorage.getItem('carts')), 0)
 
             set_check_action(false)
@@ -157,7 +157,7 @@ function Checkout(props) {
             email: information.email,
             phone: information.phone,
             total: total_price,
-            status: false,
+            status: "1",
             delivery: false,
             id_payment: '60635313a1ba573dc01656b6',
             id_delivery: response_delivery._id
@@ -170,7 +170,7 @@ function Checkout(props) {
         const data_carts = JSON.parse(localStorage.getItem('carts'))
 
         // Xử lý API Detail_Order
-        for (let i = 0; i < data_carts.length; i++){
+        for (let i = 0; i < data_carts.length; i++) {
 
             const data_detail_order = {
                 id_order: response_order._id,
@@ -195,7 +195,7 @@ function Checkout(props) {
         }
 
         // Xử lý API Send Mail
-        
+
         const send_mail = await OrderAPI.post_email(data_email)
         console.log(send_mail)
 
@@ -485,9 +485,9 @@ function Checkout(props) {
                                                         <div className="card-body">
                                                             {
                                                                 show_error ? 'Please Checking Information!' :
-                                                                    <Paypal 
-                                                                        information={information} 
-                                                                        total={total_price} 
+                                                                    <Paypal
+                                                                        information={information}
+                                                                        total={total_price}
                                                                         Change_Load_Order={Change_Load_Order}
                                                                         from={from}
                                                                         distance={distance}

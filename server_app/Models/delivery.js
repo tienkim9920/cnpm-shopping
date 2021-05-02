@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema(
-    { 
+    {
         id_delivery: String,
         from: String,
         to: String,
