@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import io from "socket.io-client";
+
 import './Checkout.css'
-import CartAPI from '../API/CartAPI';
-import queryString from 'query-string'
 import OrderAPI from '../API/OrderAPI';
 import Paypal from './Paypal';
 import { useForm } from "react-hook-form";
@@ -10,6 +10,11 @@ import { changeCount } from '../Redux/Action/ActionCount';
 import { useDispatch, useSelector } from 'react-redux';
 import DeliveryAPI from '../API/DeliveryAPI';
 import Detail_OrderAPI from '../API/Detail_OrderAPI';
+
+const socket = io('http://localhost:8000/', {
+    transports: ['websocket'], jsonp: false
+});
+socket.connect();
 
 Checkout.propTypes = {
 
@@ -30,6 +35,7 @@ function Checkout(props) {
 
     const [check_action, set_check_action] = useState(false)
 
+
     useEffect(() => {
 
         if (check_action) {
@@ -46,10 +52,10 @@ function Checkout(props) {
     // Hàm này dùng để tính tổng tiền
     function Sum_Price(carts, sum_price) {
         carts.map(value => {
-            return sum_price += parseInt(value.count) * parseInt(value.price_product)
+            return sum_price += Number(value.count) * Number(value.price_product)
         })
 
-        const total = sum_price + parseInt(price)
+        const total = Number(sum_price) + Number(price)
 
         set_total_price(total)
     }
@@ -154,12 +160,14 @@ function Checkout(props) {
         // data Order
         const data_order = {
             id_user: sessionStorage.getItem('id_user'),
+            fullname: information.fullname,
+            address: information.address,
             email: information.email,
             phone: information.phone,
             total: total_price,
             status: "1",
             delivery: false,
-            id_payment: '60635313a1ba573dc01656b6',
+            id_payment: '6086709cdc52ab1ae999e882',
             id_delivery: response_delivery._id
         }
 
@@ -175,6 +183,9 @@ function Checkout(props) {
             const data_detail_order = {
                 id_order: response_order._id,
                 id_product: data_carts[i].id_product,
+                name_product: data_carts[i].name_product,
+                price_product: data_carts[i].price_product,
+                image: data_carts[i].image,
                 count: data_carts[i].count,
                 size: data_carts[i].size
             }
@@ -182,6 +193,9 @@ function Checkout(props) {
             await Detail_OrderAPI.post_detail_order(data_detail_order)
 
         }
+
+
+
 
         // data email
         const data_email = {
@@ -194,14 +208,18 @@ function Checkout(props) {
             email: information.email
         }
 
+        // Gửi socket lên server
+        socket.emit('send_order', "Có người vừa đặt hàng")
         // Xử lý API Send Mail
 
-        const send_mail = await OrderAPI.post_email(data_email)
-        console.log(send_mail)
+        // const send_mail = await OrderAPI.post_email(data_email)
+        // console.log(send_mail)
+
 
         localStorage.setItem('carts', JSON.stringify([]))
 
         set_redirect(true)
+
 
         // Hàm này dùng để load lại phần header bằng Redux
         const action_count_change = changeCount(count_change)
@@ -263,10 +281,12 @@ function Checkout(props) {
             address: to_places,
             email: information.email
         })
+        if (kilo) {
+            set_load_map(false)
+            set_load_order_status(true) // Hiển thị phần checkout
+            set_check_action(true)
 
-        set_load_map(false)
-        set_load_order_status(true) // Hiển thị phần checkout
-        set_check_action(true)
+        }
 
     }
 
@@ -363,7 +383,7 @@ function Checkout(props) {
                                         <div className="col-md-12">
                                             <div className="d-flex justify-content-end">
                                                 <div className="order-button-payment">
-                                                    <input value="Next" onClick={handler_Next} type="submit" style={{ padding: '.4rem 1.6rem' }} />
+                                                    <input value="Next" onClick={handler_Next} id="distance_next" type="submit" style={{ padding: '.4rem 1.6rem' }} />
                                                 </div>
                                             </div>
                                         </div>

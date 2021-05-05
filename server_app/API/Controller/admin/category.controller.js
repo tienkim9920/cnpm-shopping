@@ -67,7 +67,7 @@ module.exports.delete = async (req, res) => {
 }
 
 
-module.exports.details = async (req, res) => {
+module.exports.detailProduct = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
     const keyWordSearch = req.query.search;
 
@@ -102,4 +102,28 @@ module.exports.details = async (req, res) => {
             totalPage: totalPage
         })
     }
+}
+
+module.exports.update = async (req, res) => {
+    const category = await Category.find();
+
+    const categoryFilter = category.filter((c) => {
+        return c.category.toUpperCase() === req.query.name.toUpperCase().trim() && c.id !== req.query.id
+    });
+
+    if (categoryFilter.length > 0) {
+        res.json({ msg: 'Loại đã tồn tại' })
+    } else {
+        req.query.name = req.query.name.toLowerCase().replace(/^.|\s\S/g, a => { return a.toUpperCase() })
+        await Category.updateOne({ _id: req.query.id }, { category: req.query.name }, function (err, res) {
+            if (err) return res.json({ msg: err });
+        });
+        res.json({ msg: "Bạn đã update thành công" })
+    }
+}
+
+module.exports.detail = async (req, res) => {
+    const category = await Category.findOne({ _id: req.params.id });
+
+    res.json(category)
 }

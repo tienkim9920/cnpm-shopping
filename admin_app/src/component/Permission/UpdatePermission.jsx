@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import queryString from 'query-string'
 import isEmpty from 'validator/lib/isEmpty'
 import permissionAPI from '../Api/permissionAPI'
-
-function CreatePermission(props) {
+function UpdatePermission(props) {
+    const [id] = useState(props.match.params.id)
     const [name, setName] = useState('');
     const [validationMsg, setValidationMsg] = useState('');
     const { handleSubmit } = useForm();
+
+    useEffect(() => {
+        const fetchAllData = async () => {
+            const ct = await permissionAPI.details(id)
+            console.log(ct)
+            setName(ct.permission);
+        }
+
+        fetchAllData()
+    }, [])
 
     const validateAll = () => {
         let msg = {}
@@ -20,20 +30,17 @@ function CreatePermission(props) {
         return true;
     }
 
-    const handleCreate = () => {
+    const handleUpdate = () => {
 
         const isValid = validateAll();
         if (!isValid) return
         console.log(name)
-        addPermission();
+        updatePermission();
     }
 
-    const addPermission = async () => {
-        const query = '?' + queryString.stringify({ name: name })
-        const response = await permissionAPI.create(query)
-        if (response.msg === "Bạn đã thêm thành công") {
-            setName('');
-        }
+    const updatePermission = async () => {
+        const query = '?' + queryString.stringify({ id: id, name: name })
+        const response = await permissionAPI.update(query)
         setValidationMsg({ api: response.msg })
 
     }
@@ -46,9 +53,9 @@ function CreatePermission(props) {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-body">
-                                <h4 className="card-title">Create Permission</h4>
+                                <h4 className="card-title">Update Permission</h4>
                                 {
-                                    validationMsg.api === "Bạn đã thêm thành công" ?
+                                    validationMsg.api === "Bạn đã update thành công" ?
                                         (
                                             <div className="alert alert-success alert-dismissible fade show" role="alert">
                                                 {validationMsg.api}
@@ -63,14 +70,14 @@ function CreatePermission(props) {
                                 }
 
 
-                                <form onSubmit={handleSubmit(handleCreate)}>
+                                <form onSubmit={handleSubmit(handleUpdate)}>
                                     <div className="form-group w-50">
                                         <label htmlFor="name">Tên quyền</label>
                                         <input type="text" className="form-control" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} required />
                                         <p className="form-text text-danger">{validationMsg.name}</p>
                                     </div>
 
-                                    <button type="submit" className="btn btn-primary">Create</button>
+                                    <button type="submit" className="btn btn-primary">Update</button>
                                 </form>
                             </div>
                         </div>
@@ -79,9 +86,9 @@ function CreatePermission(props) {
             </div>
             <footer className="footer text-center text-muted">
                 All Rights Reserved by Adminmart. Designed and Developed by <a href="https://wrappixel.com">WrapPixel</a>.
-    </footer>
+</footer>
         </div>
     );
 }
 
-export default CreatePermission;
+export default UpdatePermission;

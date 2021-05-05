@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useForm } from "react-hook-form";
 import queryString from 'query-string'
 import isEmpty from 'validator/lib/isEmpty'
 import categoryApi from '../Api/categoryAPI'
@@ -6,6 +7,7 @@ import categoryApi from '../Api/categoryAPI'
 function CreateCategory(props) {
     const [name, setName] = useState('');
     const [validationMsg, setValidationMsg] = useState('');
+    const { handleSubmit } = useForm();
 
     const validateAll = () => {
         let msg = {}
@@ -43,7 +45,8 @@ function CreateCategory(props) {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-body">
-                                <h4 className="card-title">Create Category</h4>
+                                {/* <h4 className="card-title">Create Category</h4> */}
+                                <h4 className="card-title">Create Producer</h4>
                                 {
                                     validationMsg.api === "Bạn đã thêm thành công" ?
                                         (
@@ -60,14 +63,15 @@ function CreateCategory(props) {
                                 }
 
 
-                                <form action="/products/create" method="POST" encType="multipart/form-data">
+                                <form onSubmit={handleSubmit(handleCreate)}>
                                     <div className="form-group w-50">
-                                        <label htmlFor="name">Tên loại</label>
+                                        {/* <label htmlFor="name">Tên loại</label> */}
+                                        <label htmlFor="name">Tên nhà sản xuất: </label>
                                         <input type="text" className="form-control" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} required />
                                         <p className="form-text text-danger">{validationMsg.name}</p>
                                     </div>
 
-                                    <button type="button" className="btn btn-primary" onClick={handleCreate}>Create</button>
+                                    <button type="submit" className="btn btn-primary">Create</button>
                                 </form>
                             </div>
                         </div>

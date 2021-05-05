@@ -28,10 +28,10 @@ const sendMail = (to, subject, htmlContent) => {
         subject: subject, // Tiêu đề của mail
         html: htmlContent // Phần nội dung mail mình sẽ dùng html thay vì thuần văn bản thông thường.
     }
-    
+
     // hàm transporter.sendMail() này sẽ trả về cho chúng ta một Promise
     return transporter.sendMail(options)
-    
+
 }
 
 module.exports = {

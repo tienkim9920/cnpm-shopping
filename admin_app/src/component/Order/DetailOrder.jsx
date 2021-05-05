@@ -16,17 +16,27 @@ function DetailOrder(props) {
         search: ''
     })
 
-    const [order, setOrder] = useState([])
+    const [order, setOrder] = useState()
     const [totalPage, setTotalPage] = useState()
+    const [details, setDetails] = useState([]);
+
+    useEffect(() => {
+        const fetchAllData = async () => {
+            const res = await orderAPI.details(idDetail)
+            console.log(res)
+            setOrder(res)
+        }
+
+        fetchAllData()
+    }, [])
 
     useEffect(() => {
         const query = '?' + queryString.stringify(filter)
 
         const fetchAllData = async () => {
-            const od = await orderAPI.details(idDetail, query)
+            const od = await orderAPI.detailOrder(idDetail, query)
             setTotalPage(od.totalPage)
-            setOrder(od.details)
-
+            setDetails(od.details)
         }
 
         fetchAllData()
@@ -56,8 +66,23 @@ function DetailOrder(props) {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-body">
-                                <h4 className="card-title">Detail Order</h4>
-                                <Search handlerSearch={handlerSearch} />
+                                <h4 className="card-title ml-1">Detail Order</h4>
+                                {
+                                    order ?
+                                        (
+                                            <div className="mt-3 ml-1">
+                                                <h5>Address: {order.address}</h5>
+                                                <h5>Distance: {order.id_delivery.distance}</h5>
+                                                <h5>Fee Ship: ${order.id_delivery.price}</h5>
+                                                <h5>Total: ${order.total}</h5>
+                                                <h5>Payment: {order.id_payment.pay_name}</h5>
+                                            </div>
+
+                                        ) :
+                                        (
+                                            <div></div>
+                                        )
+                                }
 
                                 <div className="table-responsive mt-3">
                                     <table className="table table-striped table-bordered no-wrap">
@@ -74,7 +99,7 @@ function DetailOrder(props) {
 
                                         <tbody>
                                             {
-                                                order && order.map((value, index) => (
+                                                details && details.map((value, index) => (
                                                     <tr key={index}>
                                                         <td><img src={value.image} alt="" style={{ width: '70px' }} /></td>
                                                         <td className="name">{value.name_product}</td>
@@ -98,7 +123,7 @@ function DetailOrder(props) {
                 All Rights Reserved by Adminmart. Designed and Developed by
     <a href="https://www.facebook.com/KimTien.9920/">Tiền Kim</a>.
 </footer>
-        </div>
+        </div >
     );
 }
 

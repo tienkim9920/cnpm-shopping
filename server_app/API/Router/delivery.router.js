@@ -4,7 +4,8 @@ var router = express.Router()
 
 const Delivery = require('../Controller/delivery.controller')
 
-router.get('/:id', Delivery.index)
+router.post('/', Delivery.post_delivery)
 
+router.get('/:id', Delivery.get_delivery)
 
 module.exports = router

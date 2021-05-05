@@ -1,38 +1,38 @@
 
 const mailer = require('../../mailer')
 
+const Order = require('../../Models/order')
+const Detail_Order = require('../../Models/detail_order')
 
-const History = require('../../Models/history')
-const Detail_History = require('../../Models/detail_history')
-const Carts = require('../../Models/cart')
-const Delivery = require('../../Models/delivery')
-
-
-// Đặt hàng theo phương thức thanh toán trực tiếp
+// Đặt hàng
 module.exports.post_order = async (req, res) => {
 
-    //B1: Đầu tiên sẽ thêm vào history
-    await History.create(req.body)
+    const order = await Order.create(req.body)
 
-    //B2: Thêm tất cả những sản phẩm vào detail_history
-    const carts = await Carts.find({ id_user: req.body.id_user })
+    res.json(order)
+
+}
+
+module.exports.send_mail = async (req, res) => {
+
+    const carts = await Detail_Order.find({ id_order: req.body.id_order }).populate('id_product')
 
     //B3: Bắt đầu gửi Mail xác nhận đơn hàng
-    const htmlHead = '<table style="width:50%">' + 
+    const htmlHead = '<table style="width:50%">' +
         '<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Tên Sản Phẩm</th><th style="border: 1px solid black;">Hình Ảnh</th><th style="border: 1px solid black;">Giá</th><th style="border: 1px solid black;">Số Lượng</th><th style="border: 1px solid black;">Size</th><th style="border: 1px solid black;">Thành Tiền</th>'
 
     let htmlContent = ""
 
-    for (let i = 0; i < carts.length; i++){
+    for (let i = 0; i < carts.length; i++) {
         htmlContent += '<tr>' +
-        '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].name_product + '</td>' +
-        '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;"><img src="' + carts[i].image + '" width="80" height="80"></td>' +
-        '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].price_product + '$</td>' +
-        '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].count + '</td>' +
-        '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].size + '</td>' +
-        '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + ( parseInt(carts[i].price_product) * parseInt(carts[i].count) ) + '$</td>' + 
-        '<tr>'
-    }    
+            '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].id_product.name_product + '</td>' +
+            '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;"><img src="' + carts[i].id_product.image + '" width="80" height="80"></td>' +
+            '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].id_product.price_product + '$</td>' +
+            '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].count + '</td>' +
+            '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].size + '</td>' +
+            '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + (parseInt(carts[i].id_product.price_product) * parseInt(carts[i].count)) + '$</td>' +
+            '<tr>'
+    }
 
     const htmlResult = '<h1>Xin Chào ' + req.body.fullname + '</h1>' + '<h3>Phone: ' + req.body.phone + '</h3>' + '<h3>Address:' + req.body.address + '</h3>' +
         htmlHead + htmlContent + '<h1>Phí Vận Chuyển: ' + req.body.price + '$</h1></br>' + '<h1>Tổng Thanh Toán: ' + req.body.total + '$</h1></br>' + '<p>Cảm ơn bạn!</p>'
@@ -40,42 +40,28 @@ module.exports.post_order = async (req, res) => {
     // Thực hiện gửi email (to, subject, htmlContent)
     await mailer.sendMail(req.body.email, 'Hóa Đơn Đặt Hàng', htmlResult)
 
+    res.send("Gui Email Thanh Cong")
 
-    //B4: Dùng để lấy _id của history
-    const history = await History.findOne({ id_find: req.body.id_find })
+}
 
-    for (let i = 0; i < carts.length; i++){
+module.exports.get_order = async (req, res) => {
 
-        const data = {
-            id_history: history._id,
-            name_product: carts[i].name_product,
-            price_product: carts[i].price_product,
-            count: carts[i].count,
-            image: carts[i].image,
-            size: carts[i].size
-        }
+    const id_user = req.params.id
 
-        await Detail_History.create(data)
+    const order = await Order.find({ id_user }).populate(['id_user', 'id_delivery'])
 
-        //B5: Xóa giỏ hàng
-        carts[i].delete()
+    res.json(order)
 
-    }
+}
 
-    //B6: Tiến hành thực hiện push data vào Delivery
-    const data_delivery = {
-        id_history: history._id,
-        from: req.body.from,
-        to: req.body.to,
-        distance: req.body.distance,
-        duration: req.body.duration,
-        price: req.body.price
-    }
+module.exports.get_detail = async (req, res) => {
 
-    await Delivery.create(data_delivery)
+    const id_order = req.params.id
 
-    res.send("Thanh Cong")
-    
+    const order = await Order.findOne({ _id: id_order }).populate(['id_user', 'id_delivery'])
+
+    res.json(order)
+
 }
 
 

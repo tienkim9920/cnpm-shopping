@@ -21,17 +21,13 @@ function CompletedOrder(props) {
 
     useEffect(() => {
         const query = '?' + queryString.stringify(filter)
-        let money = 0;
+
 
         const fetchAllData = async () => {
             const od = await orderAPI.getAPI(query)
-            console.log(od)
             setTotalPage(od.totalPage)
             setOrder(od.orders)
-            od.orders.map((value, index) => {
-                money += Number(value.total);
-            })
-            setTotalMoney(money)
+            setTotalMoney(od.totalMoney)
         }
         fetchAllData()
 
@@ -63,7 +59,6 @@ function CompletedOrder(props) {
                                 <h4 className="card-title">Complete Order</h4>
                                 <h4 className="card-title">TotalMoney: {totalMoney}$</h4>
                                 <Search handlerSearch={handlerSearch} />
-
                                 <div className="table-responsive mt-3">
                                     <table className="table table-striped table-bordered no-wrap">
                                         <thead>

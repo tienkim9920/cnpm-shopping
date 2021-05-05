@@ -83,7 +83,8 @@ function Product(props) {
                                                 <th>Name</th>
                                                 <th>Price</th>
                                                 <th>Image</th>
-                                                <th>Category</th>
+                                                <th>Producer</th>
+                                                {/* <th>Category</th> */}
                                                 <th>Edit</th>
                                             </tr>
                                         </thead>
@@ -99,7 +100,7 @@ function Product(props) {
                                                         <td>{value.id_category ? value.id_category.category : ""}</td>
                                                         <td>
                                                             <div className="d-flex">
-                                                                <button href="/products/update/<%= product._id %>" className="btn btn-success mr-1">Update</button>
+                                                                <Link to={"/product/update/" + value._id} className="btn btn-success mr-1">Update</Link>
 
                                                                 <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleDelete(value._id)} className="btn btn-danger" >Delete</button>
                                                             </div>

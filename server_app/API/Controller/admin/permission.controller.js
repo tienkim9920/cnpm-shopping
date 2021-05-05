@@ -72,3 +72,27 @@ module.exports.delete = async (req, res) => {
     })
 
 }
+
+module.exports.details = async (req, res) => {
+    const permission = await Permission.findOne({ _id: req.params.id });
+
+    res.json(permission)
+}
+
+module.exports.update = async (req, res) => {
+    const permission = await Permission.find();
+
+    const permissionFilter = permission.filter((c) => {
+        return c.permission.toUpperCase() === req.query.name.toUpperCase().trim() && c.id !== req.query.id
+    });
+
+    if (permissionFilter.length > 0) {
+        res.json({ msg: 'Quyền đã tồn tại' })
+    } else {
+        req.query.name = req.query.name.toLowerCase().replace(/^.|\s\S/g, a => { return a.toUpperCase() })
+        await Permission.updateOne({ _id: req.query.id }, { permission: req.query.name }, function (err, res) {
+            if (err) return res.json({ msg: err });
+        });
+        res.json({ msg: "Bạn đã update thành công" })
+    }
+}

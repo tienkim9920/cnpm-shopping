@@ -27,11 +27,7 @@ function CancelOrder(props) {
             console.log(od)
             setTotalPage(od.totalPage)
             setOrder(od.orders)
-
-            od.orders.map((value, index) => {
-                money += Number(value.total);
-            })
-            setTotalMoney(money)
+            setTotalMoney(od.totalMoney)
 
         }
 

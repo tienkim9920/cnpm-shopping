@@ -12,7 +12,8 @@ function ConfirmDelivery(props) {
         page: '1',
         limit: '4',
         search: '',
-        status: '3'
+        status: '3',
+        change: true
     })
 
     const [order, setOrder] = useState([])
@@ -46,6 +47,32 @@ function ConfirmDelivery(props) {
             page: '1',
             search: value
         })
+    }
+
+    const handleConfirm = async (value) => {
+        const query = '?' + queryString.stringify({ id: value._id })
+
+        const response = await orderAPI.confirmDelivery(query)
+
+        if (response.msg === "Thanh Cong") {
+            setFilter({
+                ...filter,
+                change: !filter.change
+            })
+        }
+    }
+
+    const handleCancel = async (value) => {
+        const query = '?' + queryString.stringify({ id: value._id })
+
+        const response = await orderAPI.cancelOrder(query)
+
+        if (response.msg === "Thanh Cong") {
+            setFilter({
+                ...filter,
+                change: !filter.change
+            })
+        }
     }
 
     return (
@@ -84,9 +111,9 @@ function ConfirmDelivery(props) {
                                                             <div className="d-flex">
                                                                 <Link to={"/order/detail/" + value._id} className="btn btn-info mr-1">Detail</Link>
 
-                                                                <button type="button" style={{ cursor: 'pointer', color: 'white' }} className="btn btn-success mr-1" >Xác nhận</button>
+                                                                <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleConfirm(value)} className="btn btn-success mr-1" >Hoàn tất</button>
 
-                                                                <button type="button" style={{ cursor: 'pointer', color: 'white' }} className="btn btn-danger" >Hủy bỏ</button>
+                                                                <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleCancel(value)} className="btn btn-danger" >Hủy bỏ</button>
                                                             </div>
                                                         </td>
                                                         <td className="name">{value._id}</td>

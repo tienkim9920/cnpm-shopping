@@ -73,3 +73,35 @@ module.exports.delete = async (req, res) => {
     })
 
 }
+
+module.exports.details = async (req, res) => {
+    const user = await User.findOne({ _id: req.params.id });
+
+    res.json(user)
+}
+
+module.exports.update = async (req, res) => {
+    console.log(req.query)
+    const user = await User.findOne({ _id: req.query.id });
+    if (req.query.email && req.query.email !== user.email) {
+        req.query.email = user.email
+    }
+    if (req.query.username && req.query.username !== user.username) {
+        req.query.username = user.username
+    }
+    if (!req.query.password) {
+        req.query.password = user.password;
+    }
+
+    req.query.name = req.query.name.toLowerCase().replace(/^.|\s\S/g, a => { return a.toUpperCase() })
+    await User.updateOne({ _id: req.query.id }, {
+        fullname: req.query.name,
+        password: req.query.password,
+        id_permission: req.query.permission,
+        phone: req.query.phone,
+        gender: req.query.gender
+    }, function (err, res) {
+        if (err) return res.json({ msg: err });
+    });
+    res.json({ msg: "Bạn đã update thành công" })
+}

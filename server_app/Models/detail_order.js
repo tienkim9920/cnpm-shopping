@@ -2,9 +2,13 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema(
     {
-        id_history: {
+        id_order: {
             type: String,
-            ref: 'History'
+            ref: 'Order'
+        },
+        id_product: {
+            type: String,
+            ref: 'Products',
         },
         name_product: String,
         price_product: String,
@@ -14,6 +18,6 @@ var schema = new mongoose.Schema(
     }
 );
 
-var Detail_History = mongoose.model('Detail_History', schema, 'detail_history');
+var Detail_Order = mongoose.model('Detail_Order', schema, 'detail_order');
 
-module.exports = Detail_History;
+module.exports = Detail_Order;

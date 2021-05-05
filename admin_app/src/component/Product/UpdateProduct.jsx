@@ -4,7 +4,8 @@ import categoryAPI from '../Api/categoryAPI';
 import isEmpty from 'validator/lib/isEmpty'
 import productAPI from '../Api/productAPI';
 
-function CreateProduct(props) {
+function UpdateProduct(props) {
+    const [id] = useState(props.match.params.id)
     const [category, setCategory] = useState([])
     const [gender] = useState(["Unisex", "Male", "Female"])
     const [name, setName] = useState('');
@@ -14,6 +15,7 @@ function CreateProduct(props) {
     const [categoryChoose, setCategoryChoose] = useState('');
     const [genderChoose, setGenderChoose] = useState('Unisex');
     const [file, setFile] = useState();
+    const [image, setImage] = useState();
     const [fileName, setFileName] = useState("");
     const [validationMsg, setValidationMsg] = useState('');
     const { handleSubmit } = useForm();
@@ -22,6 +24,14 @@ function CreateProduct(props) {
     useEffect(() => {
         const fetchAllData = async () => {
             const ct = await categoryAPI.getAPI()
+            const rs = await productAPI.details(id)
+            console.log(rs)
+            setName(rs.name_product)
+            setPrice(rs.price_product)
+            setDescription(rs.describe)
+            setNumber(rs.number)
+            setCategoryChoose(rs.id_category)
+            setImage(rs.image)
             setCategory(ct)
         }
         fetchAllData()
@@ -33,11 +43,13 @@ function CreateProduct(props) {
     };
 
     const onChangeNumber = (e) => {
+
         const value = e.target.value
         if (!Number.isNaN(value) && Number(value) >= 0) {
             setNumber(value)
         }
     }
+
 
     const onChangePrice = (e) => {
         const value = e.target.value
@@ -46,25 +58,19 @@ function CreateProduct(props) {
         }
     }
 
-
     const validateAll = () => {
-        const priceRegex = /^[1-9](?=.+[0-9]).{0,}$/
         let msg = {}
         if (isEmpty(name)) {
             msg.name = "Tên không được để trống"
         }
         if (isEmpty(price)) {
             msg.price = "Giá không được để trống"
-        } else if (!priceRegex.test(price)) {
-            msg.price = "Giá sai định dạng"
         }
         if (isEmpty(description)) {
             msg.description = "Mô tả không được để trống"
         }
-        if (isEmpty(number)) {
+        if (isEmpty(number.toString())) {
             msg.number = "Số lượng không được để trống"
-        } else if (!priceRegex.test(number)) {
-            msg.number = "Số lượng sai định dạng"
         }
         if (isEmpty(categoryChoose)) {
             msg.category = "Vui lòng chọn loại"
@@ -86,6 +92,7 @@ function CreateProduct(props) {
 
     const addProduct = async () => {
         const formData = new FormData();
+        formData.append("id", id);
         formData.append("file", file);
         formData.append("fileName", fileName);
         formData.append("name", name)
@@ -95,17 +102,9 @@ function CreateProduct(props) {
         formData.append("description", description)
         formData.append("gender", genderChoose)
 
-        const response = await productAPI.create(formData)
+        const response = await productAPI.update(formData)
 
-        if (response.msg === "Bạn đã thêm thành công") {
-            setName('');
-            setPrice('');
-            setDescription('');
-            setNumber('')
-            setCategoryChoose('')
-            setGenderChoose('Unisex')
-            setFile('')
-            setFileName('')
+        if (response.msg === "Bạn đã update thành công") {
             window.scrollTo(0, 0)
         }
         setValidationMsg({ api: response.msg })
@@ -121,7 +120,7 @@ function CreateProduct(props) {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-body">
-                                <h4 className="card-title">Create Product</h4>
+                                <h4 className="card-title">Update Product</h4>
                                 {
                                     validationMsg.api === "Bạn đã thêm thành công" ?
                                         (
@@ -156,7 +155,7 @@ function CreateProduct(props) {
                                     </div>
                                     <div className="form-group w-50">
                                         <label htmlFor="number">Số lượng: </label>
-                                        <input type="number" className="form-control" id="number" name="number" value={number} onChange={(e) => onChangeNumber(e)} required />
+                                        <input type="text" className="form-control" id="number" name="number" value={number} onChange={(e) => onChangeNumber(e)} required />
                                         <p className="form-text text-danger">{validationMsg.number}</p>
                                     </div>
 
@@ -192,7 +191,13 @@ function CreateProduct(props) {
                                         <input type="file" className="form-control-file" name="file" onChange={saveFile} />
                                     </div>
 
-                                    <button type="submit" className="btn btn-primary">Create Product</button>
+                                    <div className="form-group w-50">
+                                        <label>Hình Ảnh Cũ</label>
+                                        <img src={image} alt="" style={{ width: '70px' }} />
+                                    </div>
+
+
+                                    <button type="submit" className="btn btn-primary">Update Product</button>
                                 </form>
                             </div>
                         </div>
@@ -206,4 +211,4 @@ function CreateProduct(props) {
     );
 }
 
-export default CreateProduct;
+export default UpdateProduct;

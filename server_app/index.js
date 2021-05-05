@@ -1,25 +1,25 @@
 const express = require('express')
 const app = express()
 const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
+const cors = require("cors");
 
 // Khởi tạo paypal
 var paypal = require('paypal-rest-sdk');
 
 // const io = require('socket.io')(http);
 
-const cors = require("cors");
 var upload = require('express-fileupload');
 const port = 8000
 
 const ProductAPI = require('./API/Router/product.router')
 const UserAPI = require('./API/Router/user.router')
-const CartAPI = require('./API/Router/cart.router')
 const OrderAPI = require('./API/Router/order.router')
-const HistoryAPI = require('./API/Router/history.router')
+const Detail_OrderAPI = require('./API/Router/detail_order.router')
 const CommentAPI = require('./API/Router/comment.router')
-const DeliveryAPI = require('./API/Router/delivery.router')
 const CategoryAPI = require('./API/Router/category.router')
+const DeliveryAPI = require('./API/Router/delivery.router')
 
 const ProductAdmin = require('./API/Router/admin/product.router')
 const CategoryAdmin = require('./API/Router/admin/category.router')
@@ -57,11 +57,10 @@ paypal.configure({
 
 app.use('/api/Product', ProductAPI)
 app.use('/api/User', UserAPI)
-app.use('/api/Cart', CartAPI)
 app.use('/api/Payment', OrderAPI)
-app.use('/api/History', HistoryAPI)
 app.use('/api/Comment', CommentAPI)
 app.use('/api/Delivery', DeliveryAPI)
+app.use('/api/DetailOrder', Detail_OrderAPI)
 app.use('/api/Category', CategoryAPI)
 
 app.use('/api/admin/Product', ProductAdmin)
@@ -70,7 +69,19 @@ app.use('/api/admin/Permission', Permission)
 app.use('/api/admin/User', UserAdmin)
 app.use('/api/admin/Order', Order)
 
+io.on("connection", (socket) => {
+  console.log(`Có người vừa kết nối, socketID: ${socket.id}`);
+
+
+  socket.on('send_order', (data) => {
+    console.log(data)
+
+    socket.broadcast.emit("receive_order", data);
+  })
+})
 
 http.listen(port, () => {
   console.log('listening on *: ' + port);
 });
+
+

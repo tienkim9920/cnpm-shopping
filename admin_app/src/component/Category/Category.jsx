@@ -17,6 +17,7 @@ function Category(props) {
     const [category, setCategory] = useState([])
     const [totalPage, setTotalPage] = useState()
 
+
     useEffect(() => {
         const query = '?' + queryString.stringify(filter)
 
@@ -65,10 +66,12 @@ function Category(props) {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-body">
-                                <h4 className="card-title">Category</h4>
+                                {/* <h4 className="card-title">Category</h4> */}
+                                <h4 className="card-title">Producer</h4>
                                 <Search handlerSearch={handlerSearch} />
 
-                                <Link to="/category/create" className="btn btn-primary my-3">New create</Link>
+                                {/* <Link to="/category/create" className="btn btn-primary my-3">New create</Link> */}
+                                <Link to="/producer/create" className="btn btn-primary my-3">New create</Link>
 
 
                                 <div className="table-responsive">
@@ -89,8 +92,10 @@ function Category(props) {
                                                         <td className="name">{value.category}</td>
                                                         <td>
                                                             <div className="d-flex">
-                                                                <Link to={"/category/" + value.category} className="btn btn-info mr-1">Detail</Link>
-                                                                <button href="/products/update/<%= product._id %>" className="btn btn-success mr-1">Update</button>
+                                                                {/* <Link to={"/category/" + value.category} className="btn btn-info mr-1">Detail</Link>
+                                                                <Link to={"/category/update/" + value._id} className="btn btn-success mr-1">Update</Link> */}
+                                                                <Link to={"/producer/" + value.category} className="btn btn-info mr-1">Detail</Link>
+                                                                <Link to={"/producer/update/" + value._id} className="btn btn-success mr-1">Update</Link>
 
                                                                 <button type="button" onClick={() => handleDelete(value)} style={{ cursor: 'pointer', color: 'white' }} className="btn btn-danger" >Delete</button>
                                                             </div>

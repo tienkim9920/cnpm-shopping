@@ -52,7 +52,8 @@ module.exports.create = async (req, res) => {
         newProduct.number = req.body.number
         newProduct.describe = req.body.description
         newProduct.gender = req.body.gender
-        if (req.files.file) {
+
+        if (req.files) {
             var fileImage = req.files.file;
 
             var fileName = fileImage.name
@@ -81,4 +82,64 @@ module.exports.delete = async (req, res) => {
         }
         res.json({ msg: "Thanh Cong" })
     })
+}
+
+module.exports.details = async (req, res) => {
+    const product = await Product.findOne({ _id: req.params.id });
+
+    res.json(product)
+}
+
+module.exports.update = async (req, res) => {
+    const product = await Product.find();
+
+    const productFilter = product.filter((c) => {
+        return c.name_product.toUpperCase() === req.body.name.toUpperCase().trim() && c.id !== req.body.id
+    });
+
+    if (productFilter.length > 0) {
+        res.json({ msg: 'Sản phẩm đã tồn tại' })
+    } else {
+        req.body.name = req.body.name.toLowerCase().replace(/^.|\s\S/g, a => { return a.toUpperCase() })
+
+
+        if (req.files) {
+            var fileImage = req.files.file;
+
+            var fileName = fileImage.name
+
+
+            var fileProduct = "/img/" + fileName
+
+            await Product.updateOne({ _id: req.body.id }, {
+                name_product: req.body.name,
+                price_product: req.body.price,
+                id_category: req.body.category,
+                number: req.body.number,
+                describe: req.body.description,
+                gender: req.body.gender,
+                image: fileProduct
+            }, function (err, res) {
+                if (err) return res.json({ msg: err });
+            });
+            res.json({ msg: "Bạn đã update thành công" })
+
+            fileImage.mv('./public/img/' + fileName)
+        }
+        else {
+            await Product.updateOne({ _id: req.body.id }, {
+                name_product: req.body.name,
+                price_product: req.body.price,
+                id_category: req.body.category,
+                number: req.body.number,
+                describe: req.body.description,
+                gender: req.body.gender
+            }, function (err, res) {
+                if (err) return res.json({ msg: err });
+            });
+            res.json({ msg: "Bạn đã update thành công" })
+        }
+
+
+    }
 }

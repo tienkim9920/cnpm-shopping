@@ -88,7 +88,7 @@ function Permission(props) {
                                                         <td className="name">{value.permission}</td>
                                                         <td>
                                                             <div className="d-flex">
-                                                                <button href="/products/update/<%= product._id %>" className="btn btn-success mr-1">Update</button>
+                                                                <Link to={"/permission/update/" + value._id} className="btn btn-success mr-1">Update</Link>
 
                                                                 <button type="button" onClick={() => handleDelete(value)} style={{ cursor: 'pointer', color: 'white' }} className="btn btn-danger" >Delete</button>
                                                             </div>

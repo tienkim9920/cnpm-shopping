@@ -14,11 +14,9 @@ var schema = new mongoose.Schema(
             type: String,
             ref: 'Delivery'
         },
-        id_find: String,
         fullname: String,
         phone: String,
         address: String,
-        email: String,
         total: Number,
         status: String,
         delivery: Boolean,
@@ -26,6 +24,6 @@ var schema = new mongoose.Schema(
     }
 );
 
-var History = mongoose.model('History', schema, 'history');
+var Order = mongoose.model('Order', schema, 'order');
 
-module.exports = History;
+module.exports = Order;

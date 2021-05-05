@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-
+import io from "socket.io-client";
 import { Link } from 'react-router-dom';
 import queryString from 'query-string'
 
 import orderAPI from '../Api/orderAPI';
 import Pagination from '../Shared/Pagination'
 import Search from '../Shared/Search'
+
+const socket = io('http://localhost:8000/', {
+    transports: ['websocket'], jsonp: false
+});
+socket.connect();
 
 function Order(props) {
     const [filter, setFilter] = useState({
@@ -16,6 +21,7 @@ function Order(props) {
 
     const [order, setOrder] = useState([])
     const [totalPage, setTotalPage] = useState()
+    const [note, setNote] = useState([])
 
     useEffect(() => {
         const query = '?' + queryString.stringify(filter)
@@ -31,6 +37,21 @@ function Order(props) {
 
         fetchAllData()
     }, [filter])
+
+    //Hàm này dùng để nhận socket từ server gửi lên
+    useEffect(() => {
+
+        //Nhận dữ liệu từ server gửi lên thông qua socket với key receive_order
+        socket.on('receive_order', (data) => {
+            setNote(data)
+
+            setTimeout(() => {
+                window.location.reload()
+            }, 4000)
+        })
+
+
+    }, [])
 
     const onPageChange = (value) => {
         setFilter({
@@ -56,6 +77,9 @@ function Order(props) {
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Order</h4>
+                                {
+                                    note != "" ? (<h5>{note}. Trang sẽ load lại sau 4s</h5>) : (<div></div>)
+                                }
                                 <Search handlerSearch={handlerSearch} />
 
                                 <div className="table-responsive mt-3">

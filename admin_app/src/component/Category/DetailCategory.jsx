@@ -25,7 +25,7 @@ function DetailCategory(props) {
         const query = '?' + queryString.stringify(filter)
 
         const fetchAllData = async () => {
-            const response = await categoryAPI.details(category, query)
+            const response = await categoryAPI.detailProduct(category, query)
             setProducts(response.products)
             setTotalPage(response.totalPage)
         }

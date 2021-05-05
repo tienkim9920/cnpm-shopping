@@ -98,7 +98,7 @@ function User(props) {
                                                         <td>{value.id_permission}</td>
                                                         <td>
                                                             <div className="d-flex">
-                                                                <button href="/users/update/<%= user._id %>" className="btn btn-success mr-1">Update</button>
+                                                                <Link to={"user/update/" + value._id} className="btn btn-success mr-1">Update</Link>
 
                                                                 <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleDelete(value)} className="btn btn-danger" >Delete</button>
                                                             </div>

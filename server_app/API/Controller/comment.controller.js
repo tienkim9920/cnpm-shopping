@@ -2,21 +2,23 @@
 const Comment = require('../../Models/comment')
 const Users = require('../../Models/user')
 
+// Gọi API hiện thị list comment của sản phẩm 
+// Phương thức GET
 module.exports.index = async (req, res) => {
 
     const id_product = req.params.id
 
-    const comment_product = await Comment.find({ id_product: id_product })
+    const comment_product = await Comment.find({ id_product: id_product }).populate('id_user')
 
     res.json(comment_product)
 
 }
 
+// Gửi comment
+// Phương Thức Post
 module.exports.post_comment = async (req, res) => {
 
     const id_product = req.params.id
-
-    const user = await Users.findOne({ _id: req.body.id_user })
 
     let star1 = ''
     let star2 = ''
@@ -25,19 +27,19 @@ module.exports.post_comment = async (req, res) => {
     let star5 = ''
 
     for (let i = 0; i < parseInt(req.body.star); i++){
-        if (i = 0){
+        if (i === 0){
             star1 = 'fa fa-star'
         }
-        if (i = 1){
+        if (i === 1){
             star2 = 'fa fa-star'
         }
-        if (i = 2){
+        if (i === 2){
             star3 = 'fa fa-star'
         }
-        if (i = 3){
+        if (i === 3){
             star4 = 'fa fa-star'
         }
-        if (i = 4){
+        if (i === 4){
             star5 = 'fa fa-star'
         }
     }
@@ -45,7 +47,6 @@ module.exports.post_comment = async (req, res) => {
     const data = {
         id_product: id_product,
         id_user: req.body.id_user,
-        fullname: user.fullname,
         content: req.body.content,
         star1,
         star2,
