@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import DeliveryAPI from '../API/DeliveryAPI';
 import Detail_OrderAPI from '../API/Detail_OrderAPI';
 
-const socket = io('http://localhost:8000/', {
+const socket = io('https://hieusuper20hcm.herokuapp.com/', {
     transports: ['websocket'], jsonp: false
 });
 socket.connect();

@@ -1,9 +1,12 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema(
-    { 
+    {
         id_product: String,
-        id_user: String,
+        id_user: {
+            type: String,
+            ref: 'Users'
+        },
         fullname: String,
         content: String,
         star1: String,
