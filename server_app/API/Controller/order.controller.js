@@ -10,7 +10,7 @@ module.exports.post_order = async (req, res) => {
     const order = await Order.create(req.body)
 
     res.json(order)
-    
+
 }
 
 module.exports.send_mail = async (req, res) => {
@@ -18,21 +18,21 @@ module.exports.send_mail = async (req, res) => {
     const carts = await Detail_Order.find({ id_order: req.body.id_order }).populate('id_product')
 
     //B3: Bắt đầu gửi Mail xác nhận đơn hàng
-    const htmlHead = '<table style="width:50%">' + 
+    const htmlHead = '<table style="width:50%">' +
         '<tr style="border: 1px solid black;"><th style="border: 1px solid black;">Tên Sản Phẩm</th><th style="border: 1px solid black;">Hình Ảnh</th><th style="border: 1px solid black;">Giá</th><th style="border: 1px solid black;">Số Lượng</th><th style="border: 1px solid black;">Size</th><th style="border: 1px solid black;">Thành Tiền</th>'
 
     let htmlContent = ""
 
-    for (let i = 0; i < carts.length; i++){
+    for (let i = 0; i < carts.length; i++) {
         htmlContent += '<tr>' +
-        '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].id_product.name_product + '</td>' +
-        '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;"><img src="' + carts[i].id_product.image + '" width="80" height="80"></td>' +
-        '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].id_product.price_product + '$</td>' +
-        '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].count + '</td>' +
-        '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].size + '</td>' +
-        '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + ( parseInt(carts[i].id_product.price_product) * parseInt(carts[i].count) ) + '$</td>' + 
-        '<tr>'
-    }    
+            '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].id_product.name_product + '</td>' +
+            '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;"><img src="' + carts[i].id_product.image + '" width="80" height="80"></td>' +
+            '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].id_product.price_product + '$</td>' +
+            '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].count + '</td>' +
+            '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + carts[i].size + '</td>' +
+            '<td style="border: 1px solid black; font-size: 1.2rem; text-align: center;">' + (parseInt(carts[i].id_product.price_product) * parseInt(carts[i].count)) + '$</td>' +
+            '<tr>'
+    }
 
     const htmlResult = '<h1>Xin Chào ' + req.body.fullname + '</h1>' + '<h3>Phone: ' + req.body.phone + '</h3>' + '<h3>Address:' + req.body.address + '</h3>' +
         htmlHead + htmlContent + '<h1>Phí Vận Chuyển: ' + req.body.price + '$</h1></br>' + '<h1>Tổng Thanh Toán: ' + req.body.total + '$</h1></br>' + '<p>Cảm ơn bạn!</p>'

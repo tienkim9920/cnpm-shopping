@@ -1,21 +1,26 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema(
-    { 
+    {
         id_user: {
             type: String,
             ref: 'Users'
         },
-        email: String,
-        phone: String,
-        total: Number,
-        status: Boolean,
-        delivery: Number,
-        id_payment: String,
+        id_payment: {
+            type: String,
+            ref: 'Payment'
+        },
         id_delivery: {
             type: String,
             ref: 'Delivery'
         },
+        fullname: String,
+        phone: String,
+        address: String,
+        total: Number,
+        status: String,
+        delivery: Boolean,
+
     }
 );
 

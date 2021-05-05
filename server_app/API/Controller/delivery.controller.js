@@ -18,4 +18,3 @@ module.exports.get_delivery = async (req, res) => {
     res.json(delivery)
 
 }
-

@@ -1,14 +1,20 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema(
-    { 
-        count: Number,
-        size: String,
-        id_order: String,
+    {
+        id_order: {
+            type: String,
+            ref: 'Order'
+        },
         id_product: {
             type: String,
             ref: 'Products',
-        }
+        },
+        name_product: String,
+        price_product: String,
+        count: Number,
+        image: String,
+        size: String
     }
 );
 

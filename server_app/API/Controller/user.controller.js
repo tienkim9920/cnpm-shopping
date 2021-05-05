@@ -25,14 +25,16 @@ module.exports.detail = async (req, res) => {
 
     const password = req.query.password
 
-    const user = await Users.findOne({ username: username })
+    const query = [{ username: username }, { email: username }]
 
-    if (user === null){
+    const user = await Users.findOne({ $or: query })
+
+    if (user === null) {
         res.send("Khong Tìm Thấy User")
-    }else{
-        if (user.password === password){
+    } else {
+        if (user.password === password) {
             res.json(user)
-        }else{
+        } else {
             res.send("Sai Mat Khau")
         }
     }
@@ -40,12 +42,12 @@ module.exports.detail = async (req, res) => {
 }
 
 module.exports.post_user = async (req, res) => {
-    
+
     const user = await Users.findOne({ username: req.body.username })
 
-    if (user){
+    if (user) {
         res.send("User Da Ton Tai")
-    }else{
+    } else {
         await Users.create(req.body)
     }
 

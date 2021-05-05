@@ -163,15 +163,14 @@
         $("#result").removeClass("hide");
         $('#in_kilo').html(distance_in_kilo.toFixed(2) + ' Km');
         $('#duration_text').html(duration_text);
-        if (parseInt(distance_in_kilo) < 5){
+        if (parseInt(distance_in_kilo) < 5) {
           $('#price_shipping').html('5');
-        }else if (parseInt(distance_in_kilo) > 5 && parseInt(distance_in_kilo) < 10){
+        } else if (parseInt(distance_in_kilo) > 5 && parseInt(distance_in_kilo) < 10) {
           $('#price_shipping').html('10');
-        }else{
+        } else {
           $('#price_shipping').html('15');
         }
       }
-
 
       // on submit  display route ,append results and send calculateDistance to ajax request
       $('#distance_form').click(function (e) {
@@ -184,6 +183,18 @@
         displayRoute(travel_mode, origin, destination, directionsService, directionsDisplay);
         calculateDistance(travel_mode, origin, destination);
       });
+
+      $('#distance_next').click(function (e) {
+        e.preventDefault();
+        var origin = $('#origin').val();
+        var destination = $('#destination').val();
+        var travel_mode = $('#travel_mode').val();
+        var directionsDisplay = new google.maps.DirectionsRenderer({ 'draggable': false });
+        var directionsService = new google.maps.DirectionsService();
+        displayRoute(travel_mode, origin, destination, directionsService, directionsDisplay);
+        calculateDistance(travel_mode, origin, destination);
+      });
+
 
     });
   </script>

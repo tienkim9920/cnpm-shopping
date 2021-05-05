@@ -12,4 +12,4 @@ router.get('/detail/login', Users.detail)
 
 router.post('/', Users.post_user)
 
-module.exports = router;
+module.exports = router
