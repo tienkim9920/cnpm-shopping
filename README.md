@@ -24,7 +24,7 @@
 - MinhHieu
 
 ## ERD
-<img src="https://firebasestorage.googleapis.com/v0/b/todo-app-tienkim.appspot.com/o/diagram.PNG?alt=media&token=43e2dd17-7b1a-4ebd-b7b2-8fe0218f205c" />
+<img src="https://firebasestorage.googleapis.com/v0/b/todo-app-tienkim.appspot.com/o/diagram.PNG?alt=media&token=c3a7be6a-254a-4670-b372-f99d4e103fa0" />
 
 ## DESIGN DATABASE
 
