@@ -28,6 +28,11 @@
 
 ## DESIGN DATABASE
 
+## ERD
+<img src="https://firebasestorage.googleapis.com/v0/b/todo-app-tienkim.appspot.com/o/diagram.PNG?alt=media&token=c3a7be6a-254a-4670-b372-f99d4e103fa0" />
+
+## DESIGN DATABASE
+
 - Product: _id, id_category, name_product, price_product, image, describe, gender, number
     + _id: id của sản phẩm,
     id_category: id của loại sản phẩm,
@@ -38,12 +43,12 @@
     gender: sản phẩm thuộc giới tính,
     number: số lượng tồn,
     bảng Product có quan hệ một nhiều với bảng Category 
-    + 1 product sẽ có 1 category
     bảng Product có quan hệ một nhiều với bảng Favorite
-    + 1 product sẽ có nhiều favorite
     bảng Product có quan hệ một nhiều với bảng Comment
-    + 1 product sẽ có nhiều comment
     bảng Product có quan hệ một nhiều với bảng Detail_Oder
+    + 1 product sẽ có 1 category
+    + 1 product sẽ có nhiều favorite
+    + 1 product sẽ có nhiều comment
     + 1 product sẽ có 1 detail_order
 - Category: _id, category
     + _id: id của loại sản phẩm,
@@ -96,6 +101,7 @@
     id_order: id của đơn hàng,
     id_product: id của sản phẩm,
     bảng detail_order sẽ có quan hệ một một với bảng product
+    bảng detail_order sẽ có quan hệ một nhiều với bảng order
     + Khi product mình thay đổi thì bên detail_order cũng sẽ thay đổi nên mình phải thêm 2 trường name_product, price_product tránh trường hợp điều đó xảy ra.
     + 1 detail_order sẽ có 1 product
     + Nhiều detail_order sẽ thuộc 1 order
@@ -111,12 +117,16 @@
     star1, star2, star3, star4, star5: là số sao mà khách hàng đánh giá,
     id_user: id của khách hàng mà đánh giá,
     id_product: id của sản phẩm đánh giá,
+    bảng comment sẽ có quan hệ một nhiều với bảng product
+    bảng comment sẽ có quan hệ một nhiều với bảng user
     + Nhiều comment sẽ thuộc 1 user
     + Nhiều comment sẽ thuộc 1 product
 - Favorite: _id, id_user, id_product
     + _id: là id của favorite,
     id_user: id của khách hàng,
     id_product: id của sản phẩm
+    bảng favorite sẽ có quan hệ một nhiều với bảng product
+    bảng favorite sẽ có quan hệ một nhiều với bảng user
     + Nhiều favorite thuộc 1 product
     + Nhiều favorite thuộc 1 user
 - Delivery: _id, from, distance, duration,
@@ -125,7 +135,7 @@
     distance: khoảng cách từ shop đến địa chỉ người nhận,
     duration: thời gian đi bao nhiêu phút,
     bảng Delivery sẽ có quan hệ một một với bảng Order vì chỉ có 1 phương thức vận chuyển DRIVING
-    + 1 delivery sẽ có 1 order
+    + 1 delivery sẽ thuộc 1 order
 
 ## API
 ROOT API ENDPOINT : http://tienkim9920.herokuapp.com
