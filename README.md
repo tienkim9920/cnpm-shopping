@@ -29,14 +29,14 @@
 ## DESIGN DATABASE
 
 - Product: _id, id_category, name_product, price_product, image, describe, gender, number
-    _id : id của sản phẩm
-    id_category : id của loại sản phẩm
-    name_product : tên của sản phẩm
-    price_product : giá của sản phẩm
-    image : hình ảnh của sản phẩm
-    describe : mô tả về sản phẩm
-    gender : sản phẩm thuộc giới tính
-    number : số lượng tồn
+    + _id: id của sản phẩm,
+    id_category: id của loại sản phẩm,
+    name_product: tên của sản phẩm,
+    price_product: giá của sản phẩm,
+    image: hình ảnh của sản phẩm,
+    describe: mô tả về sản phẩm,
+    gender: sản phẩm thuộc giới tính,
+    number: số lượng tồn,
     bảng Product có quan hệ một nhiều với bảng Category 
     + 1 product sẽ có 1 category
     bảng Product có quan hệ một nhiều với bảng Favorite
@@ -46,35 +46,85 @@
     bảng Product có quan hệ một nhiều với bảng Detail_Oder
     + 1 product sẽ có 1 detail_order
 - Category: _id, category
+    + _id: id của loại sản phẩm,
+    category: tên của loại
     bảng Category có quan hệ một nhiều với bảng Product
     + 1 category sẽ có nhiều product
 - User: _id, username, password, fullname, email, id_permission
-    bảng User có quan hệ một nhiều với bảng Permission
-    + 1 user sẽ có 1 permission
-    bảng User có quan hệ một nhiều với bảng Comment
+    + _id: id của khách hàng,
+    username: tên đăng nhập của khách hàng,
+    password: mật khẩu đăng nhập của khách hàng,
+    fullname: tên của khách hàng,
+    email: email của khách hàng,
+    id_permission: id permission thuộc bảng Permission,
+    bảng User có quan hệ một nhiều với bảng Permission,
+    bảng User có quan hệ một nhiều với bảng Comment,
+    bảng User có quan hệ một nhiều với bảng Order,
+    bảng User có quan hệ một nhiều với bảng Favorite
     + 1 user sẽ có nhiều comment
-    + 
+    + 1 user sẽ có 1 permission
     + 1 user sẽ có nhiều favorite
     + 1 user sẽ có nhiều order
 - Permission: _id, permission
+    + _id: id của quyền,
+    permission: tên của quyền,
+    bảng permission có quan hệ một nhiều với bảng user
     + 1 permission sẽ có nhiều user
 - Order: _id, fullname, address, phone, total, status, id_user, id_payment, id_delivery
+    + _id: id của đơn hàng,
+    fullname: tên của người nhận hàng,
+    address: địa chỉ của người nhận hàng,
+    phone: số điện thoại của người nhận hàng,
+    total: tổng tiền của đơn hàng,
+    status: trạng thái của đơn hàng đó (1 - Chưa xác nhận, 2 - Đã xác nhận, 3 - Đang vận chuyển, 4 - Hoàn thành, 5 - Hủy đơn hàng),
+    id_user: id của khách hàng,
+    id_payment: id của phương thức thanh toán,
+    id_delivery: id của phương thức vận chuyển,
+    bảng Order có quan hệ một nhiều với bảng Detail_Order,
+    bảng Order có quan hệ một một với Delivery vì hệ thông chỉ có 1 phương thức vận chuyển DRIVING,
+    + Fullname, address, phone có thể được tùy chọn phụ thuộc vào người nhận hàng
     + 1 order sẽ có 1 delivery
     + 1 order sẽ có 1 payment
     + 1 order sẽ có nhiều detail_order
     + Nhiều order sẽ thuộc 1 user
 - Detail_Order: _id, price_product, name_product, count, size, id_order, id_product
+    + _id: id của chi tiết đơn hàng,
+    price_product: giá của sản phẩm,
+    name_product: tên của sản phẩm,
+    count: số lượng của sản phẩm,
+    size: kích thước của sản phẩm,
+    id_order: id của đơn hàng,
+    id_product: id của sản phẩm,
+    bảng detail_order sẽ có quan hệ một một với bảng product
+    + Khi product mình thay đổi thì bên detail_order cũng sẽ thay đổi nên mình phải thêm 2 trường name_product, price_product tránh trường hợp điều đó xảy ra.
     + 1 detail_order sẽ có 1 product
     + Nhiều detail_order sẽ thuộc 1 order
-- Payment: _id, pay_category, pay_name
+- Payment: _id, pay_category, pay_name,
+    + _id: id của phương thức thanh toán,
+    pay_category: trạng thái thanh toán,
+    pay_name: tên phương thức thanh toán,
+    bảng payment sẽ có quan hệ một nhiều với bảng order
     + 1 payment sẽ có nhiều order
-- Comment: _id, content, star1, star2, star3, star4, star5, id_user, id_product
+- Comment: _id, content, star1, star2, star3, star4, star5, id_user, id_product,
+    + _id: id của bình luận,
+    content: nội dung của đánh giá,
+    star1, star2, star3, star4, star5: là số sao mà khách hàng đánh giá,
+    id_user: id của khách hàng mà đánh giá,
+    id_product: id của sản phẩm đánh giá,
     + Nhiều comment sẽ thuộc 1 user
     + Nhiều comment sẽ thuộc 1 product
 - Favorite: _id, id_user, id_product
+    + _id: là id của favorite,
+    id_user: id của khách hàng,
+    id_product: id của sản phẩm
     + Nhiều favorite thuộc 1 product
     + Nhiều favorite thuộc 1 user
-- Delivery: _id, from, distance, duration
+- Delivery: _id, from, distance, duration,
+    + _id: id của phương thức vận chuyện,
+    from: địa chỉ của shop,
+    distance: khoảng cách từ shop đến địa chỉ người nhận,
+    duration: thời gian đi bao nhiêu phút,
+    bảng Delivery sẽ có quan hệ một một với bảng Order vì chỉ có 1 phương thức vận chuyển DRIVING
     + 1 delivery sẽ có 1 order
 
 ## API
