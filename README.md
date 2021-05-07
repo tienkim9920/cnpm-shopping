@@ -29,15 +29,31 @@
 ## DESIGN DATABASE
 
 - Product: _id, id_category, name_product, price_product, image, describe, gender, number
+    _id : id của sản phẩm
+    id_category : id của loại sản phẩm
+    name_product : tên của sản phẩm
+    price_product : giá của sản phẩm
+    image : hình ảnh của sản phẩm
+    describe : mô tả về sản phẩm
+    gender : sản phẩm thuộc giới tính
+    number : số lượng tồn
+    bảng Product có quan hệ một nhiều với bảng Category 
     + 1 product sẽ có 1 category
+    bảng Product có quan hệ một nhiều với bảng Favorite
     + 1 product sẽ có nhiều favorite
+    bảng Product có quan hệ một nhiều với bảng Comment
     + 1 product sẽ có nhiều comment
+    bảng Product có quan hệ một nhiều với bảng Detail_Oder
     + 1 product sẽ có 1 detail_order
 - Category: _id, category
+    bảng Category có quan hệ một nhiều với bảng Product
     + 1 category sẽ có nhiều product
 - User: _id, username, password, fullname, email, id_permission
+    bảng User có quan hệ một nhiều với bảng Permission
     + 1 user sẽ có 1 permission
+    bảng User có quan hệ một nhiều với bảng Comment
     + 1 user sẽ có nhiều comment
+    + 
     + 1 user sẽ có nhiều favorite
     + 1 user sẽ có nhiều order
 - Permission: _id, permission
