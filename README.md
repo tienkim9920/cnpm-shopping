@@ -24,12 +24,7 @@
 - MinhHieu
 
 ## ERD
-<img src="https://firebasestorage.googleapis.com/v0/b/todo-app-tienkim.appspot.com/o/diagram.PNG?alt=media&token=c3a7be6a-254a-4670-b372-f99d4e103fa0" />
-
-## DESIGN DATABASE
-
-## ERD
-<img src="https://firebasestorage.googleapis.com/v0/b/todo-app-tienkim.appspot.com/o/diagram.PNG?alt=media&token=c3a7be6a-254a-4670-b372-f99d4e103fa0" />
+<img src="https://firebasestorage.googleapis.com/v0/b/todo-app-tienkim.appspot.com/o/diagram.PNG?alt=media&token=656d0b0c-0540-4257-a90a-3c024f50946b" />
 
 ## DESIGN DATABASE
 
@@ -102,7 +97,7 @@
     id_product: id của sản phẩm,
     bảng detail_order sẽ có quan hệ một một với bảng product
     bảng detail_order sẽ có quan hệ một nhiều với bảng order
-    + Khi product mình thay đổi thì bên detail_order cũng sẽ thay đổi nên mình phải thêm 2 trường name_product, price_product tránh trường hợp điều đó xảy ra.
+    + Khi product mình thay đổi thì bên detail_order cũng sẽ thay đổi nên mình phải thêm 2 trường         name_product, price_product tránh trường hợp điều đó xảy ra.
     + 1 detail_order sẽ có 1 product
     + Nhiều detail_order sẽ thuộc 1 order
 - Payment: _id, pay_category, pay_name,
@@ -134,6 +129,7 @@
     from: địa chỉ của shop,
     distance: khoảng cách từ shop đến địa chỉ người nhận,
     duration: thời gian đi bao nhiêu phút,
+    price : giá tiền vận chuyển của đơn hàng
     bảng Delivery sẽ có quan hệ một một với bảng Order vì chỉ có 1 phương thức vận chuyển DRIVING
     + 1 delivery sẽ thuộc 1 order
 
