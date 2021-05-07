@@ -24,32 +24,42 @@
 - MinhHieu
 
 ## ERD
-<img src="https://firebasestorage.googleapis.com/v0/b/todo-app-tienkim.appspot.com/o/diagram.PNG?alt=media&token=11a4599c-f8bc-4f1b-acf6-557d0549ce47" />
+<img src="https://firebasestorage.googleapis.com/v0/b/todo-app-tienkim.appspot.com/o/diagram.PNG?alt=media&token=43e2dd17-7b1a-4ebd-b7b2-8fe0218f205c" />
 
 ## DESIGN DATABASE
 
-- product: _id, id_category, name_product, price_product, image, describe, gender, number
+- Product: _id, id_category, name_product, price_product, image, describe, gender, number
     + 1 product sẽ có 1 category
     + 1 product sẽ có nhiều favorite
     + 1 product sẽ có nhiều comment
     + 1 product sẽ có 1 detail_order
-- category: _id, category
+- Category: _id, category
     + 1 category sẽ có nhiều product
-- user: _id, username, password, fullname, email, id_permission
+- User: _id, username, password, fullname, email, id_permission
     + 1 user sẽ có 1 permission
     + 1 user sẽ có nhiều comment
     + 1 user sẽ có nhiều favorite
     + 1 user sẽ có nhiều order
-- permission: _id, permission
+- Permission: _id, permission
     + 1 permission sẽ có nhiều user
-- order: _id, fullname, address, phone, total, status, id_user, id_payment, id_delivery
-    + fullname, address, phone có thể bị thay đổi phụ thuộc vào người nhận hàng
+- Order: _id, fullname, address, phone, total, status, id_user, id_payment, id_delivery
     + 1 order sẽ có 1 delivery
     + 1 order sẽ có 1 payment
     + 1 order sẽ có nhiều detail_order
-    + 1 order sẽ có 1 user
- - detail_order: _id, price_product, name_product, count, size, id_order, id_product
-    +
+    + Nhiều order sẽ thuộc 1 user
+- Detail_Order: _id, price_product, name_product, count, size, id_order, id_product
+    + 1 detail_order sẽ có 1 product
+    + Nhiều detail_order sẽ thuộc 1 order
+- Payment: _id, pay_category, pay_name
+    + 1 payment sẽ có nhiều order
+- Comment: _id, content, star1, star2, star3, star4, star5, id_user, id_product
+    + Nhiều comment sẽ thuộc 1 user
+    + Nhiều comment sẽ thuộc 1 product
+- Favorite: _id, id_user, id_product
+    + Nhiều favorite thuộc 1 product
+    + Nhiều favorite thuộc 1 user
+- Delivery: _id, from, distance, duration
+    + 1 delivery sẽ có 1 order
 
 ## API
 ROOT API ENDPOINT : http://tienkim9920.herokuapp.com
