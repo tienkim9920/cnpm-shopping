@@ -26,6 +26,31 @@
 ## ERD
 <img src="https://firebasestorage.googleapis.com/v0/b/todo-app-tienkim.appspot.com/o/diagram.PNG?alt=media&token=11a4599c-f8bc-4f1b-acf6-557d0549ce47" />
 
+## DESIGN DATABASE
+
+- product: _id, id_category, name_product, price_product, image, describe, gender, number
+    + 1 product sẽ có 1 category
+    + 1 product sẽ có nhiều favorite
+    + 1 product sẽ có nhiều comment
+    + 1 product sẽ có 1 detail_order
+- category: _id, category
+    + 1 category sẽ có nhiều product
+- user: _id, username, password, fullname, email, id_permission
+    + 1 user sẽ có 1 permission
+    + 1 user sẽ có nhiều comment
+    + 1 user sẽ có nhiều favorite
+    + 1 user sẽ có nhiều order
+- permission: _id, permission
+    + 1 permission sẽ có nhiều user
+- order: _id, fullname, address, phone, total, status, id_user, id_payment, id_delivery
+    + fullname, address, phone có thể bị thay đổi phụ thuộc vào người nhận hàng
+    + 1 order sẽ có 1 delivery
+    + 1 order sẽ có 1 payment
+    + 1 order sẽ có nhiều detail_order
+    + 1 order sẽ có 1 user
+ - detail_order: _id, price_product, name_product, count, size, id_order, id_product
+    +
+
 ## API
 ROOT API ENDPOINT : http://tienkim9920.herokuapp.com
 
