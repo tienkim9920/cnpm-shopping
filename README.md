@@ -24,7 +24,7 @@
 - MinhHieu
 
 ## ERD
-<img src="https://firebasestorage.googleapis.com/v0/b/erd-img.appspot.com/o/ERD-CNPMNC.PNG?alt=media&token=e4a97fe3-2cdd-4d60-8902-59c53bf911f7" />
+<img src="https://firebasestorage.googleapis.com/v0/b/todo-app-tienkim.appspot.com/o/diagram.PNG?alt=media&token=11a4599c-f8bc-4f1b-acf6-557d0549ce47" />
 
 ## API
 ROOT API ENDPOINT : http://tienkim9920.herokuapp.com
