@@ -100,9 +100,8 @@
     + Khi product mình thay đổi thì bên detail_order cũng sẽ thay đổi nên mình phải thêm 2 trường         name_product, price_product tránh trường hợp điều đó xảy ra.
     + 1 detail_order sẽ có 1 product
     + Nhiều detail_order sẽ thuộc 1 order
-- Payment: _id, pay_category, pay_name,
+- Payment: _id, pay_name,
     + _id: id của phương thức thanh toán,
-    pay_category: trạng thái thanh toán,
     pay_name: tên phương thức thanh toán,
     bảng payment sẽ có quan hệ một nhiều với bảng order
     + 1 payment sẽ có nhiều order
@@ -124,14 +123,12 @@
     bảng favorite sẽ có quan hệ một nhiều với bảng user
     + Nhiều favorite thuộc 1 product
     + Nhiều favorite thuộc 1 user
-- Delivery: _id, from, distance, duration,
+- Note: _id, fullname, phone
     + _id: id của phương thức vận chuyện,
-    from: địa chỉ của shop,
-    distance: khoảng cách từ shop đến địa chỉ người nhận,
-    duration: thời gian đi bao nhiêu phút,
-    price : giá tiền vận chuyển của đơn hàng
-    bảng Delivery sẽ có quan hệ một một với bảng Order vì chỉ có 1 phương thức vận chuyển DRIVING
-    + 1 delivery sẽ thuộc 1 order
+    fullname: tên của người nhận hàng,
+    phone: điện thoại của người nhận hàng,
+    bảng Note sẽ có quan hệ một một với bảng Order
+    + 1 Note sẽ thuộc 1 order
 
 ## API
 ROOT API ENDPOINT : http://tienkim9920.herokuapp.com
