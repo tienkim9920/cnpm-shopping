@@ -82,9 +82,9 @@ function CancelOrder(props) {
                                                 order && order.map((value, index) => (
                                                     <tr key={index}>
                                                         <td className="name">{value._id}</td>
-                                                        <td className="name">{value.fullname}</td>
+                                                        <td className="name">{value.id_note.fullname}</td>
                                                         <td className="name">{value.id_user.email}</td>
-                                                        <td className="name">{value.phone}</td>
+                                                        <td className="name">{value.id_note.phone}</td>
                                                         <td className="name">{value.address}</td>
                                                         <td>
                                                             {(() => {
@@ -98,7 +98,7 @@ function CancelOrder(props) {
                                                             })()}
                                                         </td>
                                                         <td className="name">{value.total}</td>
-                                                        <td className="name">{value.id_payment.pay_name}</td>
+                                                        <td className="name">{value.pay === true ? "Đã thanh toán" : "Chưa thanh toán"}</td>
                                                         <td>
                                                             <div className="d-flex">
                                                                 <Link to={"/order/detail/" + value._id} className="btn btn-info mr-1">Detail</Link>

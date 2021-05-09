@@ -45,8 +45,8 @@ function CreateCategory(props) {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-body">
-                                {/* <h4 className="card-title">Create Category</h4> */}
-                                <h4 className="card-title">Create Producer</h4>
+                                <h4 className="card-title">Create Category</h4>
+                                {/* <h4 className="card-title">Create Producer</h4> */}
                                 {
                                     validationMsg.api === "Bạn đã thêm thành công" ?
                                         (
@@ -65,8 +65,8 @@ function CreateCategory(props) {
 
                                 <form onSubmit={handleSubmit(handleCreate)}>
                                     <div className="form-group w-50">
-                                        {/* <label htmlFor="name">Tên loại</label> */}
-                                        <label htmlFor="name">Tên nhà sản xuất: </label>
+                                        <label htmlFor="name">Tên loại</label>
+                                        {/* <label htmlFor="name">Tên nhà sản xuất: </label> */}
                                         <input type="text" className="form-control" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} required />
                                         <p className="form-text text-danger">{validationMsg.name}</p>
                                     </div>

@@ -7,7 +7,7 @@ import {
 function Menu(props) {
     const [menu, setMenu] = useState([
         "Product",
-        "Producer", ,
+        "Category", ,
         "Permission",
         "User",
         "Order",

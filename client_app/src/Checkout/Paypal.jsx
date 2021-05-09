@@ -1,11 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
+import io from "socket.io-client";
+
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom'
 import OrderAPI from '../API/OrderAPI';
 import { changeCount } from '../Redux/Action/ActionCount';
 import { useDispatch, useSelector } from 'react-redux';
-import DeliveryAPI from '../API/DeliveryAPI';
+import NoteAPI from '../API/NoteAPI';
 import Detail_OrderAPI from '../API/Detail_OrderAPI';
+
+const socket = io('https://hieusuper20hcm.herokuapp.com/', {
+    transports: ['websocket'], jsonp: false
+});
+socket.connect();
 
 Paypal.propTypes = {
     information: PropTypes.object,
@@ -61,28 +68,26 @@ function Paypal(props) {
 
                 Change_Load_Order(true)
 
-                // data Delivery
-                const data_delivery = {
-                    from: from,
-                    to: information.address,
-                    distance: distance,
-                    duration: duration,
-                    price: price
+                // data Note
+                const data_note = {
+                    // id_Note:  Math.random.toString(),
+                    fullname: information.fullname,
+                    phone: information.phone,
                 }
 
-                // Xứ lý API Delivery
-                const response_delivery = await DeliveryAPI.post_delivery(data_delivery)
+                // Xứ lý API Note
+                const response_Note = await NoteAPI.post_note(data_note)
 
                 // data Order
                 const data_order = {
                     id_user: sessionStorage.getItem('id_user'),
-                    email: information.email,
-                    phone: information.phone,
+                    address: information.address,
                     total: total,
-                    status: true,
-                    delivery: false,
+                    status: '1',
+                    pay: true,
                     id_payment: '60635313a1ba573dc01656b5',
-                    id_delivery: response_delivery._id
+                    id_note: response_Note._id,
+                    feeship: price,
                 }
 
                 // Xứ lý API Order
@@ -97,6 +102,8 @@ function Paypal(props) {
                     const data_detail_order = {
                         id_order: response_order._id,
                         id_product: data_carts[i].id_product,
+                        name_product: data_carts[i].name_product,
+                        price_product: data_carts[i].price_product,
                         count: data_carts[i].count,
                         size: data_carts[i].size
                     }
@@ -106,20 +113,20 @@ function Paypal(props) {
                 }
 
                 // data email
-                const data_email = {
-                    id_order: response_order._id,
-                    total: total,
-                    fullname: information.fullname,
-                    phone: information.phone,
-                    price: price,
-                    address: information.address,
-                    email: information.email
-                }
+                // const data_email = {
+                //     id_order: response_order._id,
+                //     total: total,
+                //     fullname: information.fullname,
+                //     phone: information.phone,
+                //     price: price,
+                //     address: information.address,
+                //     email: information.email
+                // }
 
-                // Xử lý API Send Mail
+                // // Xử lý API Send Mail
 
-                const send_mail = await OrderAPI.post_email(data_email)
-                console.log(send_mail)
+                // const send_mail = await OrderAPI.post_email(data_email)
+                // console.log(send_mail)
 
                 localStorage.setItem('carts', JSON.stringify([]))
 

@@ -42,7 +42,7 @@ function DetailHistory(props) {
                 <ul>
                     <li style={{ fontSize: '1.1rem' }}>ID Invoice: <span>{order._id}</span></li>
                     <li style={{ fontSize: '1.1rem' }}>Phone: <span>{order.phone}</span></li>
-                    <li style={{ fontSize: '1.1rem' }}>Email: <span>{order.email}</span></li>
+                    <li style={{ fontSize: '1.1rem' }}>Fullname: <span>{order.fullname}</span></li>
                     <li style={{ fontSize: '1.1rem' }}>Total: <span>{order.total}$</span></li>
                 </ul>
                 <div className="group_box_status" style={{ marginTop: '3rem' }}>
@@ -104,8 +104,8 @@ function DetailHistory(props) {
                                                 detail_order && detail_order.map(value => (
                                                     <tr key={value._id}>
                                                         <td className="li-product-thumbnail"><img src={value.id_product.image} style={{ width: '5rem' }} alt="Li's Product Image" /></td>
-                                                        <td className="li-product-name"><a href="#">{value.id_product.name_product}</a></td>
-                                                        <td className="li-product-price"><span className="amount">${value.id_product.price_product}</span></td>
+                                                        <td className="li-product-name"><a href="#">{value.name_product}</a></td>
+                                                        <td className="li-product-price"><span className="amount">${value.price_product}</span></td>
                                                         <td className="li-product-price"><span className="amount">{value.count}</span></td>
                                                         <td className="li-product-price"><span className="amount">{value.size}</span></td>
                                                     </tr>

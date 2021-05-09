@@ -53,15 +53,15 @@ function App() {
           <Route path='/product/create' component={CreateProduct} />
           <Route path='/product/update/:id' component={UpdateProduct} />
 
-          {/* <Route exact path='/category' component={Category} />
+          <Route exact path='/category' component={Category} />
           <Route path='/category/create' component={CreateCategory} />
           <Route path='/category/update/:id' component={UpdateCategory} />
-          <Route path='/category/:id' component={DetailCategory} /> */}
-
+          <Route path='/category/:id' component={DetailCategory} />
+          {/* 
           <Route exact path='/producer' component={Category} />
           <Route path='/producer/create' component={CreateCategory} />
           <Route path='/producer/update/:id' component={UpdateCategory} />
-          <Route path='/producer/:id' component={DetailCategory} />
+          <Route path='/producer/:id' component={DetailCategory} /> */}
 
 
           <Route exact path='/permission' component={Permission} />

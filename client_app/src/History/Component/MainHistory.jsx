@@ -54,7 +54,6 @@ function MainHistory(props) {
                                                 <th className="li-product-thumbnail">Name</th>
                                                 <th className="cart-product-name">Phone</th>
                                                 <th className="li-product-price">Address</th>
-                                                <th className="li-product-price">Email</th>
                                                 <th className="li-product-quantity">Total</th>
                                                 <th className="li-product-subtotal">Payment</th>
                                                 <th className="li-product-subtotal">Status</th>
@@ -65,24 +64,24 @@ function MainHistory(props) {
                                                 history && history.map(value => (
                                                     <tr key={value._id}>
                                                         <td className="li-product-price"><span className="amount"><Link to={`/history/${value._id}`}>View</Link></span></td>
-                                                        <td className="li-product-price"><span className="amount">{value.id_user.fullname}</span></td>
-                                                        <td className="li-product-price"><span className="amount">{value.phone}</span></td>
-                                                        <td className="li-product-price"><span className="amount">{value.id_delivery.to}</span></td>
-                                                        <td className="li-product-price"><span className="amount">{value.email}</span></td>
-                                                        <td className="li-product-price"><span className="amount">{value.total}</span></td>
-                                                        <td className="li-product-price"><span className="amount" style={value.status ? { color: 'green'} : { color: 'red'}}>{value.status ? 'Paid' : 'Unpaid'}</span></td>
+                                                        <td className="li-product-price"><span className="amount">{value.id_note.fullname}</span></td>
+                                                        <td className="li-product-price"><span className="amount">{value.id_note.phone}</span></td>
+                                                        <td className="li-product-price"><span className="amount">{value.address}</span></td>
+
+                                                        <td className="li-product-price"><span className="amount">{value.total} $</span></td>
+                                                        <td className="li-product-price"><span className="amount" style={value.pay ? { color: 'green' } : { color: 'red' }}>{value.pay ? 'Paid' : 'Unpaid'}</span></td>
                                                         <td className="li-product-price"><span className="amount">
                                                             {
-                                                            value.delivery === 0 ? 'X' : 
-                                                            (value.delivery === 1 ? 'Confirmed' : 
-                                                            (value.delivery === 2 ? 'Shipping' : 
-                                                            (value.delivery === 3 ? 'Finished' : 'Undifine'))) }
-                                                            </span>
+                                                                value.status === '1' ? 'X' :
+                                                                    (value.status === '2' ? 'Confirmed' :
+                                                                        (value.status === '3' ? 'Shipping' :
+                                                                            (value.status === '4' ? 'Finished' : 'Undifine')))}
+                                                        </span>
                                                         </td>
                                                     </tr>
                                                 ))
                                             }
-                                            
+
                                         </tbody>
                                     </table>
                                 </div>
