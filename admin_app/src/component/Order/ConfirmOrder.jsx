@@ -9,7 +9,7 @@ import Search from '../Shared/Search'
 
 import io from "socket.io-client";
 
-const socket = io('http://localhost:8000/', {
+const socket = io('https://hieusuper20hcm.herokuapp.com/', {
     transports: ['websocket'], jsonp: false
 });
 socket.connect();
@@ -138,9 +138,9 @@ function ConfirmOrder(props) {
                                                             </div>
                                                         </td>
                                                         <td className="name">{value._id}</td>
-                                                        <td className="name">{value.fullname}</td>
+                                                        <td className="name">{value.id_note.fullname}</td>
                                                         <td className="name">{value.id_user.email}</td>
-                                                        <td className="name">{value.phone}</td>
+                                                        <td className="name">{value.id_note.phone}</td>
                                                         <td className="name">{value.address}</td>
                                                         <td>
                                                             {(() => {
@@ -154,7 +154,7 @@ function ConfirmOrder(props) {
                                                             })()}
                                                         </td>
                                                         <td className="name">{value.total}</td>
-                                                        <td className="name">{value.id_payment.pay_name}</td>
+                                                        <td className="name">{value.pay === true ? "Đã thanh toán" : "Chưa thanh toán"}</td>
 
                                                     </tr>
                                                 ))

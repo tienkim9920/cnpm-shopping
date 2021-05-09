@@ -8,10 +8,10 @@ import { useForm } from "react-hook-form";
 import { Redirect } from 'react-router-dom';
 import { changeCount } from '../Redux/Action/ActionCount';
 import { useDispatch, useSelector } from 'react-redux';
-import DeliveryAPI from '../API/DeliveryAPI';
+import NoteAPI from '../API/NoteAPI';
 import Detail_OrderAPI from '../API/Detail_OrderAPI';
 
-const socket = io('http://localhost:8000/', {
+const socket = io('https://hieusuper20hcm.herokuapp.com/', {
     transports: ['websocket'], jsonp: false
 });
 socket.connect();
@@ -147,28 +147,23 @@ function Checkout(props) {
         // data Delivery
         const data_delivery = {
             // id_delivery:  Math.random.toString(),
-            from: from,
-            to: information.address,
-            distance: distance,
-            duration: duration,
-            price: price
+            fullname: information.fullname,
+            phone: information.phone,
         }
 
         // Xứ lý API Delivery
-        const response_delivery = await DeliveryAPI.post_delivery(data_delivery)
+        const response_delivery = await NoteAPI.post_note(data_delivery)
 
         // data Order
         const data_order = {
             id_user: sessionStorage.getItem('id_user'),
-            fullname: information.fullname,
             address: information.address,
-            email: information.email,
-            phone: information.phone,
             total: total_price,
             status: "1",
-            delivery: false,
+            pay: false,
             id_payment: '6086709cdc52ab1ae999e882',
-            id_delivery: response_delivery._id
+            id_note: response_delivery._id,
+            feeship: price
         }
 
         // Xứ lý API Order
@@ -185,7 +180,6 @@ function Checkout(props) {
                 id_product: data_carts[i].id_product,
                 name_product: data_carts[i].name_product,
                 price_product: data_carts[i].price_product,
-                image: data_carts[i].image,
                 count: data_carts[i].count,
                 size: data_carts[i].size
             }
@@ -194,19 +188,16 @@ function Checkout(props) {
 
         }
 
-
-
-
         // data email
-        const data_email = {
-            id_order: response_order._id,
-            total: total_price,
-            fullname: information.fullname,
-            phone: information.phone,
-            price: price,
-            address: information.address,
-            email: information.email
-        }
+        // const data_email = {
+        //     id_order: response_order._id,
+        //     total: total_price,
+        //     fullname: information.fullname,
+        //     phone: information.phone,
+        //     price: price,
+        //     address: information.address,
+        //     email: information.email
+        // }
 
         // Gửi socket lên server
         socket.emit('send_order', "Có người vừa đặt hàng")

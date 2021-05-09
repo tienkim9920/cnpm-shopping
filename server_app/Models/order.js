@@ -10,17 +10,15 @@ var schema = new mongoose.Schema(
             type: String,
             ref: 'Payment'
         },
-        id_delivery: {
+        id_note: {
             type: String,
-            ref: 'Delivery'
+            ref: 'Note'
         },
-        fullname: String,
-        phone: String,
         address: String,
         total: Number,
         status: String,
-        delivery: Boolean,
-
+        pay: Boolean,
+        feeship: Number
     }
 );
 

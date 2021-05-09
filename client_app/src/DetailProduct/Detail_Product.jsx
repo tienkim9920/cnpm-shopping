@@ -139,15 +139,15 @@ function Detail_Product(props) {
 
                 console.log(response)
 
+                set_load_comment(true)
+
+                set_comment('')
+
+                set_modal(false)
+
             }
 
             post_data()
-
-            set_load_comment(true)
-
-            set_comment('')
-
-            set_modal(false)
 
         }
 

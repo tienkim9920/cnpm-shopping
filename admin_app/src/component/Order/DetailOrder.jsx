@@ -23,7 +23,7 @@ function DetailOrder(props) {
     useEffect(() => {
         const fetchAllData = async () => {
             const res = await orderAPI.details(idDetail)
-            console.log(res)
+            // console.log(res)
             setOrder(res)
         }
 
@@ -35,6 +35,7 @@ function DetailOrder(props) {
 
         const fetchAllData = async () => {
             const od = await orderAPI.detailOrder(idDetail, query)
+            console.log(od)
             setTotalPage(od.totalPage)
             setDetails(od.details)
         }
@@ -72,8 +73,7 @@ function DetailOrder(props) {
                                         (
                                             <div className="mt-3 ml-1">
                                                 <h5>Address: {order.address}</h5>
-                                                <h5>Distance: {order.id_delivery.distance}</h5>
-                                                <h5>Fee Ship: ${order.id_delivery.price}</h5>
+                                                <h5>FeeShip: ${order.feeship}</h5>
                                                 <h5>Total: ${order.total}</h5>
                                                 <h5>Payment: {order.id_payment.pay_name}</h5>
                                             </div>
@@ -101,7 +101,7 @@ function DetailOrder(props) {
                                             {
                                                 details && details.map((value, index) => (
                                                     <tr key={index}>
-                                                        <td><img src={value.image} alt="" style={{ width: '70px' }} /></td>
+                                                        <td><img src={value.id_product.image} alt="" style={{ width: '70px' }} /></td>
                                                         <td className="name">{value.name_product}</td>
                                                         <td className="name">{value.price_product}</td>
                                                         <td className="name">{value.size}</td>
