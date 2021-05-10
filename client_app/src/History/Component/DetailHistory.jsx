@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import './History.css'
 import OrderAPI from '../../API/OrderAPI';
 import Detail_OrderAPI from '../../API/Detail_OrderAPI';
+import NoteAPI from '../../API/NoteAPI';
 
 
 function DetailHistory(props) {
@@ -15,13 +16,13 @@ function DetailHistory(props) {
 
     const [detail_order, set_detail_order] = useState([])
 
+    const [note, set_note] = useState({})
+
     useEffect(() => {
 
         const fetchData = async () => {
 
             const response = await OrderAPI.get_detail(id)
-
-            console.log(response)
 
             set_order(response)
 
@@ -41,44 +42,44 @@ function DetailHistory(props) {
                 <h1>Thông Tin Chi Tiết Đơn Hàng</h1>
                 <ul>
                     <li style={{ fontSize: '1.1rem' }}>ID Invoice: <span>{order._id}</span></li>
-                    <li style={{ fontSize: '1.1rem' }}>Phone: <span>{order.phone}</span></li>
-                    <li style={{ fontSize: '1.1rem' }}>Email: <span>{order.email}</span></li>
+                    <li style={{ fontSize: '1.1rem' }}>Phone: <span>{order.id_note && order.id_note.phone}</span></li>
+                    <li style={{ fontSize: '1.1rem' }}>Fullname: <span>{order.id_note && order.id_note.fullname}</span></li>
                     <li style={{ fontSize: '1.1rem' }}>Total: <span>{order.total}$</span></li>
                 </ul>
-                <div className="group_box_status" style={{ marginTop: '3rem'}}>
+                <div className="group_box_status" style={{ marginTop: '3rem' }}>
                     <div className="d-flex justify-content-center">
                         <div className="group_status_delivery d-flex justify-content-around">
                             <div className="detail_status_delivery">
                                 <div className="w-100 d-flex justify-content-center">
-                                    <div className={order.delivery < 1 && 'bg_status_delivery_active'}></div>
-                                </div> 
+                                    <div className={parseInt(order.status) > 0 && 'bg_status_delivery_active'}></div>
+                                </div>
                                 <a className="a_status_delivery">Processing</a>
                             </div>
 
                             <div className="detail_status_delivery">
                                 <div className="w-100 d-flex justify-content-center">
-                                    <div className={order.delivery > 0 ? 'bg_status_delivery_active' : 'bg_status_delivery'}></div>
-                                </div> 
+                                    <div className={parseInt(order.status) > 1 ? 'bg_status_delivery_active' : 'bg_status_delivery'}></div>
+                                </div>
                                 <a className="a_status_delivery">Confirmed</a>
-                            </div> 
+                            </div>
 
                             <div className="detail_status_delivery">
                                 <div className="w-100 d-flex justify-content-center">
-                                    <div className={order.delivery > 1 ? 'bg_status_delivery_active' : 'bg_status_delivery'}></div>
-                                </div> 
+                                    <div className={parseInt(order.status) > 2 ? 'bg_status_delivery_active' : 'bg_status_delivery'}></div>
+                                </div>
                                 <a className="a_status_delivery">Shipping</a>
-                            </div> 
+                            </div>
 
                             <div className="detail_status_delivery">
                                 <div className="w-100 d-flex justify-content-center">
-                                    <div className={order.delivery > 2 ? 'bg_status_delivery_active' : 'bg_status_delivery'}></div>
-                                </div> 
+                                    <div className={parseInt(order.status) > 3 ? 'bg_status_delivery_active' : 'bg_status_delivery'}></div>
+                                </div>
                                 <a className="a_status_delivery">Finished</a>
                             </div>
                         </div>
-                    </div>    
-                    <div className="test_status d-flex justify-content-center">   
-                        <div className="hr_status_delivery"></div>   
+                    </div>
+                    <div className="test_status d-flex justify-content-center">
+                        <div className="hr_status_delivery"></div>
                     </div>
                 </div>
             </div>
@@ -103,15 +104,15 @@ function DetailHistory(props) {
                                             {
                                                 detail_order && detail_order.map(value => (
                                                     <tr key={value._id}>
-                                                        <td className="li-product-thumbnail"><img src={value.id_product.image} style={{ width: '5rem'}} alt="Li's Product Image" /></td>
-                                                        <td className="li-product-name"><a href="#">{value.id_product.name_product}</a></td>
-                                                        <td className="li-product-price"><span className="amount">${value.id_product.price_product}</span></td>
+                                                        <td className="li-product-thumbnail"><img src={value.id_product.image} style={{ width: '5rem' }} alt="Li's Product Image" /></td>
+                                                        <td className="li-product-name"><a href="#">{value.name_product}</a></td>
+                                                        <td className="li-product-price"><span className="amount">${value.price_product}</span></td>
                                                         <td className="li-product-price"><span className="amount">{value.count}</span></td>
                                                         <td className="li-product-price"><span className="amount">{value.size}</span></td>
                                                     </tr>
                                                 ))
                                             }
-                                            
+
                                         </tbody>
                                     </table>
                                 </div>

@@ -260,7 +260,7 @@ function Header(props) {
                                     <div className="ul_setting">
                                         {active_user ? (
                                             <ul className="setting_ul collapse" id="collapseExample">
-                                                <li className="li_setting"><Link to="/profile/123">Profile</Link></li>
+                                                <li className="li_setting"><Link to={`/profile/${sessionStorage.getItem("id_user")}`}>Profile</Link></li>
                                                 <li className="li_setting"><Link to="/history">Order Status</Link></li>
                                                 <li className="li_setting"><a onClick={handler_logout} href="#">Log Out</a></li>
                                             </ul>

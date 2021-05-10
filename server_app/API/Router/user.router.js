@@ -8,6 +8,8 @@ router.get('/', Users.index)
 
 router.get('/:id', Users.user)
 
+router.put('/', Users.update_user)
+
 router.get('/detail/login', Users.detail)
 
 router.post('/', Users.post_user)

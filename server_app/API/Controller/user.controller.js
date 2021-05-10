@@ -54,3 +54,17 @@ module.exports.post_user = async (req, res) => {
     res.send("Thanh Cong")
 
 }
+
+module.exports.update_user = async (req, res) => {
+
+    const user = await Users.findOne({ _id: req.body._id})
+
+    user.fullname = req.body.fullname
+    user.username = req.body.username
+    user.password = req.body.password
+
+    user.save()
+
+    res.json("Thanh Cong")
+
+}

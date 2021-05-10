@@ -12,6 +12,11 @@ const User = {
         return axiosClient.get(url)
     },
 
+    Put_User: (data) => {
+        const url = `/api/User`
+        return axiosClient.put(url, data)
+    },
+
     Get_Detail_User: (query) => {
         const url = `/api/User/detail/login${query}`
         return axiosClient.get(url)

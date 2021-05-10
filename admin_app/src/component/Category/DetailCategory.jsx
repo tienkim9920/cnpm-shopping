@@ -64,12 +64,7 @@ function DetailCategory(props) {
                                 <h4 className="card-title">{category}</h4>
                                 <Search handlerSearch={handlerSearch} />
 
-                                <button type="button" class="btn btn-primary my-3" data-toggle="modal" data-target="#exampleModalCenter">
-                                    Add Product
-                                </button>
-                                <ModalCategory id={category} />
-
-                                <div className="table-responsive">
+                                <div className="table-responsive my-3">
                                     <table className="table table-striped table-bordered no-wrap">
                                         <thead>
                                             <tr>
@@ -91,9 +86,7 @@ function DetailCategory(props) {
                                                         <td><img src={value.image} alt="" style={{ width: '70px' }} /></td>
                                                         <td>
                                                             <div className="d-flex">
-                                                                <button href="/products/update/<%= product._id %>" className="btn btn-success mr-1">Update</button>
-
-                                                                <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleDelete(value._id)} className="btn btn-danger" >Delete</button>
+                                                                <Link to={"/product/update/" + value._id} className="btn btn-success mr-1">Update</Link>
                                                             </div>
                                                         </td>
                                                     </tr>

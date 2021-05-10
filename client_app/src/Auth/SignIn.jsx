@@ -110,7 +110,7 @@ function SignIn(props) {
                                         </div>
                                         <div className="col-md-8">
                                             <div className="check-box d-inline-block ml-0 ml-md-2 mt-10">
-                                                <Link to="/signup">Do You Account?</Link>
+                                                <Link to="/signup">Do You Have Account?</Link>
                                             </div>
                                         </div>
                                         <div className="col-md-4 mt-10 mb-20 text-left text-md-right">

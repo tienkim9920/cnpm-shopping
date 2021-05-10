@@ -13,7 +13,6 @@ var schema = new mongoose.Schema(
         name_product: String,
         price_product: String,
         count: Number,
-        image: String,
         size: String
     }
 );

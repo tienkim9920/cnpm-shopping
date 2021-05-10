@@ -9,6 +9,9 @@ import bg7 from '../CSS/Image/7.jpg'
 import Home_Category from './Component/Home_Category';
 import Home_Product from './Component/Home_Product';
 import Product from '../API/Product';
+import { changeCount } from '../Redux/Action/ActionCount';
+import { useDispatch, useSelector } from 'react-redux';
+import CartsLocal from '../Share/CartsLocal';
 
 Home.propTypes = {
 
@@ -21,6 +24,8 @@ function Home(props) {
 
     const [product_detail, set_product_detail] = useState([])
 
+    const dispatch = useDispatch()
+
     const GET_id_modal = (value) => {
 
         set_id_modal(value)
@@ -29,7 +34,7 @@ function Home(props) {
 
     useEffect(() => {
 
-        if (id_modal !== ''){
+        if (id_modal !== '') {
 
             const fetchData = async () => {
 
@@ -46,6 +51,31 @@ function Home(props) {
     }, [id_modal])
 
 
+    // Get count từ redux khi user chưa đăng nhập
+    const count_change = useSelector(state => state.Count.isLoad)
+
+    // Hàm này dùng để thêm vào giỏ hàng
+    const handler_addcart = (e) => {
+
+        e.preventDefault()
+
+        const data = {
+            id_cart: Math.random().toString(),
+            id_product: id_modal,
+            name_product: product_detail.name_product,
+            price_product: product_detail.price_product,
+            count: 1,
+            image: product_detail.image,
+            size: 'S',
+        }
+
+        CartsLocal.addProduct(data)
+
+        const action_count_change = changeCount(count_change)
+        dispatch(action_count_change)
+
+    }
+
 
     return (
         <div className="container">
@@ -59,7 +89,7 @@ function Home(props) {
                                     <div className="slider-progress"></div>
 
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -77,6 +107,7 @@ function Home(props) {
                     </div>
                 </div>
             </div>
+
 
             <Home_Category GET_id_modal={GET_id_modal} />
 
@@ -111,6 +142,7 @@ function Home(props) {
             <Home_Product gender={`Male`} category={'60615da34c9cac0448b4b9a2'} GET_id_modal={GET_id_modal} />
 
             <Home_Product gender={`Female`} category={'60615da34c9cac0448b4b9a8'} GET_id_modal={GET_id_modal} />
+
 
             <div className="modal fade modal-wrapper" id={id_modal} >
                 <div className="modal-dialog modal-dialog-centered" role="document">
@@ -154,15 +186,7 @@ function Home(props) {
                                                 </p>
                                             </div>
                                             <div className="single-add-to-cart">
-                                                <form action="#" className="cart-quantity">
-                                                    <div className="quantity">
-                                                        <label>Quantity</label>
-                                                        <div className="cart-plus-minus">
-                                                            <input className="cart-plus-minus-box" value="1" type="text" />
-                                                            <div className="dec qtybutton"><i className="fa fa-angle-down"></i></div>
-                                                            <div className="inc qtybutton"><i className="fa fa-angle-up"></i></div>
-                                                        </div>
-                                                    </div>
+                                                <form onSubmit={handler_addcart} className="cart-quantity">
                                                     <button className="add-to-cart" type="submit">Add to cart</button>
                                                 </form>
                                             </div>
@@ -173,8 +197,7 @@ function Home(props) {
                         </div>
                     </div>
                 </div>
-            </div>   
-
+            </div>
         </div>
     );
 }

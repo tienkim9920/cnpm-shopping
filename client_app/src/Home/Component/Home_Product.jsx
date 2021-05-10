@@ -127,7 +127,7 @@ function Home_Product(props) {
                                                 </div>
                                                 <div className="add_actions">
                                                     <ul className="add-actions-link">
-                                                        <li><a className="links-details" href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                                       
                                                         <li><a className="links-details" href="#"><i className="fa fa-heart-o"></i></a></li>
                                                         <li><a href="#" title="quick view"
                                                             className="links-details"

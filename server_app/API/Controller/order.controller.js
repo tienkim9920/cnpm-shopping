@@ -48,7 +48,7 @@ module.exports.get_order = async (req, res) => {
 
     const id_user = req.params.id
 
-    const order = await Order.find({ id_user }).populate(['id_user', 'id_delivery'])
+    const order = await Order.find({ id_user }).populate(['id_user', 'id_note'])
 
     res.json(order)
 
@@ -58,7 +58,7 @@ module.exports.get_detail = async (req, res) => {
 
     const id_order = req.params.id
 
-    const order = await Order.findOne({ _id: id_order }).populate(['id_user', 'id_delivery'])
+    const order = await Order.findOne({ _id: id_order }).populate(['id_user', 'id_note'])
 
     res.json(order)
 

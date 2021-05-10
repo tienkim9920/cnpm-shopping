@@ -5468,7 +5468,7 @@ span.required {
 .modal_success{
 	position: fixed;
 	left: 37%;
-	z-index: 9999;
+	z-index: 9999999;
 	background-color: rgb(76, 76, 76, .8);
 	width: 25rem;
 }

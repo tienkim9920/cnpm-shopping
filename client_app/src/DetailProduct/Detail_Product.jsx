@@ -139,15 +139,15 @@ function Detail_Product(props) {
 
                 console.log(response)
 
+                set_load_comment(true)
+
+                set_comment('')
+
+                set_modal(false)
+
             }
 
             post_data()
-
-            set_load_comment(true)
-
-            set_comment('')
-
-            set_modal(false)
 
         }
 
@@ -180,7 +180,6 @@ function Detail_Product(props) {
 
     return (
         <div>
-
             {
                 show_success &&
                 <div className="modal_success">
@@ -297,14 +296,14 @@ function Detail_Product(props) {
                                         {
                                             list_comment && list_comment.map(value => (
 
-                                                <div className="comment-author-infos pt-25">
+                                                <div className="comment-author-infos pt-25" key={value._id}>
                                                     <span>{value.id_user.fullname} <div style={{ fontWeight: '400' }}>{value.content}</div></span>
                                                     <ul className="rating">
-                                                        <li><i className={value.star1}></i></li>
-                                                        <li><i className={value.star2}></i></li>
-                                                        <li><i className={value.star3}></i></li>
-                                                        <li><i className={value.star4}></i></li>
-                                                        <li><i className={value.star5}></i></li>
+                                                        <li><i className={value.star > 0 ? 'fa fa-star' : 'fa fa-star-o'}></i></li>
+                                                        <li><i className={value.star > 1 ? 'fa fa-star' : 'fa fa-star-o'}></i></li>
+                                                        <li><i className={value.star > 2 ? 'fa fa-star' : 'fa fa-star-o'}></i></li>
+                                                        <li><i className={value.star > 3 ? 'fa fa-star' : 'fa fa-star-o'}></i></li>
+                                                        <li><i className={value.star > 4 ? 'fa fa-star' : 'fa fa-star-o'}></i></li>
                                                     </ul>
                                                 </div>
 

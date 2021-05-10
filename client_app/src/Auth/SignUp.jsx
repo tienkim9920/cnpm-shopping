@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import User from '../API/User';
+import { useForm } from "react-hook-form";
 
 SignUp.propTypes = {
 
 };
 
 function SignUp(props) {
+
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const onSubmit = data => console.log(data);
 
     const [fullname, set_fullname] = useState('')
     const [username, set_username] = useState('')

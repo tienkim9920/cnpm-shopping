@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 Products.propTypes = {
     products: PropTypes.array,
@@ -33,9 +34,9 @@ function Products(props) {
                     <div className="col-lg-4 col-md-4 col-sm-6 mt-40 animate__animated animate__zoomIn col_product" key={value._id}>
                         <div className="single-product-wrap">
                             <div className="product-image">
-                                <a href="single-product.html">
+                                <Link to={`/detail/${value._id}`}>
                                     <img src={value.image} alt="Li's Product Image" />
-                                </a>
+                                </Link>
                                 <span className="sticker">New</span>
                             </div>
                             <div className="product_desc">
@@ -58,22 +59,6 @@ function Products(props) {
                                     <div className="price-box">
                                         <span className="new-price">${value.price_product}</span>
                                     </div>
-                                </div>
-                                <div className="add_actions">
-                                    <ul className="add-actions-link">
-                                        <li><a className="links-details" href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                        <li><a className="links-details" href="#"><i className="fa fa-heart-o"></i></a></li>
-                                        <li>
-                                            <a href="#" title="quick view"
-                                            className="links-details"
-                                            // data-toggle="modal"
-                                            // data-target={`#${value._id}`}
-                                            // onClick={() => GET_id_modal(`${value._id}`)}
-                                            >
-                                                <i className="fa fa-eye"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
