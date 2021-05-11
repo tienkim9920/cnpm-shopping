@@ -7,6 +7,8 @@ import orderAPI from '../Api/orderAPI';
 import Pagination from '../Shared/Pagination'
 import Search from '../Shared/Search'
 
+import { jsPDF } from 'jspdf'
+
 function CompletedOrder(props) {
     const [filter, setFilter] = useState({
         page: '1',
@@ -48,6 +50,35 @@ function CompletedOrder(props) {
         })
     }
 
+    const handler_Report = () => {
+
+        // source code HTML table to PDF
+
+        var sTable = document.getElementById('customers').innerHTML;
+
+        var style = "<style>";
+        style = style + "table {width: 100%;font: 17px Calibri;}";
+        style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+        style = style + "padding: 2px 3px;text-align: center;}";
+        style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', '', 'height=900,width=1000');
+
+        win.document.write('<html><head>');
+        win.document.write('<title>Profile</title>');   // <title> FOR PDF HEADER.
+        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('</head>');
+        win.document.write('<body>');
+        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</body></html>');
+
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+        win.print();    // PRINT THE CONTENTS.
+
+    }
+
     return (
         <div className="page-wrapper">
 
@@ -57,10 +88,9 @@ function CompletedOrder(props) {
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Complete Order</h4>
-                                <h4 className="card-title">TotalMoney: {totalMoney}$</h4>
                                 <Search handlerSearch={handlerSearch} />
-                                <div className="table-responsive mt-3">
-                                    <table className="table table-striped table-bordered no-wrap">
+                                <div className="table-responsive mt-3" id="customers">
+                                    <table className="table table-striped table-bordered no-wrap" id="tab_customers">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -108,8 +138,12 @@ function CompletedOrder(props) {
                                             }
                                         </tbody>
                                     </table>
-                                    <Pagination filter={filter} onPageChange={onPageChange} totalPage={totalPage} />
+                                    <h4 className="card-title">Total Money: {totalMoney}$</h4>
                                 </div>
+                                <Pagination filter={filter} onPageChange={onPageChange} totalPage={totalPage} />
+                                    <a className="btn btn-success mb-5"
+                                        onClick={handler_Report}
+                                        style={{ color: '#fff', cursor: 'pointer' }}>Thống Kê</a>
                             </div>
                         </div>
                     </div>
@@ -117,7 +151,7 @@ function CompletedOrder(props) {
             </div>
             <footer className="footer text-center text-muted">
                 All Rights Reserved by Adminmart. Designed and Developed by
-            <a href="https://www.facebook.com/KimTien.9920/">Tiền Kim</a>.
+            <a href="https://www.facebook.com/KimTien.9920/"> Tiền Kim</a>.
         </footer>
         </div>
     );

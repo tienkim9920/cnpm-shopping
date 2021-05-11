@@ -45,6 +45,7 @@ function DetailHistory(props) {
                     <li style={{ fontSize: '1.1rem' }}>Phone: <span>{order.id_note && order.id_note.phone}</span></li>
                     <li style={{ fontSize: '1.1rem' }}>Fullname: <span>{order.id_note && order.id_note.fullname}</span></li>
                     <li style={{ fontSize: '1.1rem' }}>Total: <span>{order.total}$</span></li>
+                    <li style={{ fontSize: '1.1rem' }}>Feeship: <span>{order.feeship}$</span></li>
                 </ul>
                 <div className="group_box_status" style={{ marginTop: '3rem' }}>
                     <div className="d-flex justify-content-center">

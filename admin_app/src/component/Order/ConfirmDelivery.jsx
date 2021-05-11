@@ -112,8 +112,10 @@ function ConfirmDelivery(props) {
                                                                 <Link to={"/order/detail/" + value._id} className="btn btn-info mr-1">Detail</Link>
 
                                                                 <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleConfirm(value)} className="btn btn-success mr-1" >Hoàn tất</button>
-
-                                                                <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleCancel(value)} className="btn btn-danger" >Hủy bỏ</button>
+                                                                
+                                                                { 
+                                                                    !value.pay && <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleCancel(value)} className="btn btn-danger" >Hủy bỏ</button>
+                                                                }
                                                             </div>
                                                         </td>
                                                         <td className="name">{value._id}</td>

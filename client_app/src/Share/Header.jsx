@@ -313,10 +313,6 @@ function Header(props) {
                             <div className="header-middle-right">
                                 <ul className="hm-menu">
                                     <li className="hm-wishlist d-flex">
-                                        <Link to="/favorite" className="ml-2 mr-2">
-                                            <span className="cart-item-count wishlist-item-count">0</span>
-                                            <i className="fa fa-heart-o"></i>
-                                        </Link>
                                         <li className="hm-minicart">
                                             <div className="hm-minicart-trigger"
                                                 data-toggle="collapse"
