@@ -99,7 +99,7 @@ function CompletedOrder(props) {
                                                 <th>Phone</th>
                                                 <th>Address</th>
                                                 <th>Status</th>
-                                                <th>Total Money</th>
+                                                <th>Total</th>
                                                 <th>Payment</th>
                                                 <th>Action</th>
                                             </tr>
@@ -125,7 +125,7 @@ function CompletedOrder(props) {
                                                                 }
                                                             })()}
                                                         </td>
-                                                        <td className="name">{value.total}</td>
+                                                        <td className="name">{value.total} $</td>
                                                         <td className="name">{value.pay === true ? "Đã thanh toán" : "Chưa thanh toán"}</td>
                                                         <td>
                                                             <div className="d-flex">
@@ -138,7 +138,7 @@ function CompletedOrder(props) {
                                             }
                                         </tbody>
                                     </table>
-                                    <h4 className="card-title">Total Money: {totalMoney}$</h4>
+                                    <h4 className="card-title">Total Money: {totalMoney} $</h4>
                                 </div>
                                 <Pagination filter={filter} onPageChange={onPageChange} totalPage={totalPage} />
                                     <a className="btn btn-success mb-5"
