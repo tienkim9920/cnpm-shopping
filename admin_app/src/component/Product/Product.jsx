@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import queryString from 'query-string'
 
 import productAPI from '../Api/productAPI';
@@ -7,7 +7,8 @@ import Pagination from '../Shared/Pagination'
 import Search from '../Shared/Search'
 
 
-function Product(props) {
+function Product() {
+
     const [filter, setFilter] = useState({
         page: '1',
         limit: '5',
@@ -83,8 +84,8 @@ function Product(props) {
                                                 <th>Name</th>
                                                 <th>Price</th>
                                                 <th>Image</th>
-                                                <th>Producer</th>
-                                                {/* <th>Category</th> */}
+                                                {/* <th>Producer</th> */}
+                                                <th>Category</th>
                                                 <th>Edit</th>
                                             </tr>
                                         </thead>

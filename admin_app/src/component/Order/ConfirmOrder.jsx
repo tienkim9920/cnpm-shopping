@@ -9,7 +9,7 @@ import Search from '../Shared/Search'
 
 import io from "socket.io-client";
 
-const socket = io('https://hieusuper20hcm.herokuapp.com/', {
+const socket = io('http://localhost:8000/', {
     transports: ['websocket'], jsonp: false
 });
 socket.connect();
@@ -133,9 +133,8 @@ function ConfirmOrder(props) {
                                                                 <Link to={"/order/detail/" + value._id} className="btn btn-info mr-1">Detail</Link>
 
                                                                 <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleConfirm(value)} className="btn btn-success mr-1" >Xác nhận</button>
-                                                                {
-                                                                    !value.pay && <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleCancel(value)} className="btn btn-danger" >Hủy bỏ</button>
-                                                                }    
+
+                                                                <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleCancel(value)} className="btn btn-danger" >Hủy bỏ</button>
                                                             </div>
                                                         </td>
                                                         <td className="name">{value._id}</td>

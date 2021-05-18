@@ -61,11 +61,11 @@ module.exports.create = async (req, res) => {
 
             var fileProduct = "/img/" + fileName
 
-            newProduct.image = fileProduct
+            newProduct.image = "http://localhost:8000"+fileProduct
 
             fileImage.mv('./public/img/' + fileName)
         }
-        else newProduct.image = '/img/nophoto.jpg'
+        else newProduct.image = 'http://localhost:8000/img/nophoto.jpg'
 
         newProduct.save();
         res.json({ msg: "Bạn đã thêm thành công" })

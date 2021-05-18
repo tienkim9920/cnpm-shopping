@@ -14,7 +14,6 @@ function DetailCategory(props) {
         limit: '5',
         search: '',
         status: true,
-
     })
 
     const [products, setProducts] = useState([])
@@ -46,12 +45,6 @@ function DetailCategory(props) {
             search: value
         })
     }
-
-    const handleDelete = async (value) => {
-
-
-    }
-
 
     return (
         <div className="page-wrapper">

@@ -7,8 +7,6 @@ import orderAPI from '../Api/orderAPI';
 import Pagination from '../Shared/Pagination'
 import Search from '../Shared/Search'
 
-import { jsPDF } from 'jspdf'
-
 function CompletedOrder(props) {
     const [filter, setFilter] = useState({
         page: '1',

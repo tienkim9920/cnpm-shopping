@@ -260,7 +260,6 @@ function Checkout(props) {
         console.log(kilo)
         console.log(duration_text)
         console.log(price_shipping)
-        console.log(to_places)
 
         set_distance(kilo)
         set_duration(duration_text)

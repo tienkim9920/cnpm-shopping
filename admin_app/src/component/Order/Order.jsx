@@ -7,7 +7,7 @@ import orderAPI from '../Api/orderAPI';
 import Pagination from '../Shared/Pagination'
 import Search from '../Shared/Search'
 
-const socket = io('https://hieusuper20hcm.herokuapp.com/', {
+const socket = io('http://localhost:8000/', {
     transports: ['websocket'], jsonp: false
 });
 socket.connect();

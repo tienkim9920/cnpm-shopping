@@ -1,4 +1,6 @@
 const User = require('../../../Models/user')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 module.exports.index = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
@@ -9,8 +11,12 @@ module.exports.index = async (req, res) => {
 
     let start = (page - 1) * perPage;
     let end = page * perPage;
-
-    const users = await User.find()
+    let users;
+    if (req.query.permission) {
+        users = await User.find({ id_permission: req.query.permission }).populate('id_permission')
+    } else {
+        users = await User.find({}).populate('id_permission')
+    }
 
 
     if (!keyWordSearch) {
@@ -34,7 +40,7 @@ module.exports.index = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     const user = await User.find();
-    console.log(req.query)
+
     const userFilter = user.filter((c) => {
         return c.email === req.query.email.trim() || c.username === req.query.username.trim()
     });
@@ -43,17 +49,15 @@ module.exports.create = async (req, res) => {
         res.json({ msg: 'Email hoặc username đã tồn tại' })
     } else {
         var newUser = new User()
+        const salt = await bcrypt.genSalt();
+        req.query.password = await bcrypt.hash(req.query.password, salt);
         req.query.name = req.query.name.toLowerCase().replace(/^.|\s\S/g, a => { return a.toUpperCase() })
-
-
         newUser.fullname = req.query.name
         newUser.username = req.query.username
         newUser.password = req.query.password
         if (req.query.permission) {
             newUser.id_permission = "6087dcb5f269113b3460fce4"
         } else newUser.id_permission = req.query.permission
-        newUser.gender = req.query.gender
-        newUser.phone = req.query.phone
         newUser.email = req.query.email
 
         newUser.save();
@@ -81,7 +85,6 @@ module.exports.details = async (req, res) => {
 }
 
 module.exports.update = async (req, res) => {
-    console.log(req.query)
     const user = await User.findOne({ _id: req.query.id });
     if (req.query.email && req.query.email !== user.email) {
         req.query.email = user.email
@@ -91,17 +94,41 @@ module.exports.update = async (req, res) => {
     }
     if (!req.query.password) {
         req.query.password = user.password;
+    } else {
+        const salt = await bcrypt.genSalt();
+        req.query.password = await bcrypt.hash(req.query.password, salt);
     }
 
     req.query.name = req.query.name.toLowerCase().replace(/^.|\s\S/g, a => { return a.toUpperCase() })
     await User.updateOne({ _id: req.query.id }, {
         fullname: req.query.name,
         password: req.query.password,
-        id_permission: req.query.permission,
-        phone: req.query.phone,
-        gender: req.query.gender
+        id_permission: req.query.permission
     }, function (err, res) {
         if (err) return res.json({ msg: err });
     });
     res.json({ msg: "Bạn đã update thành công" })
+}
+
+module.exports.login = async (req, res) => {
+
+    const email = req.body.email
+    const password = req.body.password
+
+    const body = [{ username: email }, { email: email }]
+
+    const user = await User.findOne({ $or: body }).populate('id_permission')
+
+    if (user === null) {
+        res.json({ msg: "Không Tìm Thấy User" })
+    }
+    else {
+        const auth = await bcrypt.compare(password, user.password)
+        if (auth) {
+            var token = jwt.sign(user._id.toJSON(), 'gfdgfd');
+            res.json({ msg: "Đăng nhập thành công", user: user, jwt: token })
+        } else {
+            res.json({ msg: "Sai mật khẩu" })
+        }
+    }
 }

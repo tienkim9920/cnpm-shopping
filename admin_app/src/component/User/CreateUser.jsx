@@ -9,14 +9,11 @@ import permissionAPI from '../Api/permissionAPI'
 
 function CreateUser(props) {
     const [permission, setPermission] = useState([])
-    const [gender] = useState(["Male", "Female"])
     const [name, setName] = useState('');
     const [username, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [phone, setPhone] = useState('');
     const [permissionChoose, setPermissionChoose] = useState('');
-    const [genderChoose, setGenderChoose] = useState('Male');
     const [validationMsg, setValidationMsg] = useState('');
     const { handleSubmit } = useForm();
 
@@ -43,12 +40,6 @@ function CreateUser(props) {
             msg.email = "Email không được để trống"
         } else if (!isEmail(email)) {
             msg.email = "Email sai định dạng"
-        }
-
-        if (isEmpty(phone)) {
-            msg.phone = "Số điện thoại không được để trống"
-        } else if (phongeRegex.test(phone) === false) {
-            msg.phone = "Số điện thoại sai định dạng"
         }
 
         if (isEmpty(password)) {
@@ -81,8 +72,6 @@ function CreateUser(props) {
             email: email,
             password: password,
             username: username,
-            gender: genderChoose,
-            phone: phone,
             permission: permissionChoose
         }
         const query = '?' + queryString.stringify(user)
@@ -95,8 +84,6 @@ function CreateUser(props) {
             setEmail('');
             setPassword('');
             setPermissionChoose('');
-            setGenderChoose('Male');
-            setPhone('');
 
         }
         setValidationMsg({ api: response.msg })
@@ -136,12 +123,6 @@ function CreateUser(props) {
                                     </div>
 
                                     <div className="form-group w-50">
-                                        <label htmlFor="phone">Phone:</label>
-                                        <input type="text" className="form-control" id="phone" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-                                        <p className="form-text text-danger">{validationMsg.phone}</p>
-                                    </div>
-
-                                    <div className="form-group w-50">
                                         <label htmlFor="username">Username:</label>
                                         <input type="text" className="form-control" id="username" name="username" value={username} onChange={(e) => setUserName(e.target.value)} required />
                                         <p className="form-text text-danger">{validationMsg.username}</p>
@@ -171,19 +152,6 @@ function CreateUser(props) {
                                         </select>
                                         <p className="form-text text-danger">{validationMsg.permission}</p>
                                     </div>
-
-                                    <div className="form-group w-50">
-                                        <label htmlFor="gender" className="mr-2">Chọn giới tính:</label>
-                                        <select name="gender" id="gender" value={genderChoose} onChange={(e) => setGenderChoose(e.target.value)}>
-                                            {
-                                                gender && gender.map((item, index) => (
-                                                    <option value={item} key={index}>{item}</option>
-                                                ))
-                                            }
-
-                                        </select>
-                                    </div>
-
                                     <button type="submit" className="btn btn-primary">Create</button>
                                 </form>
                             </div>

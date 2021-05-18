@@ -46,3 +46,7 @@
 .page-wrapper {
   display: block;
 }
+
+.sidebar-nav #sidebarnav .sidebar-item .first-level {
+  display: block;
+}
