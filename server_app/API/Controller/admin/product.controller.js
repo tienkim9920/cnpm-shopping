@@ -49,7 +49,7 @@ module.exports.create = async (req, res) => {
         newProduct.name_product = req.body.name
         newProduct.price_product = req.body.price
         newProduct.id_category = req.body.category
-        newProduct.number = req.body.number
+        // newProduct.number = req.body.number
         newProduct.describe = req.body.description
         newProduct.gender = req.body.gender
 
@@ -61,7 +61,7 @@ module.exports.create = async (req, res) => {
 
             var fileProduct = "/img/" + fileName
 
-            newProduct.image = "http://localhost:8000"+fileProduct
+            newProduct.image = "http://localhost:8000" + fileProduct
 
             fileImage.mv('./public/img/' + fileName)
         }
@@ -82,6 +82,7 @@ module.exports.delete = async (req, res) => {
         }
         res.json({ msg: "Thanh Cong" })
     })
+    
 }
 
 module.exports.details = async (req, res) => {
@@ -115,7 +116,7 @@ module.exports.update = async (req, res) => {
                 name_product: req.body.name,
                 price_product: req.body.price,
                 id_category: req.body.category,
-                number: req.body.number,
+                // number: req.body.number,
                 describe: req.body.description,
                 gender: req.body.gender,
                 image: fileProduct
@@ -131,7 +132,7 @@ module.exports.update = async (req, res) => {
                 name_product: req.body.name,
                 price_product: req.body.price,
                 id_category: req.body.category,
-                number: req.body.number,
+                // number: req.body.number,
                 describe: req.body.description,
                 gender: req.body.gender
             }, function (err, res) {

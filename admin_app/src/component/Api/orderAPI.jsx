@@ -28,6 +28,10 @@ const orderAPI = {
     cancelOrder: (query) => {
         const url = `/admin/order/cancelorder${query}`
         return axiosClient.patch(url)
+    },
+    completeOrder: (query) => {
+        const url = `/admin/order/completeOrder${query}`
+        return axiosClient.get(url)
     }
 }
 

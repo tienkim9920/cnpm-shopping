@@ -68,7 +68,7 @@ function MainHistory(props) {
                                                         <td className="li-product-price"><span className="amount">{value.id_note.phone}</span></td>
                                                         <td className="li-product-price"><span className="amount">{value.address}</span></td>
 
-                                                        <td className="li-product-price"><span className="amount">{value.total} $</span></td>
+                                                        <td className="li-product-price"><span className="amount">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(value.total) + ' VNĐ'}</span></td>
                                                         <td className="li-product-price"><span className="amount" style={value.pay ? { color: 'green' } : { color: 'red' }}>{value.pay ? 'Paid' : 'Unpaid'}</span></td>
                                                         <td className="li-product-price"><span className="amount" style={{ cursor: 'pointer' }}>
                                                             {

@@ -18,7 +18,12 @@ var schema = new mongoose.Schema(
         total: Number,
         status: String,
         pay: Boolean,
-        feeship: Number
+        feeship: Number,
+        id_coupon: {
+            type: String,
+            ref: 'Coupon'
+        },
+        create_time: String
     }
 );
 

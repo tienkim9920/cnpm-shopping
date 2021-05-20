@@ -176,12 +176,12 @@ function Home(props) {
                                                 </ul>
                                             </div>
                                             <div className="price-box pt-20">
-                                                <span className="new-price new-price-2">${product_detail.price_product}</span>
+                                                <span className="new-price new-price-2">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(product_detail.price_product)+ ' VNĐ'}</span>
                                             </div>
                                             <div className="product-desc">
                                                 <p>
                                                     <span>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis reiciendis hic voluptatibus aperiam culpa ullam dolor esse error ducimus itaque ipsa facilis saepe rem veniam exercitationem quos magnam, odit perspiciatis.
+                                                        {product_detail.describe} Veritatis reiciendis hic voluptatibus aperiam culpa ullam dolor esse error ducimus itaque ipsa facilis saepe rem veniam exercitationem quos magnam, odit perspiciatis.
                                                     </span>
                                                 </p>
                                             </div>

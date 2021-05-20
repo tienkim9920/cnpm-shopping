@@ -169,12 +169,12 @@
         $("#result").removeClass("hide");
         $('#in_kilo').html(distance_in_kilo.toFixed(2) + ' Km');
         $('#duration_text').html(duration_text);
-        if (parseInt(distance_in_kilo) < 5) {
-          $('#price_shipping').html('5');
-        } else if (parseInt(distance_in_kilo) > 5 && parseInt(distance_in_kilo) < 10) {
-          $('#price_shipping').html('10');
+        if (parseInt(Math.round(distance_in_kilo)) < 5) {
+          $('#price_shipping').html('5000');
+        } else if (parseInt(Math.round(distance_in_kilo)) > 5 && parseInt(Math.round(distance_in_kilo)) < 10) {
+          $('#price_shipping').html('10000');
         } else {
-          $('#price_shipping').html('15');
+          $('#price_shipping').html('15000');
         }
       }
 

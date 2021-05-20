@@ -10,9 +10,8 @@ import Search from '../Shared/Search'
 function CompletedOrder(props) {
     const [filter, setFilter] = useState({
         page: '1',
-        limit: '4',
-        search: '',
-        status: '4'
+        limit: '10',
+        getDate: '',
     })
 
     const [order, setOrder] = useState([])
@@ -22,9 +21,8 @@ function CompletedOrder(props) {
     useEffect(() => {
         const query = '?' + queryString.stringify(filter)
 
-
         const fetchAllData = async () => {
-            const od = await orderAPI.getAPI(query)
+            const od = await orderAPI.completeOrder(query)
             setTotalPage(od.totalPage)
             setOrder(od.orders)
             setTotalMoney(od.totalMoney)
@@ -37,14 +35,6 @@ function CompletedOrder(props) {
         setFilter({
             ...filter,
             page: value
-        })
-    }
-
-    const handlerSearch = (value) => {
-        setFilter({
-            ...filter,
-            page: '1',
-            search: value
         })
     }
 
@@ -77,6 +67,113 @@ function CompletedOrder(props) {
 
     }
 
+
+    let day = [] 
+    let month = []
+
+    for (let i = 1; i < 32; i++){
+        day.push(i)
+    }
+
+    for (let i = 1; i < 13; i++){
+        month.push(i)
+    }
+
+
+    const [getDay, setGetDay] = useState('null')
+    const [getMonth, setGetMonth] = useState('null')
+    const [getYear, setGetYear] = useState('null')
+
+    const [errMessage, setErrMessage] = useState('')
+    const [subMessage, setSubMessage] = useState('')
+
+    const handlerStatistic = (e) => {
+
+        e.preventDefault()
+
+        // Check Validation
+
+        // Kiểm tra ngày tháng năm đều rỗng
+        if ((getDay === 'null' && getMonth === 'null' && getYear === 'null')){
+            setErrMessage('Vui lòng kiểm tra lại!')
+            console.log("123")
+            setSubMessage('')
+            return
+        }
+
+        // Kiểm tra chỉ tháng là rỗng
+        if (getDay !== 'null' && getYear !== 'null' && getMonth === 'null'){
+            setErrMessage('Vui lòng kiểm tra lại!')
+            console.log("456")
+            setSubMessage('')
+            return
+        }
+
+        // Kiểm tra chỉ năm là rỗng
+        if (getDay !== 'null' && getMonth !== 'null' && getYear === 'null'){
+            setErrMessage('Vui lòng kiểm tra lại!')
+            console.log("789")
+            setSubMessage('')
+            return
+        }
+
+        // Kiểm tra năm và tháng là rỗng
+        if (getDay !== 'null' && getMonth === 'null' && getYear === 'null'){
+            setErrMessage('Vui lòng kiểm tra lại!')
+            console.log("11")
+            setSubMessage('')
+            return
+        } 
+        
+        // Kiểm tra ngày và năm là rỗng
+        if (getDay === 'null' && getMonth !== 'null' && getYear === 'null'){
+            setErrMessage('Vui lòng kiểm tra lại!')
+            console.log("10")
+            setSubMessage('')
+            return
+        }           
+        // Check Validation
+
+
+
+        //Xử lý thanh toán theo ngày
+        if ((getDay !== 'null') && (getMonth !== 'null') && (getYear !== 'null')){
+
+            setFilter({
+                ...filter,
+                getDate: `${getDay}/${getMonth}/${getYear}`
+            })
+
+            setSubMessage('Thống Kê Theo Ngày Thành Công!')
+            setErrMessage('')
+        }        
+
+        // Xử lý thanh toán theo tháng
+        if (getDay === 'null' && getMonth !== 'null' && getYear !== 'null'){
+
+            setFilter({
+                ...filter,
+                getDate: `/${getMonth}/${getYear}`
+            })
+
+            setSubMessage('Thống Kê Theo Tháng Thành Công!')
+            setErrMessage('')
+        }
+
+        //Xử lý thanh toán theo năm
+        if (getDay === 'null' && getMonth === 'null' && getYear !== 'null'){
+
+            setFilter({
+                ...filter,
+                getDate: `/${getYear}`
+            })
+
+            setSubMessage('Thống Kê Năm Thành Công!')
+            setErrMessage('')
+        }
+
+    }
+
     return (
         <div className="page-wrapper">
 
@@ -86,7 +183,6 @@ function CompletedOrder(props) {
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Complete Order</h4>
-                                <Search handlerSearch={handlerSearch} />
                                 <div className="table-responsive mt-3" id="customers">
                                     <table className="table table-striped table-bordered no-wrap" id="tab_customers">
                                         <thead>
@@ -123,7 +219,7 @@ function CompletedOrder(props) {
                                                                 }
                                                             })()}
                                                         </td>
-                                                        <td className="name">{value.total} $</td>
+                                                        <td className="name">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(value.total)+ ' VNĐ'}</td>
                                                         <td className="name">{value.pay === true ? "Đã thanh toán" : "Chưa thanh toán"}</td>
                                                         <td>
                                                             <div className="d-flex">
@@ -136,9 +232,52 @@ function CompletedOrder(props) {
                                             }
                                         </tbody>
                                     </table>
-                                    <h4 className="card-title">Total Money: {totalMoney} $</h4>
+                                    <h4 className="card-title">Total Money: {new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(totalMoney)+ ' VNĐ'}</h4>
                                 </div>
                                 <Pagination filter={filter} onPageChange={onPageChange} totalPage={totalPage} />
+                                    <div>
+                                        <div className="d-flex">
+                                            <h4>Chọn phương thức thống kê</h4>
+                                        </div>
+                                        <br />
+                                        <select className="custom-select" style={{ color: 'gray', width: '85px'}}
+                                            value={getDay} onChange={(e) => setGetDay(e.target.value)}>
+                                            <option value="null">Ngày</option>
+                                            {
+                                                day && day.map(d => (
+                                                    <option value={d} key={d}>{d}</option>
+                                                ))
+                                            }
+                                        </select>
+                                        &nbsp;/&nbsp;
+                                        <select className="custom-select" style={{ color: 'gray', width: '85px'}}
+                                            value={getMonth} onChange={(e) => setGetMonth(e.target.value)}>
+                                            <option value="null" >Tháng</option>
+                                            {
+                                                month && month.map(m => (
+                                                    <option value={m} key={m}>{m}</option>
+                                                ))
+                                            }
+                                        </select>
+                                        &nbsp;/&nbsp;
+                                        <select className="custom-select" style={{ color: 'gray', width: '85px'}}
+                                            value={getYear} onChange={(e) => setGetYear(e.target.value)}>
+                                            <option value="null">Năm</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                        </select>
+                                        &nbsp;
+                                        <input type="submit" className="btn btn-primary" value="Lọc Hóa Đơn" onClick={handlerStatistic} />
+                                    </div>
+                                    <div>
+                                    {
+                                        errMessage !== '' && <span className="text-danger">{errMessage}</span>
+                                    }
+                                    {
+                                        subMessage !== '' && <span className="text-success">{subMessage}</span>
+                                    }
+                                    </div>
+                                    <br />
                                     <a className="btn btn-success mb-5"
                                         onClick={handler_Report}
                                         style={{ color: '#fff', cursor: 'pointer' }}>Thống Kê</a>

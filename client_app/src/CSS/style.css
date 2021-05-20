@@ -5549,6 +5549,16 @@ span.required {
 }
 
 @media only screen and (max-width: 479px) {
+
+	.grid-container{
+		display: grid;
+		grid-template-columns: auto !important;
+		grid-template-rows: auto !important;
+		grid-auto-flow: row !important;
+		grid-gap: 0px !important;
+		padding: 0px !important ;
+	}
+
 	.shop-bar-inner {
 		margin-bottom: 10px;
 	}

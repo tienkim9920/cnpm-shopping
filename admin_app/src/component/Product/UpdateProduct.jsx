@@ -29,7 +29,7 @@ function UpdateProduct(props) {
             setName(rs.name_product)
             setPrice(rs.price_product)
             setDescription(rs.describe)
-            setNumber(rs.number)
+            // setNumber(rs.number)
             setCategoryChoose(rs.id_category)
             setImage(rs.image)
             setCategory(ct)
@@ -69,9 +69,9 @@ function UpdateProduct(props) {
         if (isEmpty(description)) {
             msg.description = "Mô tả không được để trống"
         }
-        if (isEmpty(number.toString())) {
-            msg.number = "Số lượng không được để trống"
-        }
+        // if (isEmpty(number.toString())) {
+        //     msg.number = "Số lượng không được để trống"
+        // }
         if (isEmpty(categoryChoose)) {
             msg.category = "Vui lòng chọn loại"
         }
@@ -98,7 +98,7 @@ function UpdateProduct(props) {
         formData.append("name", name)
         formData.append("price", price)
         formData.append("category", categoryChoose)
-        formData.append("number", number)
+        // formData.append("number", number)
         formData.append("description", description)
         formData.append("gender", genderChoose)
 
@@ -153,11 +153,11 @@ function UpdateProduct(props) {
                                         <input type="text" className="form-control" id="description" name="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
                                         <p className="form-text text-danger">{validationMsg.description}</p>
                                     </div>
-                                    <div className="form-group w-50">
+                                    {/* <div className="form-group w-50">
                                         <label htmlFor="number">Số lượng: </label>
                                         <input type="text" className="form-control" id="number" name="number" value={number} onChange={(e) => onChangeNumber(e)} required />
                                         <p className="form-text text-danger">{validationMsg.number}</p>
-                                    </div>
+                                    </div> */}
 
                                     <div className="form-group w-50">
                                         {/* <label htmlFor="categories" className="mr-2">Chọn loại:</label> */}

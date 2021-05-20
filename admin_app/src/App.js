@@ -43,6 +43,10 @@ import CompletedOrder from './component/Order/CompletedOrder'
 import CancelOrder from './component/Order/CancelOrder'
 import Login from './component/Login/Login';
 import NotFound from './component/NotFound/NotFound';
+import Coupon from './component/Conpon/Coupon';
+
+import CreateCoupon from './component/Conpon/CreateCoupon';
+import UpdateCoupon from './component/Conpon/UpdateCoupon';
 
 function App() {
   return (
@@ -93,6 +97,10 @@ function App() {
             <Route path='/confirmdelivery' component={ConfirmDelivery} />
             <Route path='/completedorder' component={CompletedOrder} />
             <Route path='/cancelorder' component={CancelOrder} />
+
+            <Route exact path='/coupon' component={Coupon} />
+            <Route path='/coupon/create' component={CreateCoupon} />
+            <Route path='/coupon/:id' component={UpdateCoupon} />
 
             <Route component={NotFound} />
           </Switch>;

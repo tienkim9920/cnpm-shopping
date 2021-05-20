@@ -296,13 +296,13 @@ function Header(props) {
                                         {
                                             search_header && search_header.map(value => (
                                                 <div className="hover_box_search d-flex" key={value._id}>
-                                                    <div style={{ padding: '.8rem' }}>
+                                                    <Link to={`/detail/${value._id}`} style={{ padding: '.8rem' }}>
                                                         <img className="img_list_search" src={value.image} alt="" />
-                                                    </div>
+                                                    </Link>
 
                                                     <div className="group_title_search" style={{ marginTop: '2.7rem' }}>
                                                         <h6 className="title_product_search">{value.name_product}</h6>
-                                                        <span className="price_product_search">{value.price_product}$</span>
+                                                        <span className="price_product_search">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(value.price_product)+ ' VNĐ'}</span>
                                                     </div>
                                                 </div>
                                             ))
@@ -320,7 +320,7 @@ function Header(props) {
                                                 aria-expanded="false"
                                                 aria-controls="collapse_carts">
                                                 <span className="item-icon"></span>
-                                                <span className="item-text">${total_price}
+                                                <span className="item-text">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(total_price)+ ' VNĐ'}
                                                     <span className="cart-item-count">{count_cart}</span>
                                                 </span>
                                             </div>
@@ -335,7 +335,7 @@ function Header(props) {
                                                                 </Link>
                                                                 <div className="minicart-product-details">
                                                                     <h6><a>{value.name_product}</a></h6>
-                                                                    <span>${value.price_product} x {value.count}, {value.size}</span>
+                                                                    <span>{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(value.price_product)+ ' VNĐ'} x {value.count}, {value.size}</span>
                                                                 </div>
                                                                 <a className="close" onClick={() => handler_delete_mini(value.id_cart)}>
                                                                     <i className="fa fa-close"></i>
@@ -344,7 +344,7 @@ function Header(props) {
                                                         ))
                                                     }
                                                 </ul>
-                                                <p className="minicart-total">SUBTOTAL: <span>${total_price}</span></p>
+                                                <p className="minicart-total">SUBTOTAL: <span>{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(total_price)+ ' VNĐ'}</span></p>
                                                 <div className="minicart-button">
                                                     <Link to="/cart" className="li-button li-button-fullwidth li-button-dark">
                                                         <span>View Full Cart</span>
@@ -393,7 +393,7 @@ function Header(props) {
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li><Link to="/about">About Us</Link></li>
+                                            <li><Link to="/event">Event</Link></li>
                                             <li><Link to="/contact">Contact</Link></li>
                                         </ul>
 

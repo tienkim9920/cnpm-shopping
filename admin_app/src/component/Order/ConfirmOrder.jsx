@@ -18,7 +18,6 @@ function ConfirmOrder(props) {
     const [filter, setFilter] = useState({
         page: '1',
         limit: '4',
-        search: '',
         status: '1',
         change: true
     })
@@ -59,14 +58,6 @@ function ConfirmOrder(props) {
 
     }, [])
 
-    const handlerSearch = (value) => {
-        setFilter({
-            ...filter,
-            page: '1',
-            search: value
-        })
-    }
-
     const handleConfirm = async (value) => {
         const query = '?' + queryString.stringify({ id: value._id })
 
@@ -105,8 +96,6 @@ function ConfirmOrder(props) {
                                 {
                                     note ? (<h5>{note}</h5>) : (<div></div>)
                                 }
-                                <Search handlerSearch={handlerSearch} />
-
                                 <div className="table-responsive mt-3">
                                     <table className="table table-striped table-bordered no-wrap">
                                         <thead>
@@ -133,8 +122,9 @@ function ConfirmOrder(props) {
                                                                 <Link to={"/order/detail/" + value._id} className="btn btn-info mr-1">Detail</Link>
 
                                                                 <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleConfirm(value)} className="btn btn-success mr-1" >Xác nhận</button>
-
-                                                                <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleCancel(value)} className="btn btn-danger" >Hủy bỏ</button>
+                                                                {
+                                                                    !value.pay && <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleCancel(value)} className="btn btn-danger" >Hủy bỏ</button>
+                                                                }       
                                                             </div>
                                                         </td>
                                                         <td className="name">{value._id}</td>
@@ -153,7 +143,7 @@ function ConfirmOrder(props) {
                                                                 }
                                                             })()}
                                                         </td>
-                                                        <td className="name">{value.total}</td>
+                                                        <td className="name">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(value.total)+ ' VNĐ'}</td>
                                                         <td className="name">{value.pay === true ? "Đã thanh toán" : "Chưa thanh toán"}</td>
 
                                                     </tr>

@@ -6,7 +6,7 @@ const Delivery = require('../../../Models/delivery')
 module.exports.index = async (req, res) => {
     let page = parseInt(req.query.page) || 1;
     let money = 0;
-    const keyWordSearch = req.query.search;
+
     const status = req.query.status
 
     const perPage = parseInt(req.query.limit) || 8;
@@ -27,30 +27,13 @@ module.exports.index = async (req, res) => {
         money += Number(value.total);
     })
 
-    if (!keyWordSearch) {
-        res.json({
-            orders: orders.slice(start, end),
-            totalPage: totalPage,
-            totalMoney: money
-        })
+    res.json({
+        orders: orders.slice(start, end),
+        totalPage: totalPage,
+        totalMoney: money
+    })
 
-    } else {
-        var newData = orders.filter(value => {
-            return value.id.toUpperCase().indexOf(keyWordSearch.toUpperCase()) !== -1 ||
-                value.fullname.toUpperCase().indexOf(keyWordSearch.toUpperCase()) !== -1 ||
-                value.phone.toUpperCase().indexOf(keyWordSearch.toUpperCase()) !== -1 ||
-                value.address.toUpperCase().indexOf(keyWordSearch.toUpperCase()) !== -1 ||
-                value.id_user.email.toUpperCase().indexOf(keyWordSearch.toUpperCase()) !== -1 ||
-                value.total.toString().toUpperCase().indexOf(keyWordSearch.toUpperCase()) !== -1 ||
-                value.id_payment.pay_name.toUpperCase().indexOf(keyWordSearch.toUpperCase()) !== -1
-        })
-
-        res.json({
-            orders: newData.slice(start, end),
-            totalPage: totalPage,
-            totalMoney: money
-        })
-    }
+   
 }
 
 module.exports.detailOrder = async (req, res) => {
@@ -119,4 +102,55 @@ module.exports.cancelOrder = async (req, res) => {
         if (err) return res.json({ msg: err });
     });
     res.json({ msg: "Thanh Cong" })
+}
+
+
+module.exports.completeOrder = async (req, res) => {
+
+    let page = parseInt(req.query.page) || 1;
+    let money = 0;
+
+    const getDate = req.query.getDate
+
+    const perPage = parseInt(req.query.limit) || 8;
+
+    let start = (page - 1) * perPage;
+    let end = page * perPage;
+
+    const orders = await (await Order.find({ status: '4' }).populate('id_user').populate('id_payment').populate('id_note')).reverse();
+
+    if(!getDate){
+
+        const totalPage = Math.ceil(orders.length / perPage);
+
+        orders.map((value) => {
+            money += Number(value.total);
+        })
+
+        res.json({
+            orders: orders.slice(start, end),
+            totalPage: totalPage,
+            totalMoney: money
+        })
+
+    }else{
+
+        const newOrder = orders.filter(value => {
+            return value.create_time.toString().indexOf(getDate.toString()) !== -1
+        })
+
+        const totalPage = Math.ceil(newOrder.length / perPage);
+
+        newOrder.map((value) => {
+            money += Number(value.total);
+        })
+
+        res.json({
+            orders: newOrder.slice(start, end),
+            totalPage: totalPage,
+            totalMoney: money
+        })
+
+    }
+
 }

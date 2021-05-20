@@ -57,33 +57,31 @@ function Pagination(props) {
     }
 
     return (
-        <div className="col-lg-6 col-md-6">
-            <ul className="pagination-box">
-                <li>
-                    <button className="btn btn-secondary Previous" style={{ cursor: 'pointer' }}
-                        onClick={() => onDownPage(page)}
-                        disabled={page <= 1}
-                    >
-                        <i className="fa fa-chevron-left"></i>
-                    </button>
-                </li>
-                {
-                    indexPage && indexPage.map(value => (
-                        <li className={value === parseInt(page) ? "active" : ''}>
-                            <a style={{ cursor: 'pointer' }} onClick={() => onChangeIndex(value)}>{value}</a>
-                        </li>
-                    ))
-                }
-                <li>
-                    <button className="btn btn-secondary Next" style={{ cursor: 'pointer' }}
-                        onClick={() => onUpPage(page)}
-                        disabled={page >= totalPage}
-                    >
-                        <i className="fa fa-chevron-right"></i>
-                    </button>
-                </li>
-            </ul>
-        </div>
+        <ul className="pagination-box">
+            <li>
+                <button className="btn btn-secondary Previous" style={{ cursor: 'pointer' }}
+                    onClick={() => onDownPage(page)}
+                    disabled={page <= 1}
+                >
+                    <i className="fa fa-chevron-left"></i>
+                </button>
+            </li>
+            {
+                indexPage && indexPage.map(value => (
+                    <li className={value === parseInt(page) ? "active" : ''}>
+                        <a style={{ cursor: 'pointer' }} onClick={() => onChangeIndex(value)}>{value}</a>
+                    </li>
+                ))
+            }
+            <li>
+                <button className="btn btn-secondary Next" style={{ cursor: 'pointer' }}
+                    onClick={() => onUpPage(page)}
+                    disabled={page >= totalPage}
+                >
+                    <i className="fa fa-chevron-right"></i>
+                </button>
+            </li>
+        </ul>
     );
 }
 

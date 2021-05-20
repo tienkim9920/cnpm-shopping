@@ -8,6 +8,7 @@ import { changeCount } from '../Redux/Action/ActionCount';
 import { useDispatch, useSelector } from 'react-redux';
 import NoteAPI from '../API/NoteAPI';
 import Detail_OrderAPI from '../API/Detail_OrderAPI';
+import CouponAPI from '../API/CouponAPI';
 
 const socket = io('https://hieusuper20hcm.herokuapp.com/', {
     transports: ['websocket'], jsonp: false
@@ -68,6 +69,18 @@ function Paypal(props) {
 
                 Change_Load_Order(true)
 
+                let responseCoupon
+
+                if (localStorage.getItem('coupon')){
+                    const bodyCoupon = {
+                        status_use: true,
+                        id_user: sessionStorage.getItem('id_user'),
+                        coupon: localStorage.getItem('id_detail_coupon')
+                    }
+            
+                    responseCoupon = await CouponAPI.postCoupon(bodyCoupon)
+                }
+
                 // data Note
                 const data_note = {
                     fullname: information.fullname,
@@ -87,6 +100,8 @@ function Paypal(props) {
                     id_payment: '60635313a1ba573dc01656b5',
                     id_note: response_Note._id,
                     feeship: price,
+                    id_coupon: localStorage.getItem('coupon') ? responseCoupon._id : '',
+                    create_time: `${new Date().getDate()}/${parseInt(new Date().getMonth()) + 1}/${new Date().getFullYear()}`
                 }
 
                 // Xứ lý API Order
@@ -127,6 +142,8 @@ function Paypal(props) {
                 // const send_mail = await OrderAPI.post_email(data_email)
                 // console.log(send_mail)
 
+                localStorage.removeItem('id_detail_coupon')
+                localStorage.removeItem('coupon')
                 localStorage.setItem('carts', JSON.stringify([]))
 
                 set_redirect(true)

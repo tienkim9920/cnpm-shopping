@@ -73,8 +73,8 @@ function DetailOrder(props) {
                                         (
                                             <div className="mt-3 ml-1">
                                                 <h5>Address: {order.address}</h5>
-                                                <h5>FeeShip: ${order.feeship}</h5>
-                                                <h5>Total: ${order.total}</h5>
+                                                <h5>FeeShip: {new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(order.feeship)+ ' VNĐ'}</h5>
+                                                <h5>Total: {new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(order.total)+ ' VNĐ'}</h5>
                                                 <h5>Payment: {order.id_payment.pay_name}</h5>
                                             </div>
 
@@ -103,10 +103,10 @@ function DetailOrder(props) {
                                                     <tr key={index}>
                                                         <td><img src={value.id_product.image} alt="" style={{ width: '70px' }} /></td>
                                                         <td className="name">{value.name_product}</td>
-                                                        <td className="name">{value.price_product}</td>
+                                                        <td className="name">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(value.price_product)+ ' VNĐ'}</td>
                                                         <td className="name">{value.size}</td>
                                                         <td className="name">{value.count}</td>
-                                                        <td className="name">{value.count * Number(value.price_product)}</td>
+                                                        <td className="name">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(value.count * Number(value.price_product))+ ' VNĐ'}</td>
                                                     </tr>
                                                 ))
                                             }

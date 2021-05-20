@@ -11,7 +11,6 @@ function Delivery(props) {
     const [filter, setFilter] = useState({
         page: '1',
         limit: '4',
-        search: '',
         status: '2',
         change: true
     })
@@ -41,13 +40,6 @@ function Delivery(props) {
         })
     }
 
-    const handlerSearch = (value) => {
-        setFilter({
-            ...filter,
-            page: '1',
-            search: value
-        })
-    }
 
     const handleConfirm = async (value) => {
         const query = '?' + queryString.stringify({ id: value._id })
@@ -84,7 +76,6 @@ function Delivery(props) {
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Delivery</h4>
-                                <Search handlerSearch={handlerSearch} />
 
                                 <div className="table-responsive mt-3">
                                     <table className="table table-striped table-bordered no-wrap">
@@ -114,7 +105,9 @@ function Delivery(props) {
 
                                                                 <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleConfirm(value)} className="btn btn-success mr-1" >Xác nhận</button>
 
-                                                                <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleCancel(value)} className="btn btn-danger" >Hủy bỏ</button>
+                                                                {
+                                                                    !value.pay && <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleCancel(value)} className="btn btn-danger" >Hủy bỏ</button>
+                                                                }  
                                                             </div>
                                                         </td>
                                                         <td className="name">{value._id}</td>
@@ -133,7 +126,7 @@ function Delivery(props) {
                                                                 }
                                                             })()}
                                                         </td>
-                                                        <td className="name">{value.total}</td>
+                                                        <td className="name">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(value.total)+ ' VNĐ'}</td>
                                                         <td className="name">{value.pay === true ? "Đã thanh toán" : "Chưa thanh toán"}</td>
 
                                                     </tr>

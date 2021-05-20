@@ -16,7 +16,6 @@ function Order(props) {
     const [filter, setFilter] = useState({
         page: '1',
         limit: '4',
-        search: ''
     })
 
     const [order, setOrder] = useState([])
@@ -60,14 +59,6 @@ function Order(props) {
         })
     }
 
-    const handlerSearch = (value) => {
-        setFilter({
-            ...filter,
-            page: '1',
-            search: value
-        })
-    }
-
     return (
         <div className="page-wrapper">
 
@@ -80,8 +71,6 @@ function Order(props) {
                                 {
                                     note != "" ? (<h5>{note}. Trang sẽ load lại sau 4s</h5>) : (<div></div>)
                                 }
-                                <Search handlerSearch={handlerSearch} />
-
                                 <div className="table-responsive mt-3">
                                     <table className="table table-striped table-bordered no-wrap">
                                         <thead>

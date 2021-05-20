@@ -233,7 +233,7 @@ function Detail_Product(props) {
                                 <div className="product-info">
                                     <h2>{product.name_product}</h2>
                                     <div className="price-box pt-20">
-                                        <span className="new-price new-price-2">${product.price_product}</span>
+                                        <span className="new-price new-price-2">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(product.price_product)+ ' VNĐ'}</span>
                                     </div>
                                     <div className="product-desc">
                                         <p>

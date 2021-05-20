@@ -61,11 +61,11 @@ function CreateProduct(props) {
         if (isEmpty(description)) {
             msg.description = "Mô tả không được để trống"
         }
-        if (isEmpty(number)) {
-            msg.number = "Số lượng không được để trống"
-        } else if (!priceRegex.test(number)) {
-            msg.number = "Số lượng sai định dạng"
-        }
+        // if (isEmpty(number)) {
+        //     msg.number = "Số lượng không được để trống"
+        // } else if (!priceRegex.test(number)) {
+        //     msg.number = "Số lượng sai định dạng"
+        // }
         if (isEmpty(categoryChoose)) {
             msg.category = "Vui lòng chọn loại"
         }
@@ -91,7 +91,7 @@ function CreateProduct(props) {
         formData.append("name", name)
         formData.append("price", price)
         formData.append("category", categoryChoose)
-        formData.append("number", number)
+        // formData.append("number", number)
         formData.append("description", description)
         formData.append("gender", genderChoose)
 
@@ -101,7 +101,7 @@ function CreateProduct(props) {
             setName('');
             setPrice('');
             setDescription('');
-            setNumber('')
+            // setNumber('')
             setCategoryChoose('')
             setGenderChoose('Unisex')
             setFile('')
@@ -115,7 +115,6 @@ function CreateProduct(props) {
 
     return (
         <div className="page-wrapper">
-
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-12">
@@ -154,11 +153,11 @@ function CreateProduct(props) {
                                         <input type="text" className="form-control" id="description" name="description" value={description} onChange={(e) => setDescription(e.target.value)} required />
                                         <p className="form-text text-danger">{validationMsg.description}</p>
                                     </div>
-                                    <div className="form-group w-50">
+                                    {/* <div className="form-group w-50">
                                         <label htmlFor="number">Số lượng: </label>
                                         <input type="number" className="form-control" id="number" name="number" value={number} onChange={(e) => onChangeNumber(e)} required />
                                         <p className="form-text text-danger">{validationMsg.number}</p>
-                                    </div>
+                                    </div> */}
 
                                     <div className="form-group w-50">
                                         {/* <label htmlFor="categories" className="mr-2">Chọn loại:</label> */}

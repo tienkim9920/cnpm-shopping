@@ -10,6 +10,7 @@ import { changeCount } from '../Redux/Action/ActionCount';
 import { useDispatch, useSelector } from 'react-redux';
 import NoteAPI from '../API/NoteAPI';
 import Detail_OrderAPI from '../API/Detail_OrderAPI';
+import CouponAPI from '../API/CouponAPI';
 
 const socket = io('https://hieusuper20hcm.herokuapp.com/', {
     transports: ['websocket'], jsonp: false
@@ -26,6 +27,8 @@ function Checkout(props) {
     const [carts, set_carts] = useState([])
 
     const [total_price, set_total_price] = useState(0)
+
+    const [discount, set_discount] = useState(0)
 
     // state load_map
     const [load_map, set_load_map] = useState(true)
@@ -51,13 +54,28 @@ function Checkout(props) {
 
     // Hàm này dùng để tính tổng tiền
     function Sum_Price(carts, sum_price) {
+
         carts.map(value => {
             return sum_price += Number(value.count) * Number(value.price_product)
         })
 
-        const total = Number(sum_price) + Number(price)
+        const total = Number(sum_price)
 
-        set_total_price(total)
+        if (localStorage.getItem('coupon')){
+            // GET localStorage
+            const coupon = JSON.parse(localStorage.getItem('coupon'))
+
+            set_discount((total * parseInt(coupon.promotion)) / 100)
+
+            const newTotal = total - ((total * parseInt(coupon.promotion)) / 100) + Number(price)
+
+            set_total_price(newTotal)
+        }else{
+            
+            set_total_price(total + Number(price))
+
+        }
+
     }
 
     const [show_error, set_show_error] = useState(false)
@@ -144,6 +162,18 @@ function Checkout(props) {
 
         set_load_order(true)
 
+        let responseCoupon
+
+        if (localStorage.getItem('coupon')){
+            const bodyCoupon = {
+                status_use: true,
+                id_user: sessionStorage.getItem('id_user'),
+                coupon: localStorage.getItem('id_detail_coupon')
+            }
+    
+            responseCoupon = await CouponAPI.postCoupon(bodyCoupon)
+        }
+
         // data Delivery
         const data_delivery = {
             // id_delivery:  Math.random.toString(),
@@ -163,7 +193,9 @@ function Checkout(props) {
             pay: false,
             id_payment: '6086709cdc52ab1ae999e882',
             id_note: response_delivery._id,
-            feeship: price
+            feeship: price,
+            id_coupon: localStorage.getItem('coupon') ? responseCoupon._id : '',
+            create_time: `${new Date().getDate()}/${parseInt(new Date().getMonth()) + 1}/${new Date().getFullYear()}`
         }
 
         // Xứ lý API Order
@@ -206,7 +238,8 @@ function Checkout(props) {
         // const send_mail = await OrderAPI.post_email(data_email)
         // console.log(send_mail)
 
-
+        localStorage.removeItem('id_detail_coupon')
+        localStorage.removeItem('coupon')
         localStorage.setItem('carts', JSON.stringify([]))
 
         set_redirect(true)
@@ -361,7 +394,7 @@ function Checkout(props) {
                                                 <div>
                                                     <label htmlFor="Price">Shipping Cost: </label>&nbsp;
                                                         <label id="price_shipping"></label>
-                                                    <label>$</label>
+                                                        &nbsp;<label>VNĐ</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -463,7 +496,7 @@ function Checkout(props) {
                                                     carts && carts.map(value => (
                                                         <tr className="cart_item" key={value._id}>
                                                             <td className="cart-product-name">{value.name_product}<strong className="product-quantity"> × {value.count}</strong></td>
-                                                            <td className="cart-product-total"><span className="amount">${parseInt(value.price_product) * parseInt(value.count)}</span></td>
+                                                            <td className="cart-product-total"><span className="amount">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(parseInt(value.price_product) * parseInt(value.count)) + ' VNĐ'}</span></td>
                                                         </tr>
                                                     ))
                                                 }
@@ -471,11 +504,15 @@ function Checkout(props) {
                                             <tfoot>
                                                 <tr className="cart-subtotal">
                                                     <th>Shipping Cost</th>
-                                                    <td><span className="amount">${price}</span></td>
+                                                    <td><span className="amount">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(price) + ' VNĐ'}</span></td>
+                                                </tr>
+                                                <tr className="cart-subtotal">
+                                                    <th>Discount</th>
+                                                    <td><span className="amount">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(discount) + ' VNĐ'}</span></td>
                                                 </tr>
                                                 <tr className="order-total">
                                                     <th>Order Total</th>
-                                                    <td><strong><span className="amount">${total_price}</span></strong></td>
+                                                    <td><strong><span className="amount">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(total_price) + ' VNĐ'}</span></strong></td>
                                                 </tr>
                                             </tfoot>
                                         </table>

@@ -11,7 +11,7 @@ var schema = new mongoose.Schema(
         image: String,
         describe: String,
         gender: String,
-        number: Number,
+        // number: Number,
     }
 );
 

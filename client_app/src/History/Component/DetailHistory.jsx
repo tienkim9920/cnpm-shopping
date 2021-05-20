@@ -44,8 +44,8 @@ function DetailHistory(props) {
                     <li style={{ fontSize: '1.1rem' }}>ID Invoice: <span>{order._id}</span></li>
                     <li style={{ fontSize: '1.1rem' }}>Phone: <span>{order.id_note && order.id_note.phone}</span></li>
                     <li style={{ fontSize: '1.1rem' }}>Fullname: <span>{order.id_note && order.id_note.fullname}</span></li>
-                    <li style={{ fontSize: '1.1rem' }}>Total: <span>{order.total}$</span></li>
-                    <li style={{ fontSize: '1.1rem' }}>Feeship: <span>{order.feeship}$</span></li>
+                    <li style={{ fontSize: '1.1rem' }}>Total: <span>{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(order.total) + ' VNĐ'}</span></li>
+                    <li style={{ fontSize: '1.1rem' }}>Feeship: <span>{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(order.feeship) + ' VNĐ'}</span></li>
                 </ul>
                 <div className="group_box_status" style={{ marginTop: '3rem' }}>
                     <div className="d-flex justify-content-center">
@@ -107,7 +107,7 @@ function DetailHistory(props) {
                                                     <tr key={value._id}>
                                                         <td className="li-product-thumbnail"><img src={value.id_product.image} style={{ width: '5rem' }} alt="Li's Product Image" /></td>
                                                         <td className="li-product-name"><a href="#">{value.name_product}</a></td>
-                                                        <td className="li-product-price"><span className="amount">${value.price_product}</span></td>
+                                                        <td className="li-product-price"><span className="amount">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(value.price_product) + ' VNĐ'}</span></td>
                                                         <td className="li-product-price"><span className="amount">{value.count}</span></td>
                                                         <td className="li-product-price"><span className="amount">{value.size}</span></td>
                                                     </tr>

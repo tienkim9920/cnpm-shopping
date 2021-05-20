@@ -128,7 +128,7 @@ function Home_Category(props) {
                                                 </div>
                                             </div>
                                             <div className="price-box">
-                                                <span className="new-price">${value.price_product}</span>
+                                                <span className="new-price">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(value.price_product)+ ' VNĐ'}</span>
                                             </div>
                                         </div>
                                         <div className="add_actions">

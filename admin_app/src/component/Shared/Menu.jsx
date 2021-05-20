@@ -14,6 +14,10 @@ function Menu() {
             permission: "Nhân Viên"
         },
         {
+            item: "Coupon",
+            permission: "Nhân Viên"
+        },
+        {
             item: "Product",
             permission: "Nhân Viên"
         },
@@ -98,16 +102,12 @@ function Menu() {
                                                                             <div></div>
                                                                         )
                                                                 }
-
                                                             </li>
                                                         )
                                                     ))
                                                 }
-
                                             </ul>
                                         </li>
-
-
                                     </ul>
                                 </nav>
                             </div>

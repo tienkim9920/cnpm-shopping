@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import CouponAPI from '../Api/CouponAPI';
+import Pagination from '../Shared/Pagination';
+import Search from '../Shared/Search';
 import queryString from 'query-string'
+import { Link } from 'react-router-dom';
 
-import productAPI from '../Api/productAPI';
-import Pagination from '../Shared/Pagination'
-import Search from '../Shared/Search'
-
-
-function Product() {
+function Coupon(props) {
 
     const [filter, setFilter] = useState({
         page: '1',
@@ -16,7 +14,7 @@ function Product() {
         status: true
     })
 
-    const [products, setProducts] = useState([])
+    const [coupons, setCoupons] = useState([])
     const [totalPage, setTotalPage] = useState()
 
 
@@ -24,8 +22,8 @@ function Product() {
         const query = '?' + queryString.stringify(filter)
 
         const fetchAllData = async () => {
-            const response = await productAPI.getAPI(query)
-            setProducts(response.products)
+            const response = await CouponAPI.getCoupons(query)
+            setCoupons(response.coupons)
             setTotalPage(response.totalPage)
         }
         fetchAllData()
@@ -42,26 +40,20 @@ function Product() {
     const handlerSearch = (value) => {
         setFilter({
             ...filter,
-            page: '1',
+            // page: '1',
             search: value
         })
     }
 
-    const handleDelete = async (value) => {
+    const handleDelete = async (id) => {
 
-        const data = {
-            id: value
-        }
-        const query = '?' + queryString.stringify(data)
+        const response = await CouponAPI.deleteCoupons(id)
 
-        const response = await productAPI.delete(query)
+        setFilter({
+            ...filter,
+            status: !filter.status
+        })
 
-        if (response.msg === "Thanh Cong") {
-            setFilter({
-                ...filter,
-                status: !filter.status
-            })
-        }
     }
 
     return (
@@ -71,39 +63,36 @@ function Product() {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-body">
-                                <h4 className="card-title">Products</h4>
+                                <h4 className="card-title">Coupons</h4>
                                 <Search handlerSearch={handlerSearch} />
 
-                                <Link to="/product/create" className="btn btn-primary my-3">New create</Link>
+                                <Link to="/coupon/create" className="btn btn-primary my-3">New create</Link>
 
                                 <div className="table-responsive">
                                     <table className="table table-striped table-bordered no-wrap">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Name</th>
-                                                <th>Price</th>
-                                                <th>Image</th>
+                                                <th>Code</th>
+                                                <th>Count</th>
+                                                <th>Promotion</th>
                                                 <th>Describe</th>
-                                                {/* <th>Producer</th> */}
-                                                <th>Category</th>
                                                 <th>Edit</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
                                             {
-                                                products && products.map((value, index) => (
-                                                    <tr key={index}>
-                                                        <td className="name">{value._id}</td>
-                                                        <td className="name">{value.name_product}</td>
-                                                        <td>{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(value.price_product)+ ' VNĐ'}</td>
-                                                        <td><img src={value.image} alt="" style={{ width: '70px' }} /></td>
-                                                        <td className="name" style={{ width: '40px' }}>{value.describe}</td>
-                                                        <td>{value.id_category ? value.id_category.category : ""}</td>
+                                                coupons && coupons.map(value => (
+                                                    <tr key={value._id}>
+                                                        <td>{value._id}</td>
+                                                        <td>{value.code}</td>
+                                                        <td>{value.count}</td>
+                                                        <td>{value.promotion}</td>
+                                                        <td>{value.describe}</td>
                                                         <td>
                                                             <div className="d-flex">
-                                                                <Link to={"/product/update/" + value._id} className="btn btn-success mr-1">Update</Link>
+                                                                <Link to={"/coupon/" + value._id} className="btn btn-success mr-1">Update</Link>
 
                                                                 <button type="button" style={{ cursor: 'pointer', color: 'white' }} onClick={() => handleDelete(value._id)} className="btn btn-danger" >Delete</button>
                                                             </div>
@@ -111,6 +100,7 @@ function Product() {
                                                     </tr>
                                                 ))
                                             }
+
                                         </tbody>
                                     </table>
                                     <Pagination filter={filter} onPageChange={onPageChange} totalPage={totalPage} />
@@ -128,4 +118,4 @@ function Product() {
     );
 }
 
-export default Product;
+export default Coupon;
