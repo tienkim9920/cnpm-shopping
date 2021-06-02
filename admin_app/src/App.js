@@ -47,6 +47,9 @@ import Coupon from './component/Conpon/Coupon';
 
 import CreateCoupon from './component/Conpon/CreateCoupon';
 import UpdateCoupon from './component/Conpon/UpdateCoupon';
+import Sale from './component/Sale/Sale';
+import CreateSale from './component/Sale/CreateSale';
+import UpdateSale from './component/Sale/UpdateSale';
 
 function App() {
   return (
@@ -101,6 +104,10 @@ function App() {
             <Route exact path='/coupon' component={Coupon} />
             <Route path='/coupon/create' component={CreateCoupon} />
             <Route path='/coupon/:id' component={UpdateCoupon} />
+
+            <Route exact path='/sale' component={Sale} />
+            <Route path='/sale/create' component={CreateSale} />
+            <Route path='/sale/:id' component={UpdateSale} />
 
             <Route component={NotFound} />
           </Switch>;

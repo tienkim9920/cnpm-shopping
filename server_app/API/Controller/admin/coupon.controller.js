@@ -1,5 +1,5 @@
 const Coupon = require('../../../Models/coupon');
-const Detail_Coupon = require('../../../Models/detail_coupon')
+const Order = require('../../../Models/order');
 
 module.exports.index = async (req, res) => {
 
@@ -7,21 +7,21 @@ module.exports.index = async (req, res) => {
     const keyWordSearch = req.query.search;
 
     const perPage = parseInt(req.query.limit) || 8;
-    const totalPage = Math.ceil(await Detail_Coupon.countDocuments() / perPage);
+    const totalPage = Math.ceil(await Coupon.countDocuments() / perPage);
 
     let start = (page - 1) * perPage;
     let end = page * perPage;
 
-    const detail_coupon = await Detail_Coupon.find();
+    const coupon = await Coupon.find();
 
     if (!keyWordSearch) {
         res.json({
-            coupons: detail_coupon.slice(start, end),
+            coupons: coupon.slice(start, end),
             totalPage: totalPage
         })
 
     } else {
-        var newData = detail_coupon.filter(value => {
+        var newData = coupon.filter(value => {
             return value.code.toUpperCase().indexOf(keyWordSearch.toUpperCase()) !== -1 ||
                 value.promotion.toUpperCase().indexOf(keyWordSearch.toUpperCase()) !== -1
         })
@@ -36,7 +36,7 @@ module.exports.index = async (req, res) => {
 
 module.exports.create = async (req, res) => {
 
-    await Detail_Coupon.create(req.body)
+    await Coupon.create(req.body)
 
     res.json({ msg: "Bạn đã thêm thành công"})
 
@@ -46,7 +46,7 @@ module.exports.update = async (req, res) => {
 
     const id = req.params.id
 
-    const coupon = await Detail_Coupon.findOne({ _id: id })
+    const coupon = await Coupon.findOne({ _id: id })
 
     coupon.code = req.body.code
     coupon.count = req.body.count
@@ -63,7 +63,7 @@ module.exports.delete = async (req, res) => {
 
     const id = req.params.id
 
-    await Detail_Coupon.deleteOne({ _id: id })
+    await Coupon.deleteOne({ _id: id })
 
     res.json("Thanh Cong")
 
@@ -73,7 +73,7 @@ module.exports.detail = async (req, res) => {
 
     const id = req.params.id
 
-    const coupon = await Detail_Coupon.findOne({ _id: id })
+    const coupon = await Coupon.findOne({ _id: id })
 
     res.json(coupon)
 
@@ -85,13 +85,13 @@ module.exports.checking = async (req, res) => {
 
     const id_user = req.query.id_user
 
-    const coupon = await Detail_Coupon.findOne({ code })
+    const coupon = await Coupon.findOne({ code })
 
     if (!coupon){
         res.json({ msg: "Không tìm thấy" })
     }
 
-    const checkCoupon = await Coupon.findOne({ id_user: id_user, coupon: coupon._id })
+    const checkCoupon = await Order.findOne({ id_user: id_user, id_coupon: coupon._id })
 
     if (checkCoupon){
         res.json({ msg: "Bạn đã sử dụng mã này rồi"})
@@ -103,14 +103,14 @@ module.exports.checking = async (req, res) => {
 
 module.exports.createCoupon = async (req, res) => {
 
-    const coupon = await Coupon.create(req.body)
+    const id = req.params.id
 
-    const detail_coupon = await Detail_Coupon.findOne({ _id: req.body.coupon })
+    const coupon = await Coupon.findOne({ _id: id })
 
-    detail_coupon.count = parseInt(detail_coupon.count) - 1
+    coupon.count = parseInt(coupon.count) - 1
 
-    detail_coupon.save()
+    coupon.save()
 
-    res.json(coupon)
+    res.json("Thanh Cong")
 
 }

@@ -125,7 +125,7 @@ function Home_Product(props) {
                                                         <span className="new-price">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(value.price_product)+ ' VNĐ'}</span>
                                                     </div>
                                                 </div>
-                                                <div className="add_actions">
+                                                {/* <div className="add_actions">
                                                     <ul className="add-actions-link">                                                      
                                                         <li><a href="#" title="quick view"
                                                             className="links-details"
@@ -133,7 +133,7 @@ function Home_Product(props) {
                                                             data-target={`#${value._id}`}
                                                             onClick={() => GET_id_modal(`${value._id}`)}><i className="fa fa-eye"></i></a></li>
                                                     </ul>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </div>

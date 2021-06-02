@@ -7,9 +7,9 @@ const CouponAPI = {
         return axiosClient.get(url)
     },
 
-    postCoupon: (data) => {
-        const url = `/api/admin/coupon/promotion/checking`
-        return axiosClient.post(url, data)
+    updateCoupon: (id) => {
+        const url = `/api/admin/coupon/promotion/${id}`
+        return axiosClient.patch(url)
     },
 
     getCoupons: (query) => {

@@ -20,6 +20,11 @@ const OrderAPI = {
     post_email: (data) => {
         const url = `/api/Payment/email`
         return axiosClient.post(url, data)
+    },
+
+    cancel_order: (query) => {
+        const url = `/api/admin/Order/cancelorder${query}`
+        return axiosClient.patch(url)
     }
 
 }

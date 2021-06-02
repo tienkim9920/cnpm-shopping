@@ -12,6 +12,7 @@ import Product from '../API/Product';
 import { changeCount } from '../Redux/Action/ActionCount';
 import { useDispatch, useSelector } from 'react-redux';
 import CartsLocal from '../Share/CartsLocal';
+import SaleAPI from '../API/SaleAPI';
 
 Home.propTypes = {
 
@@ -26,11 +27,17 @@ function Home(props) {
 
     const dispatch = useDispatch()
 
-    const GET_id_modal = (value) => {
+    const [priceSale, setPriceSale] = useState(0)
+
+    const GET_id_modal = (value, price) => {
 
         set_id_modal(value)
 
+        setPriceSale(price)
+
     }
+
+    const [sale, setSale] = useState([])
 
     useEffect(() => {
 
@@ -161,7 +168,6 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-
                                 <div className="col-lg-7 col-md-6 col-sm-6">
                                     <div className="product-details-view-content pt-60">
                                         <div className="product-info">
@@ -176,7 +182,14 @@ function Home(props) {
                                                 </ul>
                                             </div>
                                             <div className="price-box pt-20">
+                                            {
+                                                priceSale ? (<del className="new-price new-price-2" style={{ color: '#525252'}}>{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(product_detail.price_product)+ ' VNĐ'}</del>) :
                                                 <span className="new-price new-price-2">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(product_detail.price_product)+ ' VNĐ'}</span>
+                                            }
+                                            <br />
+                                            {
+                                               priceSale && <span className="new-price new-price-2">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(priceSale) + ' VNĐ'}</span>
+                                            }
                                             </div>
                                             <div className="product-desc">
                                                 <p>

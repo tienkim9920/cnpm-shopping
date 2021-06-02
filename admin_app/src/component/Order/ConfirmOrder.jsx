@@ -107,6 +107,7 @@ function ConfirmOrder(props) {
                                                 <th>Phone</th>
                                                 <th>Address</th>
                                                 <th>Status</th>
+                                                <th>Code</th>
                                                 <th>Total Money</th>
                                                 <th>Payment</th>
 
@@ -143,6 +144,7 @@ function ConfirmOrder(props) {
                                                                 }
                                                             })()}
                                                         </td>
+                                                        <th clasName="name">{value.id_coupon}</th>
                                                         <td className="name">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(value.total)+ ' VNĐ'}</td>
                                                         <td className="name">{value.pay === true ? "Đã thanh toán" : "Chưa thanh toán"}</td>
 

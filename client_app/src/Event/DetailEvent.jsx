@@ -51,7 +51,7 @@ function DetailEvent(props) {
                     <span style={{ fontSize: '1.05rem'}}>Lưu ý: <i style={{ color: 'red' }}>Mỗi mã code chỉ sử dụng được 1 lần.</i></span>
                 </div>
                 <div style={{ padding: '3rem 0' }}>
-                    <img style={{ width: '100%' }} src="https://images.squarespace-cdn.com/content/v1/574508273c44d8a75d514007/1551162888839-WVS5KENEESGPQHWU42AZ/ke17ZwdGBToddI8pDm48kBOZh8gzGOBxgrSgZSeuZdJZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZamWLI2zvYWH8K3-s_4yszcp2ryTI0HqTOaaUohrI8PII3qbj4xMsHCFUZnBp1OKu1_zuOkWNtJ6_UyKa7tPS1wKMshLAGzx4R3EDFOm1kBS/JOLLIBEE_750x468_V4.jpg?format=1500w" alt="" />
+                    <img style={{ width: '100%' }} src="https://cdn.tgdd.vn/hoi-dap/1321785/banner-la-gi-khac-gi-voi-poster-cach-de-thiet-ke-mot%20(2).jpg" alt="" />
                 </div>
             </div>
         </div>

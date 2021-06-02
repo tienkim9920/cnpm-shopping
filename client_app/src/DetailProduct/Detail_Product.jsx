@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import Cart from '../API/CartAPI';
 import CommentAPI from '../API/CommentAPI';
 import CartsLocal from '../Share/CartsLocal';
+import SaleAPI from '../API/SaleAPI';
 
 Detail_Product.propTypes = {
 
@@ -29,6 +30,8 @@ function Detail_Product(props) {
     // Get count từ redux khi user chưa đăng nhập
     const count_change = useSelector(state => state.Count.isLoad)
 
+    const [sale, setSale] = useState()
+
     // Hàm này dùng để gọi API hiển thị sản phẩm
     useEffect(() => {
 
@@ -37,6 +40,12 @@ function Detail_Product(props) {
             const response = await Product.Get_Detail_Product(id)
 
             set_product(response)
+
+            const resDetail = await SaleAPI.checkSale(id)
+            
+            if (resDetail.msg === "Thanh Cong"){
+                setSale(resDetail.sale)
+            }
 
         }
 
@@ -60,7 +69,7 @@ function Detail_Product(props) {
             id_cart: Math.random().toString(),
             id_product: id,
             name_product: product.name_product,
-            price_product: product.price_product,
+            price_product: sale ? parseInt(sale.id_product.price_product) - ((parseInt(sale.id_product.price_product) * parseInt(sale.promotion)) / 100) : product.price_product,
             count: count,
             image: product.image,
             size: size,
@@ -233,7 +242,17 @@ function Detail_Product(props) {
                                 <div className="product-info">
                                     <h2>{product.name_product}</h2>
                                     <div className="price-box pt-20">
-                                        <span className="new-price new-price-2">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(product.price_product)+ ' VNĐ'}</span>
+                                        {
+                                            sale ? (<del className="new-price new-price-2" style={{ color: '#525252'}}>{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(product.price_product)+ ' VNĐ'}</del>) :
+                                            <span className="new-price new-price-2">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'}).format(product.price_product)+ ' VNĐ'}</span>
+                                        }
+                                        <br />
+                                        {
+                                            sale && (
+                                                <span className="new-price new-price-2">{new Intl.NumberFormat('vi-VN',{style: 'decimal',decimal: 'VND'})
+                                                .format(parseInt(sale.id_product.price_product) - ((parseInt(sale.id_product.price_product) * parseInt(sale.promotion)) / 100)) + ' VNĐ'}</span>
+                                            )
+                                        }
                                     </div>
                                     <div className="product-desc">
                                         <p>

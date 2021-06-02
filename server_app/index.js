@@ -27,6 +27,7 @@ const Permission = require('./API/Router/admin/permission.router')
 const UserAdmin = require('./API/Router/admin/user.router')
 const Order = require('./API/Router/admin/order.router')
 const Coupon = require('./API/Router/admin/coupon.router')
+const Sale = require('./API/Router/admin/sale.router')
 
 const mongoose = require("mongoose");
 mongoose.connect("mongodb+srv://minhhieu:ZPCKa1ZMZfiAOe7w@cluster0.hrvuv.mongodb.net/Clothes?retryWrites=true&w=majority", {
@@ -70,6 +71,8 @@ app.use('/api/admin/Permission', Permission)
 app.use('/api/admin/User', UserAdmin)
 app.use('/api/admin/Order', Order)
 app.use('/api/admin/Coupon', Coupon)
+app.use('/api/admin/Sale', Sale)
+
 
 io.on("connection", (socket) => {
   console.log(`Có người vừa kết nối, socketID: ${socket.id}`);

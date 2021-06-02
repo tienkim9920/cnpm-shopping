@@ -162,16 +162,11 @@ function Checkout(props) {
 
         set_load_order(true)
 
-        let responseCoupon
+        if (localStorage.getItem("id_coupon")){
 
-        if (localStorage.getItem('coupon')){
-            const bodyCoupon = {
-                status_use: true,
-                id_user: sessionStorage.getItem('id_user'),
-                coupon: localStorage.getItem('id_detail_coupon')
-            }
-    
-            responseCoupon = await CouponAPI.postCoupon(bodyCoupon)
+            const responseUpdate = await CouponAPI.updateCoupon(localStorage.getItem("id_coupon"))
+            console.log(responseUpdate)
+
         }
 
         // data Delivery
@@ -194,7 +189,7 @@ function Checkout(props) {
             id_payment: '6086709cdc52ab1ae999e882',
             id_note: response_delivery._id,
             feeship: price,
-            id_coupon: localStorage.getItem('coupon') ? responseCoupon._id : '',
+            id_coupon: localStorage.getItem('id_coupon') ? localStorage.getItem('id_coupon') : '',
             create_time: `${new Date().getDate()}/${parseInt(new Date().getMonth()) + 1}/${new Date().getFullYear()}`
         }
 
@@ -238,7 +233,7 @@ function Checkout(props) {
         // const send_mail = await OrderAPI.post_email(data_email)
         // console.log(send_mail)
 
-        localStorage.removeItem('id_detail_coupon')
+        localStorage.removeItem('id_coupon')
         localStorage.removeItem('coupon')
         localStorage.setItem('carts', JSON.stringify([]))
 

@@ -158,7 +158,7 @@ function Cart(props) {
             }else if (response.msg === 'Bạn đã sử dụng mã này rồi'){
                 setErrorCode(true)
             }else{
-                localStorage.setItem('id_detail_coupon', response.coupon._id)
+                localStorage.setItem('id_coupon', response.coupon._id)
                 localStorage.setItem('coupon', JSON.stringify(response.coupon))
 
                 setDiscount((total_price * response.coupon.promotion) / 100)

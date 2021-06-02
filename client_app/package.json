@@ -11,6 +11,7 @@
     "query-string": "^7.0.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.2",
+    "react-datepicker": "^4.1.0",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.15.5",
     "react-infinite-scroll-component": "^6.1.0",

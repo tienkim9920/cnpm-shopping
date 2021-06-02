@@ -21,6 +21,11 @@ const productAPI = {
     delete: (query) => {
         const url = `/admin/product/delete${query}`
         return axiosClient.delete(url)
+    },
+
+    getAll: () => {
+        const url = `/product`
+        return axiosClient.get(url)
     }
 
 }

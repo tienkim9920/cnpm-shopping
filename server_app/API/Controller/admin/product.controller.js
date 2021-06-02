@@ -58,7 +58,6 @@ module.exports.create = async (req, res) => {
 
             var fileName = fileImage.name
 
-
             var fileProduct = "/img/" + fileName
 
             newProduct.image = "http://localhost:8000" + fileProduct

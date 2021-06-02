@@ -4,6 +4,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import queryString from 'query-string'
 import Product from '../API/Product';
 import './Search.css'
+import { Link } from 'react-router-dom';
 
 Search.propTypes = {
 
@@ -81,9 +82,9 @@ function Search(props) {
                                                 <div className="row product-layout-list" key={value._id}>
                                                     <div className="col-lg-3 col-md-5 ">
                                                         <div className="product-image">
-                                                            <a href="single-product.html">
+                                                            <Link to={`/detail/${value._id}`}>
                                                                 <img src={value.image} alt="Li's Product Image" />
-                                                            </a>
+                                                            </Link>
                                                             <span className="sticker">New</span>
                                                         </div>
                                                     </div>
@@ -171,7 +172,7 @@ function Search(props) {
                                                             <p>
                                                                 <span>
                                                                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis reiciendis hic voluptatibus aperiam culpa ullam dolor esse error ducimus itaque ipsa facilis saepe rem veniam exercitationem quos magnam, odit perspiciatis.
-                                                    </span>
+                                                        </span>
                                                             </p>
                                                         </div>
                                                         <div className="single-add-to-cart">
