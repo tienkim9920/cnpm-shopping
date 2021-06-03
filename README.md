@@ -34,7 +34,7 @@
 <img src="https://firebasestorage.googleapis.com/v0/b/todo-app-tienkim.appspot.com/o/NhanVien.PNG?alt=media&token=a6f82edc-64fc-4086-bcd9-0ba490f213eb" />
 
 <h3>* ADMIN</h3>
-<img src="https://firebasestorage.googleapis.com/v0/b/todo-app-tienkim.appspot.com/o/ADMIN123.PNG?alt=media&token=6dedf334-086a-4363-b55e-29ba22ba17eb" />
+<img src="https://firebasestorage.googleapis.com/v0/b/todo-app-tienkim.appspot.com/o/Admin.PNG?alt=media&token=0e9b75b8-1720-402b-9f76-b64614fe7f12" />
 
 ## DESIGN DATABASE
 
