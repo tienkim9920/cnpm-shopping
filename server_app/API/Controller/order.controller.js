@@ -33,7 +33,12 @@ module.exports.get_detail = async (req, res) => {
 
 }
 
-
+module.export.get_order_detail = async (req, res) => {
+ const id = req.params.id
+	console.log(id)
+	const order = await Order.find({_id: id })
+	res.json(order)
+}
 
 
 
