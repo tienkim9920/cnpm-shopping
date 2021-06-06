@@ -40,7 +40,15 @@ module.export.get_order_detail = async (req, res) => {
 	res.json(order)
 }
 
-
+module.export.add_to_cart = async (req, res) => {
+	
+	const count = req.query.count
+	const id_user = req.query.id_user
+	
+	const order = await Order.find({id_user: id_user})	
+	
+	res.json(order)
+}
 
 
 
