@@ -10,6 +10,14 @@ const userAPI = {
         const url = `/admin/user/${id}`
         return axiosClient.get(url)
     },
+    login: (data) => {
+        const url = `/admin/user/login`
+        return axiosClient.post(url, data)
+    },
+    loginNV: (data) => {
+        const url = `/admin/user/loginnv`
+        return axiosClient.post(url, data)
+    },
     create: (query) => {
         const url = `/admin/user/create${query}`
         return axiosClient.post(url)

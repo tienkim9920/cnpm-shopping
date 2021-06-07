@@ -108,9 +108,10 @@ module.exports.delivery = async (req, res) => {
 }
 
 module.exports.confirmDelivery = async (req, res) => {
-    await Order.updateOne({ _id: req.query.id }, { status: "4" }, function (err, res) {
+    await Order.updateOne({ _id: req.query.id }, { status: "4", pay: true }, function (err, res) {
         if (err) return res.json({ msg: err });
     });
+
     res.json({ msg: "Thanh Cong" })
 }
 

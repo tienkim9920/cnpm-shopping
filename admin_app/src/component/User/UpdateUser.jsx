@@ -9,14 +9,11 @@ import permissionAPI from '../Api/permissionAPI'
 function UpdateUser(props) {
     const [id] = useState(props.match.params.id)
     const [permission, setPermission] = useState([])
-    const [gender] = useState(["Male", "Female"])
     const [name, setName] = useState('');
     const [username, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [phone, setPhone] = useState('');
     const [permissionChoose, setPermissionChoose] = useState('');
-    const [genderChoose, setGenderChoose] = useState('Male');
     const [validationMsg, setValidationMsg] = useState('');
     const { handleSubmit } = useForm();
 
@@ -28,16 +25,13 @@ function UpdateUser(props) {
             setEmail(rs.email)
             setUserName(rs.username)
             setName(rs.fullname)
-            setPhone(rs.phone)
             setPermissionChoose(rs.id_permission)
-            setGenderChoose(rs.gender)
             setPermission(ps)
         }
         fetchAllData()
     }, [])
 
     const validateAll = () => {
-        const phongeRegex = /^0(?=.+[0-9]).{9}$/
         const nameRegex = /^\b[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ ]+.{1}$/
         let msg = {}
         if (isEmpty(name)) {
@@ -46,11 +40,6 @@ function UpdateUser(props) {
             msg.name = "Tên sai định dạng (Ít nhất 3 kí tự alphabet)"
         }
 
-        if (isEmpty(phone)) {
-            msg.phone = "Số điện thoại không được để trống"
-        } else if (phongeRegex.test(phone) === false) {
-            msg.phone = "Số điện thoại sai định dạng"
-        }
 
         if (isEmpty(permissionChoose)) {
             msg.permission = "Vui lòng chọn quyền"
@@ -73,8 +62,6 @@ function UpdateUser(props) {
             id: id,
             name: name,
             password: password,
-            gender: genderChoose,
-            phone: phone,
             permission: permissionChoose
         }
         const query = '?' + queryString.stringify(user)
@@ -132,15 +119,6 @@ function UpdateUser(props) {
                                     </div>
 
                                     <div className="form-group w-50">
-                                        <label htmlFor="phone">Phone:</label>
-                                        <input type="text" className="form-control" id="phone" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-                                        <p className="form-text text-danger">{validationMsg.phone}</p>
-                                    </div>
-
-
-
-
-                                    <div className="form-group w-50">
                                         <label htmlFor="password">Password:</label>
                                         <input type="password" className="form-control" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                                         <p className="form-text text-danger">{validationMsg.password}</p>
@@ -157,18 +135,6 @@ function UpdateUser(props) {
                                             }
                                         </select>
                                         <p className="form-text text-danger">{validationMsg.permission}</p>
-                                    </div>
-
-                                    <div className="form-group w-50">
-                                        <label htmlFor="gender" className="mr-2">Chọn giới tính:</label>
-                                        <select name="gender" id="gender" value={genderChoose} onChange={(e) => setGenderChoose(e.target.value)}>
-                                            {
-                                                gender && gender.map((item, index) => (
-                                                    <option value={item} key={index}>{item}</option>
-                                                ))
-                                            }
-
-                                        </select>
                                     </div>
 
                                     <button type="submit" className="btn btn-primary">Update</button>

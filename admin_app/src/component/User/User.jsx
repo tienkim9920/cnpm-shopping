@@ -79,9 +79,7 @@ function User(props) {
                                                 <th>ID</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
-                                                <th>Phone</th>
                                                 <th>Permission</th>
-                                                <th>Gender</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -93,9 +91,7 @@ function User(props) {
                                                         <td>{value._id}</td>
                                                         <td>{value.fullname}</td>
                                                         <td>{value.email}</td>
-                                                        <td>{value.phone}</td>
-                                                        <td>{value.gender}</td>
-                                                        <td>{value.id_permission}</td>
+                                                        <td>{value.id_permission.permission}</td>
                                                         <td>
                                                             <div className="d-flex">
                                                                 <Link to={"user/update/" + value._id} className="btn btn-success mr-1">Update</Link>

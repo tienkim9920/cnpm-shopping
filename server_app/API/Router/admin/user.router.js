@@ -9,6 +9,8 @@ router.get('/:id', User.details)
 
 router.post('/create', User.create)
 
+router.post('/login', User.login)
+
 router.patch('/update', User.update)
 
 router.delete('/delete', User.delete)

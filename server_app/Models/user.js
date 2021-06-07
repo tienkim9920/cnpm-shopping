@@ -9,9 +9,7 @@ var schema = new mongoose.Schema(
         username: String,
         password: String,
         fullname: String,
-        gender: String,
         email: String,
-        phone: String
 
     }
 );

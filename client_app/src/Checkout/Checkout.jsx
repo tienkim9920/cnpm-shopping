@@ -508,6 +508,7 @@ function Checkout(props) {
                                                             }
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>

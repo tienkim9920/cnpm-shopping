@@ -9,7 +9,7 @@ import Search from '../Shared/Search'
 
 import io from "socket.io-client";
 
-const socket = io('https://hieusuper20hcm.herokuapp.com/', {
+const socket = io('http://localhost:8000/', {
     transports: ['websocket'], jsonp: false
 });
 socket.connect();

@@ -1,5 +1,6 @@
 const Users = require('../../Models/user')
-
+const bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
 
 module.exports.index = async (req, res) => {
 
@@ -32,10 +33,11 @@ module.exports.detail = async (req, res) => {
     if (user === null) {
         res.send("Khong Tìm Thấy User")
     } else {
-        if (user.password === password) {
+        const auth = await bcrypt.compare(password, user.password)
+        if (auth) {
             res.json(user)
         } else {
-            res.send("Sai Mat Khau")
+            res.json("Sai Mat Khau")
         }
     }
 
@@ -48,6 +50,8 @@ module.exports.post_user = async (req, res) => {
     if (user) {
         res.send("User Da Ton Tai")
     } else {
+        const salt = await bcrypt.genSalt();
+        req.body.password = await bcrypt.hash(req.body.password, salt);
         await Users.create(req.body)
     }
 
