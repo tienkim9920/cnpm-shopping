@@ -13,6 +13,8 @@ router.get('/order/detail/:id', Order.get_detail)
 // Đặt Hàng thêm vào hóa đơn
 router.post('/order', Order.post_order)
 
+router.post('/momo', Order.post_momo)
+
 router.post('/email', Order.send_mail)
 
 module.exports = router

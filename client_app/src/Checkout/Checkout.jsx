@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import NoteAPI from '../API/NoteAPI';
 import Detail_OrderAPI from '../API/Detail_OrderAPI';
 import CouponAPI from '../API/CouponAPI';
+import MoMo from './MoMo.jsx'
 
 const socket = io('https://hieusuper20hcm.herokuapp.com/', {
     transports: ['websocket'], jsonp: false
@@ -23,6 +24,8 @@ Checkout.propTypes = {
 
 
 function Checkout(props) {
+
+    const [orderID, setOrderID] = useState('')
 
     const [carts, set_carts] = useState([])
 
@@ -69,9 +72,13 @@ function Checkout(props) {
 
             const newTotal = total - ((total * parseInt(coupon.promotion)) / 100) + Number(price)
 
+            localStorage.setItem("total_price", newTotal)
+
             set_total_price(newTotal)
         }else{
             
+            localStorage.setItem("total_price", total + Number(price))
+
             set_total_price(total + Number(price))
 
         }
@@ -137,6 +144,9 @@ function Checkout(props) {
                 set_show_error(true)
             } else {
                 if (information.email === '') {
+                    
+                    localStorage.setItem('information', JSON.stringify(information))
+
                     set_show_error(true)
                 } else {
                     set_show_error(false)
@@ -233,6 +243,9 @@ function Checkout(props) {
         // const send_mail = await OrderAPI.post_email(data_email)
         // console.log(send_mail)
 
+        localStorage.removeItem('information')
+        localStorage.removeItem('total_price')
+        localStorage.removeItem('price')
         localStorage.removeItem('id_coupon')
         localStorage.removeItem('coupon')
         localStorage.setItem('carts', JSON.stringify([]))
@@ -291,6 +304,8 @@ function Checkout(props) {
 
         set_distance(kilo)
         set_duration(duration_text)
+
+        localStorage.setItem('price', price_shipping)
         set_price(price_shipping)
 
         set_information({
@@ -308,6 +323,12 @@ function Checkout(props) {
 
     }
 
+    const handlerMomo = () => {
+
+        setOrderID(Math.random().toString())
+        console.log("Momo Thanh Cong")
+
+    }
 
     return (
         <div>
@@ -536,6 +557,32 @@ function Checkout(props) {
                                                                         duration={duration}
                                                                         price={price}
                                                                     />
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className="card">
+                                                    <div className="card-header" id="#payment-3">
+                                                        <h5 className="panel-title">
+                                                            <a className="collapsed" data-toggle="collapse" data-target="#collapseMomo" aria-expanded="false" aria-controls="collapseMomo">
+                                                                MoMo
+                                                        </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapseMomo" className="collapse">
+                                                        <div className="card-body">
+                                                            {
+                                                                show_error ? 'Please Checking Information!' :
+                                                                <div>
+                                                                    <img src="https://developers.momo.vn/images/logo.png" width="50" onClick={handlerMomo}
+                                                                    style={{ cursor: 'pointer' }} />
+                                                                    <MoMo 
+                                                                        orderID={orderID}
+                                                                        total={total_price}
+                                                                        />
+                                                                </div>  
                                                             }
                                                         </div>
                                                     </div>

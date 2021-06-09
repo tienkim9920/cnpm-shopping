@@ -28,6 +28,7 @@ import OrderFail from "./Order/OrderFail";
 // import Profile from "./Profile/Profile";
 // import Search from "./Search/Search";
 import { lazy, Suspense } from "react";
+import OrderMomo from "./Order/OrderMomo";
 // import DetailEvent from "./About/DetailEvent";
 
 const Home = lazy(() => {
@@ -151,6 +152,7 @@ function App() {
             <Route path="/signup" component={SignUp} />
             <Route path="/success" component={OrderSuccess} />
             <Route path="/fail" component={OrderFail} />
+            <Route path="/momo" component={OrderMomo} />
             <Route path="/history" component={History} />
             <Route path="/profile/:id" component={Profile} />
             <Route path="/search" component={Search} />

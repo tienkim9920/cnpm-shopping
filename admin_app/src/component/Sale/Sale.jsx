@@ -82,7 +82,7 @@ function Sale(props) {
                                                         <td className="name">{value.describe}</td>
                                                         <td className="name">{value.start}</td>
                                                         <td className="name">{value.end}</td>
-                                                        <td className="name">{value.status ? "Hoạt Động" : "Ngưng Hoạt Động"}</td>
+                                                        <td className="name">{value.status ? "Active" : "Disable"}</td>
                                                         <td>
                                                             <div className="d-flex">
                                                                 <Link to={"/sale/" + value._id} className="btn btn-success mr-1">Update</Link>

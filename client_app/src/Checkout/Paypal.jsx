@@ -136,7 +136,10 @@ function Paypal(props) {
 
                 // const send_mail = await OrderAPI.post_email(data_email)
                 // console.log(send_mail)
-
+                
+                localStorage.removeItem('information')
+                localStorage.removeItem('total_price')
+                localStorage.removeItem('price')
                 localStorage.removeItem('id_coupon')
                 localStorage.removeItem('coupon')
                 localStorage.setItem('carts', JSON.stringify([]))
