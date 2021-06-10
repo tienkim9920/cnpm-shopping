@@ -17,9 +17,11 @@ function SignUp(props) {
     const [username, set_username] = useState('')
     const [password, set_password] = useState('')
     const [confirm, set_confirm] = useState('')
+    const [email, set_email] = useState('')
 
     const [show_success, set_show_success] = useState(false)
 
+    const [errorEmail, setEmailError] = useState(false)
     const [errorFullname, setFullnameError] = useState(false)
     const [errorUsername, setUsernameError] = useState(false)
     const [errorPassword, setPasswordError] = useState(false)
@@ -31,6 +33,13 @@ function SignUp(props) {
     const handler_signup = (e) => {
 
         e.preventDefault()
+
+        if (!email){
+            setEmailError(true)
+            return
+        }else{
+            setEmailError(false)
+        }
 
         if (!fullname) {
             setFullnameError(true)
@@ -94,10 +103,11 @@ function SignUp(props) {
                             const fetchData = async () => {
                                 
                                 const data = {
-                                    id_user: Math.random().toString(),
+                                    email: email,
                                     username: username,
                                     password: password,
-                                    fullname: fullname
+                                    fullname: fullname,
+                                    id_permission: '6087dcb5f269113b3460fce4'
                                 }
 
                                 const response = await User.Post_User(data)
@@ -169,6 +179,13 @@ function SignUp(props) {
                                 <div className="login-form">
                                     <h4 className="login-title">Register</h4>
                                     <div className="row">
+                                        <div className="col-md-12 mb-20">
+                                            <label>Email *</label>
+                                            <input className="mb-0" type="text" placeholder="Email" value={email} onChange={(e) => set_email(e.target.value)} />
+                                            {
+                                                errorEmail && <span style={{ color: 'red' }}>* Email is required!</span>
+                                            }  
+                                        </div>
                                         <div className="col-md-12 mb-20">
                                             <label>Full Name *</label>
                                             <input className="mb-0" type="text" placeholder="First Name" value={fullname} onChange={(e) => set_fullname(e.target.value)} />

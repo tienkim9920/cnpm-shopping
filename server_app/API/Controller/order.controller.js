@@ -1,5 +1,6 @@
 
 const mailer = require('../../mailer')
+const crypto = require('crypto')
 
 const Order = require('../../Models/order')
 const Detail_Order = require('../../Models/detail_order')
